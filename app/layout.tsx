@@ -8,13 +8,13 @@ import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 
 const geistSans = localFont({
-  src: "/font/Geist-variable.woff2",
+  src: "../public/font/Geist-variable.woff2",
   variable: "--font-geist-sans",
   preload: true,
 });
 
 const geistMono = localFont({
-  src: "/font/GeistMono-variable.woff2",
+  src: "../public/font/GeistMono-variable.woff2",
   variable: "--font-geist-mono",
   preload: true,
 });
