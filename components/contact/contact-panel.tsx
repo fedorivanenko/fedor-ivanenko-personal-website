@@ -9,13 +9,13 @@ export default function ContactPanel() {
       </div>
       <div className="text-muted-foreground">
         Reach me at{" "}
-        <Button className="px-0" variant="link">
+        <Button className="px-0" variant="link" size='inline' asChild>
           <Link href="https://x.com/fedorivanenko_" target="_blank">
           @fedorivanenko_
           </Link>
         </Button>{" "}
         or{" "}
-        <Button className="px-0" variant="link">
+        <Button className="px-0" variant="link" size='inline' asChild>
           <Link href="mailto:f@fedor.studio" target="_blank">
             f@fedor.studio
           </Link>

@@ -11,13 +11,13 @@ export default function CVelement({ job }: { job: JobType }) {
   return (
     <AccordionItem value={job.timeline.start.toString()}>
       <AccordionTrigger>
-        <div className="flex pb-0.5 items-center">
-          <p className="font-medium">{job.jobTitle}</p>
-          <p className="ml-auto text-sm leading-none mt-0 text-muted-foreground space-x-[1px] flex">
+        <div className="flex pb-0.5 sm:items-center flex-col sm:flex-row">
+          <p className="sm:ml-auto sm:order-last text-xs mb-0.5 sm:mb-0 sm:text-sm leading-none mt-0 text-muted-foreground space-x-[1px] flex">
             <span>{job.timeline.start}</span>
             <span>&ndash;</span>
             <span>{job.timeline.end}</span>
           </p>
+          <p className="font-medium">{job.jobTitle}</p>
         </div>
         <p className="flex text-base gap-1.5 leading-none w-full text-muted-foreground">
             {job.companyName} 

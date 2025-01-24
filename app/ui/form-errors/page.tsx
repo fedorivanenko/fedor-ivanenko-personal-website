@@ -63,7 +63,7 @@ export default function Page() {
             above or below the field.
           </p>
           <div className="w-[calc(100%+1.25rem)] flex flex-col space-y-4">
-            <div className="w-full bg-card border-border/50 border rounded -translate-x-2.5 relative">
+            <div className="w-full bg-card border-border/50 border rounded -translate-x-2.5 relative px-2.5">
               <FormHoles />
             </div>
             <p className="text-muted-foreground text-sm mx-auto">Traditional error message placement creates an ugly layout.</p>
@@ -80,7 +80,7 @@ export default function Page() {
             the status indicator inside the input and adding a tooltip.
           </p>
           <div className="w-[calc(100%+1.25rem)] flex flex-col space-y-4">
-            <div className="w-full bg-card border-border/50 border rounded -translate-x-2.5 relative">
+            <div className="w-full bg-card border-border/50 border rounded -translate-x-2.5 relative px-2.5">
               <FormWithTooltip />
             </div>
             <p className="text-muted-foreground text-sm mx-auto">
@@ -132,7 +132,7 @@ export default function Page() {
             could be treated as a returning from a form upon submission.
           </p>
           <div className="w-[calc(100%+1.25rem)] flex flex-col space-y-4">
-            <div className="w-full bg-card border-border/50 border rounded -translate-x-2.5 relative">
+            <div className="w-full bg-card border-border/50 border rounded -translate-x-2.5 relative px-2.5">
               <FormWithStatus />
             </div>
             <p className="text-muted-foreground text-sm mx-auto">Form processing errors should be treated as a form return.</p>
