@@ -33,9 +33,9 @@ export const jobList: JobType[] = [
         companyDescription: "On my own",
 
         description: [
-            "My moving to Portugal at 2021 made my work at Practicum unfeasible, so I move back to the core of what I'm doing — the design.",
-            "Deeply believe that designer should deeply understand material that working with, I start learning front-end development progressing through React/Next.js ecosystem and animation libraries such @framer-motion or @react-spring.",
-            "Since 2021 I've complete dozens of web-related projects, working all across the globe, from João Pessoa, Brazil to Los Angeles, California."
+            "My move to Poland in 2021 made my work at Practicum unfeasible, so I shifted back to the core of what I do — design.",
+            "Deeply believing that a designer should thoroughly understand the material they work with, I started learning front-end development, progressing through the React/Next.js ecosystem and animation libraries such as @framer-motion and @react-spring.",
+            "Since 2021, I've completed dozens of web-related projects, working across the globe, from João Pessoa, Brazil, to Los Angeles, California."
         ]
     },
     {
@@ -45,8 +45,8 @@ export const jobList: JobType[] = [
         companyDescription: "Educational Tech Startup",
 
         description: [
-            "Practicum is educational tech startup helping non-tech people to get a tech job. It was founded at 2019 and two years later was booming, expanding overseas. Starting as a Coding Bootcamp, Practicum very soon become an University, offering more then 40 different specialities.",
-            "My part of the job was to give a voice to our customers and ensure that it's being heard. I've been spending days with our students and worked close to Product, Design and Faculty Leadership teams buildig communications and ensuring that the needs of our customers was met and challenges was helped.",
+            "Practicum is an educational tech startup that helps non-tech people land a tech job. It was founded in 2019, and two years later, it was booming, expanding overseas. Starting as a coding bootcamp, Practicum quickly grew into a university, offering dozens different specialties.",
+            "My part of the job was to give a voice to our customers and ensure it was being heard. I spent days with our students and worked closely with the Product, Design, and Faculty Leadership teams, building communications and ensuring that our customers' needs were met and their challenges addressed.",
         ]
     },
     {
@@ -56,8 +56,8 @@ export const jobList: JobType[] = [
         companyDescription: "Several Agencies",
 
         description: [
-            "Working at ZLT Group I felt growing interest to the UX design beyod spatial design. I obtained additional eduction in Product Management and User research and eventualy start working as an independent researcher.",
-            "On a course of the next two years I've been woking with a several agencies on a project that varies from digital products to AR wafindign system. My job was to get the solid understaing of clients' customer needs and challenges and help to build a new (or optimize old one) line of business.",
+            "Working at ZLT Group, I developed a growing interest in UX design beyond spatial design. I obtained additional education in Product Management and User Research, and eventually started working as an independent researcher.",
+            "Over the course of the next two years, I worked with several agencies on projects ranging from digital products to AR wayfinding systems. My job was to gain a solid understanding of clients' customer needs and challenges and help build a new (or optimize an existing) line of business.",
         ]
     },
     {
@@ -67,10 +67,10 @@ export const jobList: JobType[] = [
         companyDescription: "Boutique Design Studio",
 
         description: [
-            "ZLT group is the boutique (less then 15 people) design stuido focused on wayfinding solutions. Simply put, we was helping people to find a right direction and feel confident in unfamiliar places such as staudiums, parks, malls, offices, medical facilities and even cities.",
-            "It was my first desgin job after graduating as Graphic Desginer from BHSAD. The studio's art-director have built an amazing team of unique specialists that I've been proud to be part of. We was one the very few teams (perhaps a few dozens or less) in the world that was (and still) able to build wyfinding systems for stadiums and skyscrappers completely on their own.",
-            "My part of the job was developing wayfinding systems. Collect the data, undestand how the space works, design a UX and help other designers to render the system.",
-            "But my biggest impact was systemyzing and automting the design process. I've made an album of standart solutions and a software tool that reduced time to design by 400%. When the COVID19 hit the planet, my system helps built a wayfinding to feild hospitals in matter of days, not weeks, as it was expected.",
+            "ZLT Group is a boutique (fewer than 15 people) design studio focused on wayfinding solutions. Simply put, we helped people find the right direction and feel confident in unfamiliar places such as stadiums, parks, malls, offices, medical facilities, and even cities.",
+            "It was my first design job after graduating as a Graphic Designer from BHSAD. The studio's art director had built an amazing team of unique specialists, and I was proud to be part of it. We were one of the very few teams (perhaps a few dozen or fewer) in the world that was (and still is) able to build wayfinding systems for stadiums and skyscrapers entirely on our own.",
+            "My part of the job was developing wayfinding systems. I collected data, understood how the space worked, designed the UX, and helped other designers render the system.",
+            "My biggest impact was systematizing and automating the design process. I created an album of standard solutions and a software tool that reduced design time by 400%. When COVID-19 hit, my system helped build wayfinding for field hospitals in a matter of days, not weeks, as initially expected.",
         ]
     },
 ]

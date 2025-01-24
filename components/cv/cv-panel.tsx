@@ -21,9 +21,9 @@ export default function CVPanel() {
       </div>
       <span className="text-muted-foreground space-y-5 leading-relaxed">
         <p>
-          Being a designer for almost a decade I always been around User
-          Experience design, working hard to understand people{"'"}s
-          needs and wants, to build things that make life easier.
+          Having been a designer for almost a decade, I have always been
+          somewhere around User Experience Design, working hard to understand
+          people{"'"}s needs and build things that make life easier.
         </p>
       </span>
       <Accordion collapsible type="single" className="py-8 pb-9">
