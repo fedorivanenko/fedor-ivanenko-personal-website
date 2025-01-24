@@ -8,7 +8,7 @@ import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 
 const geistSans = localFont({
-  src: "/font/Geist-Variable.woff2",
+  src: "/font/Geist-variable.woff2",
   variable: "--font-geist-sans",
   preload: true,
 });
