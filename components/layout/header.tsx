@@ -12,8 +12,8 @@ export default function Header() {
           </span>
           <Pulse />
         </h1>
-      </Link>
       <p className="text-muted-foreground">Design Engineer</p>
+      </Link>
     </header>
   );
 }
