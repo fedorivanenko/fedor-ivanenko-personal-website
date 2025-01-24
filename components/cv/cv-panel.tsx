@@ -11,7 +11,7 @@ export default function CVPanel() {
   return (
     <section className="w-full">
       <div className="w-full pb-2 mb-2.5 border-b border-border flex">
-        <h2 className="mr-auto font-medium">Past</h2>
+        <h2 className="mr-auto font-medium">CV</h2>
         {/*
         <Button className="text-xs translate-y-0.5" size="tiny" variant="ghost">
           <DownloadIcon style={{ width: "12px", height: "12px" }} />
