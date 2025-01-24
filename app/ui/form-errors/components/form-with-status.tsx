@@ -207,7 +207,7 @@ const [formStatus, setFormStatus] = React.useState<
                       <span>Processing</span>
                     </span>
                   ) : (
-                    "Try Processing Error"
+                    <span>Try To See Errors</span>
                   )}
                 </Button>
               </motion.div>

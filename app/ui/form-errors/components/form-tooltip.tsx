@@ -162,7 +162,7 @@ const [focusedField, setFocusedField] = React.useState<string | null>(null)
                   type="submit"
                   className="h-9 w-full"
                 >
-                  Try Tooltip Errors
+                  Try To See Errors
                 </Button>
               </motion.div>
             </motion.form>

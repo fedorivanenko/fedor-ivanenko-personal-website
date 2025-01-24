@@ -66,6 +66,7 @@ export default function Page() {
             <div className="w-full bg-card border-border/50 border rounded -translate-x-2.5 relative">
               <FormHoles />
             </div>
+            <p className="text-muted-foreground text-sm mx-auto">Traditional error message placement creates an ugly layout.</p>
           </div>
           <p>
             Unfortunately, this leads to either jumpy behavior or ugly holes in
@@ -82,6 +83,9 @@ export default function Page() {
             <div className="w-full bg-card border-border/50 border rounded -translate-x-2.5 relative">
               <FormWithTooltip />
             </div>
+            <p className="text-muted-foreground text-sm mx-auto">
+              Inline field statuses and tooltips are easier to understand and more flexible.
+              </p>
           </div>
           <p>
             This way, it{"'"}s easy to graps whether a field is valid or not,
@@ -131,6 +135,7 @@ export default function Page() {
             <div className="w-full bg-card border-border/50 border rounded -translate-x-2.5 relative">
               <FormWithStatus />
             </div>
+            <p className="text-muted-foreground text-sm mx-auto">Form processing errors should be treated as a form return.</p>
           </div>
           <p>
             Note that an error screen clearly indicates the form state — there

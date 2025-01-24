@@ -121,7 +121,7 @@ const [ reserved, setReserved] = React.useState<boolean>(false)
                   type="submit"
                   className="h-9 w-full"
                 >
-                  Try Error Messages
+                  Try To See Errors
                 </Button>
               </motion.div>
             </motion.form>
