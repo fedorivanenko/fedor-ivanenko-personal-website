@@ -5,8 +5,8 @@ export default function Header() {
   
   return (
     <header className="mr-auto mb-32 top-0">
-      <Link href="/" className="flex space-x-1.5 items-baseline max-w-min">
-        <h1 className="font-medium">
+      <Link href="/">
+        <h1 className="font-medium space-x-1.5 items-baseline">
           <span className="inline-block leading-none whitespace-nowrap">
             Fedor Ivanenko
           </span>
