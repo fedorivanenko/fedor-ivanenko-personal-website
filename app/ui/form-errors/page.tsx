@@ -22,14 +22,15 @@ export default function Page() {
         <section className="flex flex-col space-y-8 text-secondary-foreground leading-relaxed">
           <h1 className="font-medium capitalize">Handling Form Errors</h1>
           <p>
-            Forms are one of the most complex things to design. And the one of
-            the most painful things in the forms is handling the errors.
+            Forms are one of the most complex things to design, and one of the
+            most challenging aspects is handling errors.
           </p>
           <p>
-            When some is going wrong we need to indicate what is going wrong and
-            how user can fix it. Or help with a frustration if they can{"'"}t.
-            Good error handling gives user feeling of control and trust. Bad one
-            breaks trust and fuels user anger.
+            When something goes wrong, we need to clearly indicate what the
+            issue is and how the user can fix it — or offer support if they
+            cannot. Good error handling gives users a sense of control and
+            builds trust, while poor error handling breaks trust and fuels
+            frustration.
           </p>
         </section>
 
@@ -38,10 +39,10 @@ export default function Page() {
             Good errors handling
           </h4>
           <p>
-            Good error address two things:
+            Good errors address two things:
             <ul className="list-decimal list-inside mt-6">
-              <li>Where did error happen</li>
-              <li>What causes the error and how the user can fix it</li>
+              <li>Where did the error happen?</li>
+              <li>What caused the error, and how can the user fix it?</li>
             </ul>
           </p>
           <p className="text-sm border-l-2 border-secondary-foreground pl-3 max-w-[480] text-secondary-foreground">
@@ -221,7 +222,7 @@ export default function Page() {
           <h4 className="font-medium capitalize text-foreground">
             More to add
           </h4>
-          <Separator/>
+          <Separator />
           <ul className="list-decimal list-inside">
             <li>Dealing with Async</li>
             <li>Error messages copywritting</li>
