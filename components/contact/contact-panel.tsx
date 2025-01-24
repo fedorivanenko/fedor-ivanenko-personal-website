@@ -1,4 +1,5 @@
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 export default function ContactPanel() {
   return (
@@ -9,11 +10,15 @@ export default function ContactPanel() {
       <div className="text-muted-foreground">
         Reach me at{" "}
         <Button className="px-0" variant="link">
+          <Link href="https://x.com/fedorivanenko_" target="_blank">
           @fedorivanenko_
+          </Link>
         </Button>{" "}
         or{" "}
         <Button className="px-0" variant="link">
-          f@fedor.studio
+          <Link href="mailto:f@fedor.studio" target="_blank">
+            f@fedor.studio
+          </Link>
         </Button>
       </div>
     </section>

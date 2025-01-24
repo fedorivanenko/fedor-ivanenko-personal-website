@@ -2,11 +2,18 @@ import FormHoles from "./components/form-holes";
 import FormWithStatus from "./components/form-with-status";
 import FormWithTooltip from "./components/form-tooltip";
 import { Separator } from "@/components/ui/separator";
+import type { Metadata } from "next";
 /*
 import FormAnimatedExample from "./components/from-animated";
 import FormAsyncExample from "./components/form-async";
 import FormWithLabel from "./components/form-labels";
 */
+
+export const metadata: Metadata = {
+  title: "Handling Form Errors",
+  description: "How to deal with different kind of form errors in UI",
+};
+
 
 export default function Page() {
   return (

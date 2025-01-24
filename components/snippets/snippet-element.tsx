@@ -29,7 +29,7 @@ export default function SnippetElement() {
        */}
         <div className="flex items-center">
           <p className="font-medium leading-none underline-offset-4 hover:cursor-pointer">
-            Form Errors
+            Handling Form Errors
           </p>
         </div>
         <p className="flex gap-1.5 w-full text-muted-foreground">
