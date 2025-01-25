@@ -3,6 +3,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import localFont from "next/font/local";
 import { LazyMotion, domAnimation } from "motion/react";
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import "./globals.css";
 import Header from "@/components/layout/header";
@@ -48,6 +49,7 @@ export default function RootLayout({
           <Footer/>
         </LazyMotion>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
