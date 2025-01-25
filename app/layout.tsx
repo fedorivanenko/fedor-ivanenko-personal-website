@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme-provider";
 import localFont from "next/font/local";
 import { LazyMotion, domAnimation } from "motion/react";
+import { Analytics } from "@vercel/analytics/react"
 
 import "./globals.css";
 import Header from "@/components/layout/header";
@@ -46,6 +47,7 @@ export default function RootLayout({
           </ThemeProvider>
           <Footer/>
         </LazyMotion>
+        <Analytics />
       </body>
     </html>
   );
