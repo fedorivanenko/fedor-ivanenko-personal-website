@@ -1,6 +1,6 @@
-import FormHoles from "./components/form-holes";
-import FormWithStatus from "./components/form-with-status";
-import FormWithTooltip from "./components/form-tooltip";
+import FormHoles from "./(components)/form-holes";
+import FormWithStatus from "./(components)/form-with-status";
+import FormWithTooltip from "./(components)/form-tooltip";
 import { Separator } from "@/components/ui/separator";
 import type { Metadata } from "next";
 /*
@@ -147,7 +147,9 @@ export default function Page() {
             error occurred and what we will do to help the user.
           </p>
         </section>
-
+{/*
+This approach allows to create extremely tiny inline forms
+ */}
         {/* 
         <section className="flex flex-col space-y-8  text-secondary-foreground mb-16 leading-relaxed">
           <h4 className="font-medium text-foreground capitalize">

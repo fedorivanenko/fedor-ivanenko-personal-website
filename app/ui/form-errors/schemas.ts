@@ -38,5 +38,5 @@ export const formSchemaAsyncExample = z.object({
         .refine(async (email) => {
             await new Promise(resolve => setTimeout(resolve, 500));
             return !BLOCKED_EMAILS.includes(email);
-          }, { message: 'This email is already registered' })
+        }, { message: 'This email is already registered' }),
 });

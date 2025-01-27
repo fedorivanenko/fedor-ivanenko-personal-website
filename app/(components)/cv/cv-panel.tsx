@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 */
 import CVelement from "./cv-element";
 import { jobList } from "./cv-data";
-import { Accordion } from "../ui/accordion";
+import { Accordion } from "../../../components/ui/accordion";
 import EduPanel from "./edu-panel";
 
 export default function CVPanel() {

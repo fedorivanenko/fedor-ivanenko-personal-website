@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import * as React from 'react'
+import * as React from "react";
 
 import { z } from "zod";
 import { formSchema } from "../schemas";
@@ -18,15 +18,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence, motion } from "motion/react";
 
 export default function FormHoles() {
-
-const [ formData, setFormData] = React.useState<z.infer<typeof formSchema> | undefined>(undefined)
-const [ reserved, setReserved] = React.useState<boolean>(false)
+  const [formData, setFormData] = React.useState<
+    z.infer<typeof formSchema> | undefined
+  >(undefined);
+  const [reserved, setReserved] = React.useState<boolean>(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -38,13 +39,13 @@ const [ reserved, setReserved] = React.useState<boolean>(false)
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    setFormData(values)
+    setFormData(values);
   }
 
   const resetForm = () => {
-      form.reset();
-      form.clearErrors();
-      setFormData(undefined);
+    form.reset();
+    form.clearErrors();
+    setFormData(undefined);
   };
 
   return (
@@ -52,10 +53,15 @@ const [ reserved, setReserved] = React.useState<boolean>(false)
       <div className="h-80 flex flex-col justify-center items-center w-full pt-4">
         <AnimatePresence mode="wait">
           {formData !== undefined ? (
-            <motion.div 
-            initial={{opacity:0}}
-            animate={{opacity:1}}
-            className="text-center text-sm">{formData.firstName}{" "}{formData.lastName}{" — "}{formData.email}</motion.div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center text-sm"
+            >
+              {formData.firstName} {formData.lastName}
+              {" — "}
+              {formData.email}
+            </motion.div>
           ) : (
             <motion.form
               initial={{ opacity: 0 }}
@@ -64,39 +70,39 @@ const [ reserved, setReserved] = React.useState<boolean>(false)
               className="flex flex-col mx-auto justify-center w-full max-w-80 space-y-1.5"
               onSubmit={form.handleSubmit(onSubmit)}
             >
-              <div className='flex space-x-3'>
-              <FormField
-                control={form.control}
-                name="firstName"
-                render={({ field }) => (
-                  <FormItem className="">
-                    <FormControl>
-                      <motion.div layout>
-                        <Input placeholder="John" {...field} />
-                      </motion.div>
-                    </FormControl>
-                    <div className={`${reserved ? "h-4" : null}`}>
-                      <FormMessage />
-                    </div>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="lastName"
-                render={({ field }) => (
-                  <FormItem className="">
-                    <FormControl>
-                      <motion.div layout>
-                        <Input placeholder="Doe" {...field} />
-                      </motion.div>
-                    </FormControl>
-                    <div className={`${reserved ? "h-4" : null}`}>
-                      <FormMessage />
-                    </div>
-                  </FormItem>
-                )}
-              />
+              <div className="flex space-x-3">
+                <FormField
+                  control={form.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem className="">
+                      <FormControl>
+                        <motion.div layout>
+                          <Input placeholder="John" {...field} />
+                        </motion.div>
+                      </FormControl>
+                      <div className={`${reserved ? "h-4" : null}`}>
+                        <FormMessage />
+                      </div>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem className="">
+                      <FormControl>
+                        <motion.div layout>
+                          <Input placeholder="Doe" {...field} />
+                        </motion.div>
+                      </FormControl>
+                      <div className={`${reserved ? "h-4" : null}`}>
+                        <FormMessage />
+                      </div>
+                    </FormItem>
+                  )}
+                />
               </div>
               <FormField
                 control={form.control}
@@ -143,9 +149,8 @@ const [ reserved, setReserved] = React.useState<boolean>(false)
           checked={reserved}
           onCheckedChange={(checked) => setReserved(checked)}
           className="scale-90"
-        >
-        </Switch>
-          <Label className='text-sm'>Reserve space</Label>
+        ></Switch>
+        <Label className="text-sm">Reserve space</Label>
       </div>
     </Form>
   );
