@@ -1,53 +1,53 @@
 'use client'
 
 import * as React from 'react'
-import { create } from "zustand";
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 interface WindowStore {
   screenSize: { x: number; y: number }
   setScreenSize: (x: number, y: number) => void
 }
 
-const useWindowStore = create<WindowStore>((set) => ({
-  screenSize: { x: window.innerWidth, y: window.innerHeight },
-  setScreenSize: (x: number, y: number) => set({ screenSize: { x, y } }),
-}))
+const useWindowStore = create<WindowStore>()(
+  persist(
+    (set) => ({
+      screenSize: { x: 0, y: 0 },
+      setScreenSize: (x: number, y: number) => set({ screenSize: { x, y } }),
+    }),
+    { 
+      name: 'window-size-store',
+      skipHydration: true 
+    }
+  )
+)
 
-//TODO: fix hydration error
+export function initializeWindowSize() {
+  if (typeof window !== 'undefined') {
+    useWindowStore.getState().setScreenSize(
+      window.innerWidth, 
+      window.innerHeight
+    )
+  }
+}
 
 const WindowObserver = () => {
   const setScreenSize = useWindowStore((state) => state.setScreenSize)
-
-  const dimensionsRef = React.useRef({ x: window.innerWidth, y: window.innerHeight })
-  const updatePending = React.useRef(false)
-
-  const updateWindow = React.useCallback(() => {
-    updatePending.current = false
-    const currentX = window.innerWidth
-    const currentY = window.innerHeight
-
-    if (dimensionsRef.current.x !== currentX || dimensionsRef.current.y !== currentY) {
-      dimensionsRef.current = { x: currentX, y: currentY }
-      setScreenSize(currentX, currentY)
-    }
-  }, [setScreenSize])
-
-  const handleWindowUpdate = React.useCallback(() => {
-    if (!updatePending.current) {
-      updatePending.current = true
-      requestAnimationFrame(updateWindow)
-    }
-  }, [updateWindow])
+  const [mounted, setMounted] = React.useState(false)
 
   React.useEffect(() => {
-    window.addEventListener('resize', handleWindowUpdate)
-    window.addEventListener('scroll', handleWindowUpdate)
+    initializeWindowSize()
+    setMounted(true)
 
-    return () => {
-      window.removeEventListener('resize', handleWindowUpdate)
-      window.removeEventListener('scroll', handleWindowUpdate)
+    const handleResize = () => {
+      setScreenSize(window.innerWidth, window.innerHeight)
     }
-  }, [handleWindowUpdate])
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [setScreenSize])
+
+  if (!mounted) return null
 
   return null
 }
