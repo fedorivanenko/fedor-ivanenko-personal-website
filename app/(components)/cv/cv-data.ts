@@ -19,6 +19,11 @@ export const eduList: EducationType[] = [
         timeline: {start:2024, end:2026}
     },
     {
+        schoolName: "IIDF",
+        degreeName: "Product Management",
+        timeline: {start:2019, end: null}
+    },
+    {
         schoolName: "British High School of Art & Design",
         degreeName: "Graphic Design",
         timeline: {start:2015, end:2017}
