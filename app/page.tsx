@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <main className="w-full space-y-32 pb-32">
       <BioPanel />
-      <SnippetsPanel />
+      <SnippetsPanel/>
       <CVPanel />
       {/*
       <WorkWithMe/>

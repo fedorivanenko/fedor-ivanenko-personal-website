@@ -8,7 +8,8 @@ export default function SnippetsPanel() {
         <h2 className="mr-auto font-medium mb-1.5">UI</h2>
         <Separator />
       </div>
-      <div className="space-y-6 flex flex-col">
+      <div className="flex flex-col">
+        <SnippetElement />
         <SnippetElement />
       </div>
     </div>

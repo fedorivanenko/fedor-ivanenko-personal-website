@@ -8,6 +8,9 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import { WindowObserver } from "@/hooks/use-window-observer";
+import { PointerObserver } from "@/hooks/use-pointer-observer";
+import HoverPeeker from "@/components/hover-peeker";
 
 const geistSans = localFont({
   src: "../public/font/Geist-variable.woff2",
@@ -33,6 +36,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {/*
+      <head>
+        <script src="https://unpkg.com/react-scan/dist/auto.global.js" async />
+      </head>
+      */}
       <body
         className={`${geistSans.variable} ${geistMono.variable} font-sans font-[350] min-h-screen flex flex-col max-w-[682px] mx-auto px-5 py-5 md:py-10 text-foreground antialiased`}
       >
@@ -43,11 +51,14 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <HoverPeeker/>
             <Header />
             {children}
+            <Footer />
           </ThemeProvider>
-          <Footer />
         </LazyMotion>
+        <WindowObserver />
+        <PointerObserver />
         <Analytics />
         <SpeedInsights />
       </body>
