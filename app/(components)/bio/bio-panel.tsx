@@ -1,9 +1,7 @@
 export default function BioPanel() {
   return (
-    <section className="flex flex-col w-full ">
-      <div className="w-full border-b border-border flex pb-2 mb-2.5">
+    <section className="flex flex-col w-full space-y-1.5">
         <h2 className="mr-auto">Today</h2>
-      </div>
       <p className="text-muted-foreground space-y-4 leading-relaxed">
         <span className="sm:inline inline-block">
           I work as a freelance UX designer and React developer. I love to create
