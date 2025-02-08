@@ -1,162 +1,176 @@
 'use client'
 
 import * as React from 'react'
-//import { create } from 'zustand'
+import { create } from 'zustand'
 
-import { Metrics, useElementObserver } from '@/hooks/use-element-observer'
-import { useRafThrottle } from '@/hooks/use-RAF-throttle'
+import { useElementObserver } from '@/hooks/use-element-observer'
 
 interface Point {
-    x: number;
-    y: number;
-  }
-  
-  interface ElementPoints {
-    start: Point;
-    mid: Point;
-    end: Point;
-  }
-  
-  interface DistanceMatrices {
-    xDistances: number[][] | undefined;
-    yDistances: number[][] | undefined;
-  }
-  
-  const isValidPoint = (point: Point): boolean => {
-    return typeof point.x === 'number' && 
-           typeof point.y === 'number' && 
-           Number.isFinite(point.x) && 
-           Number.isFinite(point.y);
-  };
-  
-  const calculateDistanceMatrices = (
-    target: ElementPoints,
-    activator: ElementPoints,
-    precision: number = 1
-  ): DistanceMatrices => {
-    // Validate input points
-    const points = [
-        target.start, target.mid, target.end,
-        activator.start, activator.mid, activator.end
-    ];
-    
-    console.assert(!points.some(point => point === undefined), `One of the points is undefined`);
-    
-    if (!points.every(isValidPoint)) {
-      console.warn('Invalid points detected in distance calculation');
-      return {
-        xDistances: undefined,
-        yDistances: undefined
-      };
-    }
-  
-    const roundTo = (n: number): number => Math.round(n * precision) / precision;
-  
-    const transformPoint = (p: Point): Point => ({
-      x: roundTo(p.x),
-      y: roundTo(p.y)
-    });
-    
-    const targetPoints = {
-      start: transformPoint(target.start),
-      midpoint: transformPoint(target.mid),
-      end: transformPoint(target.end)
-    };
-    
-    const activatorPoints = {
-      start: transformPoint(activator.start),
-      midpoint: transformPoint(activator.mid),
-      end: transformPoint(activator.end)
-    };
-  
-    const getXDistance = (p1: Point, p2: Point): number => roundTo(p2.x - p1.x);
-    const getYDistance = (p1: Point, p2: Point): number => roundTo(p2.y - p1.y);
-  
-    const tPoints = [targetPoints.start, targetPoints.midpoint, targetPoints.end];
-    const aPoints = [activatorPoints.start, activatorPoints.midpoint, activatorPoints.end];
-  
-    const xDistances = new Array(3).fill(0).map(() => new Array(3));
-    const yDistances = new Array(3).fill(0).map(() => new Array(3));
-  
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < 3; j++) {
-        xDistances[i][j] = getXDistance(tPoints[i], aPoints[j]);
-        yDistances[i][j] = getYDistance(tPoints[i], aPoints[j]);
-        
-        if (!Number.isFinite(xDistances[i][j]) || !Number.isFinite(yDistances[i][j])) {
-          console.warn(`Invalid distance calculated at [${i}][${j}]`, {
-            x: xDistances[i][j],
-            y: yDistances[i][j]
-          });
-        }
-      }
-    }
-  
-    return { xDistances, yDistances };
-  };
-
-
-const useCreateCollisionDetector = (
-    staticTargetID : string | 'area', //static
-    movingActivatorID : string | 'pointer', //active 
-    //[margins]
-) => {
-
-    const [distances, setDistances] = React.useState<DistanceMatrices>({
-        xDistances: undefined,
-        yDistances: undefined
-      });
-
-    const prevDistances = React.useRef<DistanceMatrices>(undefined)
-
-    React.useEffect(() => {
-        prevDistances.current = distances;
-    }, [distances]);
-
-    const prevTarget = React.useRef<Metrics>(undefined)
-    const prevActivator = React.useRef<Metrics>(undefined)
-
-    const target = useElementObserver(staticTargetID)
-    const activator = useElementObserver(movingActivatorID)
-
-    //TODO: change to assertion
-    //console.log(target, activator)
-
-    React.useEffect(() => {
-        prevTarget.current = target;
-        prevActivator.current = activator
-    }, [target, activator]);
-
-    const updateDistances = React.useCallback(() => {
-        if (target && activator) {
-          const newDistances = calculateDistanceMatrices(target, activator);
-          setDistances(newDistances);
-        }
-      }, [target, activator]);
-      
-      useRafThrottle(updateDistances, {
-          fps: 60,
-          enabled: Boolean(target !== prevTarget.current || activator !== prevActivator.current)
-    });
-
-    //TODO: creare an events watcher
-    const [overlapY, setOverlapY] = React.useState<boolean | undefined>(undefined) // when [2][0] is negative [0][2] is positive
-
-    React.useEffect(()=>{
-        if (!distances.yDistances) return
-        if (distances.yDistances[2][0] <=20 && distances.yDistances[0][2]>=-20) {
-            setOverlapY(true)
-        }
-        else {
-            setOverlapY(false)
-        }
-    },[distances.yDistances])
-
-    return { distances, overlapY }
+  x: number;
+  y: number;
 }
 
-const useCollisionDetector = () => {
-    return null
+interface ElementPoints {
+  start: Point;
+  end: Point;
+}
+
+interface DistanceMatrices {
+  xDistances: number[][] | undefined;
+  yDistances: number[][] | undefined;
+}
+
+const isValidPoint = (point: Point): boolean =>
+  Number.isFinite(point.x) && Number.isFinite(point.y);
+
+let prevXDistances: number[][] | undefined;
+let prevYDistances: number[][] | undefined;
+
+const calculateDistanceMatrices = (
+  target: ElementPoints,
+  activator: ElementPoints
+): DistanceMatrices => {
+  const points = [target.start, target.end, activator.start, activator.end];
+
+  if (!points.every(isValidPoint)) {
+    console.warn("Invalid points detected in distance calculation");
+    return { xDistances: undefined, yDistances: undefined };
+  }
+
+  const THRESHOLD = 0.1;
+
+  const getXDistance = (p1: Point, p2: Point): number => p2.x - p1.x;
+  const getYDistance = (p1: Point, p2: Point): number => p2.y - p1.y;
+
+  const tPoints = [target.start, target.end];
+  const aPoints = [activator.start, activator.end];
+
+  const newXDistances = Array(2)
+    .fill(0)
+    .map(() => Array(2));
+  const newYDistances = Array(2)
+    .fill(0)
+    .map(() => Array(2));
+
+  let hasSignificantChange = false;
+
+  for (let i = 0; i < 2; i++) {
+    for (let j = 0; j < 2; j++) {
+      newXDistances[i][j] = getXDistance(tPoints[i], aPoints[j]);
+      newYDistances[i][j] = getYDistance(tPoints[i], aPoints[j]);
+
+      if (prevXDistances && prevYDistances) {
+        const xDiff = Math.abs(newXDistances[i][j] - prevXDistances[i][j]);
+        const yDiff = Math.abs(newYDistances[i][j] - prevYDistances[i][j]);
+        if (xDiff > THRESHOLD || yDiff > THRESHOLD) {
+          hasSignificantChange = true;
+        }
+      }
+
+      if (!Number.isFinite(newXDistances[i][j]) || !Number.isFinite(newYDistances[i][j])) {
+        console.warn(`Invalid distance at [${i}][${j}]`, {
+          x: newXDistances[i][j],
+          y: newYDistances[i][j],
+        });
+      }
+    }
+  }
+
+  if (prevXDistances && prevYDistances && !hasSignificantChange) {
+    return { xDistances: prevXDistances, yDistances: prevYDistances };
+  }
+
+  prevXDistances = newXDistances;
+  prevYDistances = newYDistances;
+
+  return { xDistances: newXDistances, yDistances: newYDistances };
+};
+
+interface IDs {
+  id: string;
+  isChecked: boolean;
+}
+
+interface Distances {
+  distances: Record<string, DistanceMatrices>;
+  registeredIds: Record<string, IDs>;
+  hasId: (id: string) => boolean;
+  setDistances: (id: string, distances: DistanceMatrices) => void;
+}
+
+
+//TODO: fix the validation
+const useCollisionDetectorStore = create<Distances>((set, get) => ({
+  distances: {},
+  registeredIds: {},
+  hasId: (id: string) => id in get().registeredIds,
+  setDistances: (id: string, distances: DistanceMatrices) => {
+    const state = get();
+    const existingId = state.registeredIds[id];
+
+    if (existingId && !existingId.isChecked) {
+      console.warn(`
+        Provided id: ${id} is not unique. Detector is not created.\n
+        If you create detector from the map function, use the key as props to extend id or use React.useId
+      `);
+      return;
+    }
+
+    set((state) => ({
+      registeredIds: { ...state.registeredIds, [id]: { id, isChecked: true } },
+      distances: { ...state.distances, [id]: distances },
+    }));
+  },
+}));
+
+/*
+const useCollideCallback = () => {
+  return null
+}*/
+
+const useCreateCollisionDetector = (
+  id: string,
+  staticTargetID: string | 'area',
+  movingActivatorID: string | 'pointer',
+) => {
+
+  const setDistances = useCollisionDetectorStore(state => state.setDistances);
+  
+  const target = useElementObserver(staticTargetID);
+  const activator = useElementObserver(movingActivatorID);
+  const prevDistances = React.useRef<DistanceMatrices | null>(null);
+  const updatePending = React.useRef(false);
+
+  const updateDistances = React.useCallback(() => {
+    if (target && activator) {
+      const newDistances = calculateDistanceMatrices(target, activator);
+      prevDistances.current = newDistances;
+      setDistances(id, newDistances);
+      updatePending.current = false;
+    }
+  }, [target, activator, id, setDistances]);
+
+  const handleUpdateDistances = React.useCallback(() => {
+    if (!updatePending.current) {
+      updatePending.current = true;
+      requestAnimationFrame(updateDistances);
+    }
+  }, [updateDistances]);
+
+  React.useEffect(() => {
+    if (!target || !activator) return;
+    handleUpdateDistances();
+    return () => {
+      updatePending.current = false;
+    };
+  }, [target, activator, handleUpdateDistances]);
+
+  return null
+};
+
+const useCollisionDetector = (id:string) => {
+  const distances = useCollisionDetectorStore(state => state.distances[id]);
+  return distances || {}
 }
 
 export { useCreateCollisionDetector, useCollisionDetector }

@@ -4,14 +4,6 @@ import * as React from "react";
 
 import Link from "next/link";
 
-import { motion, useTransform, useMotionValue, easeIn } from 'motion/react'
-
-import {
-  useCreateElementObserver,
-  //useElementObserver
-} from "@/hooks/use-element-observer";
-import { useCreateCollisionDetector } from "@/hooks/use-collision-detector";
-
 export default function SnippetElement() {
   const activatorRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -36,30 +28,13 @@ export default function SnippetElement() {
 
   return (
     <Link href="/ui/form-errors">
-      <div
-        ref={activatorRef}
-        className="block space-y-1.5 relative w-[calc(100%+1.25rem)] -translate-x-2.5 py-2 px-2.5 my-3 border border-border rounded hover:cursor-pointer "
-      >
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: 1,
-          }}
-          style={{
-            height : height
-          }}
-          exit={{ opacity: 0 }}
-          className="flex flex-col"
-        >
-          <div className="flex items-center mt-auto">
-            <p className="font-medium leading-none underline-offset-4">
-              Handling Form Errors
-            </p>
-          </div>
-          <p className="flex gap-1.5 w-full text-muted-foreground">
-            How to deal with different kind of form errors in UI
-          </p>
-        </motion.div>
+      <div className=" block space-y-1.5 relative hover:bg-input/30 w-[calc(100%+1.25rem)] -translate-x-2.5 py-2.5 px-2.5 border border-border rounded hover:cursor-pointer transition-colors">
+        <p className="font-medium leading-none underline-offset-4 hover:cursor-pointer">
+          Handling Form Errors
+        </p>
+        <p className="flex gap-1.5 w-full text-muted-foreground">
+          How to deal with different kind of form errors in UI
+        </p>
       </div>
     </Link>
   );

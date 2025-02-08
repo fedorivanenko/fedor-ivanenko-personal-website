@@ -11,18 +11,19 @@ export default function HoverPeeker() {
     const ref = React.useRef(null)
 
     useCreateElementObserver('hover-peeker',ref)
-    const { dimensions } = useElementObserver('hover-peeker')
+    const { start, end } = useElementObserver('hover-peeker')
+    const dimensions = Math.abs(start.y-end.y)
 
     const { scrollYProgress } = useScroll();
     const windowHeight = useWindowSize().y 
 
     //TODO: get rid of useScroll
-    const y = useTransform(scrollYProgress, [0, 1], [windowHeight*0.15, windowHeight - dimensions.y], {ease: easeIn});
+    const y = useTransform(scrollYProgress, [0, 1], [windowHeight*0.45, windowHeight - dimensions], {ease: easeIn});
 
     return (
         <motion.div 
             ref={ref}
-            className='fixed w-full top-0 left-0 bg-red-500/50 h-[1px] z-50 pointer-events-none'
+            className='fixed w-full top-0 left-0 bg-red-500/0 h-[1px] z-50 pointer-events-none'
             style={{ y }}
             />
     )

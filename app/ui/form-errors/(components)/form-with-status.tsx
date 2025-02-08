@@ -31,7 +31,7 @@ export default function FormWithStatus() {
 const [focusedField, setFocusedField] = React.useState<string | null>(null);
 
 const [formStatus, setFormStatus] = React.useState<
-  "processing" | "error" | undefined
+  "processing" | "error" | "sucess" | undefined
 >(undefined);
 
   const form = useForm<z.infer<typeof formSchemaBetterMessages>>({

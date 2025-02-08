@@ -14,6 +14,8 @@ import {
 } from "react-hook-form"
 
 import { cn } from "@/lib/utils"
+import { cva, type VariantProps } from "class-variance-authority"
+
 import { Label } from "@/components/ui/label"
 
 import { CheckCircledIcon, CrossCircledIcon } from "@radix-ui/react-icons"
@@ -223,22 +225,40 @@ const FormToolTip = React.forwardRef<
 });
 FormToolTip.displayName = "FormToolTip";
 
-const FormFieldStatus = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & MotionProps
->(({ ...props }, ref) => {
-  const { isDirty, error, formMessageId } = useFormField();
-  return (
-    <motion.div
-      ref={ref}
-      id={formMessageId}
-      {...props}
-      className="absolute right-2 h-full pointer-events-none flex items-center"
-    >
-      {!error ? (isDirty ? <CheckCircledIcon/> : null) : <CrossCircledIcon/>}
-    </motion.div>
-  );
-});
+const fieldStatusVariants = cva(
+  "absolute h-full pointer-events-none flex items-center",
+  {
+    variants: {
+      position: {
+        left: "left-3",
+        right: "right-2",
+      },
+    },
+    defaultVariants: {
+      position: "right",
+    },
+  }
+);
+
+export interface FormFieldStatusProps 
+  extends React.ComponentProps<typeof motion.div>,
+    VariantProps<typeof fieldStatusVariants> {}
+
+const FormFieldStatus = React.forwardRef<HTMLDivElement, FormFieldStatusProps>(
+  ({ className, position, ...props }, ref) => {
+    const { isDirty, error, formMessageId } = useFormField();
+    return (
+      <motion.div
+        ref={ref}
+        id={formMessageId}
+        {...props}
+        className={cn(fieldStatusVariants({ position }), className)}
+      >
+        {!error ? (isDirty ? <CheckCircledIcon /> : null ) : <CrossCircledIcon />}
+      </motion.div>
+    );
+  }
+);
 FormFieldStatus.displayName = "FormFieldStatus";
 
 export {

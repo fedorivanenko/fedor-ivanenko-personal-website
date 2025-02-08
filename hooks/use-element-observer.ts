@@ -7,8 +7,8 @@ import { create } from "zustand";
 export interface Metrics {
     start: { x: number; y: number };
     end: { x: number; y: number };
-    mid: { x: number; y: number };
-    dimensions: { x: number; y: number };
+   // dimensions: { x: number; y: number };
+   // mid: { x: number; y: number };
 }
 
 interface State {
@@ -24,22 +24,15 @@ const useElementStore = create<State>((set) => ({
 }));
 
 const useCreateElementObserver = (id: string, elementRef: React.RefObject<HTMLElement | null>) => {
-
-    const updatePending = React.useRef(false)
-
     const setMetrics = useElementStore((state) => state.setMetrics);
-
+    const updatePending = React.useRef(false)
+   
     const updateElement = React.useCallback(() => {
         if (!elementRef.current) return
         const rect = elementRef.current.getBoundingClientRect();
         setMetrics(id, {
             start: { x: rect.left, y: rect.top },
             end: { x: rect.right, y: rect.bottom },
-            mid: {
-                x: rect.left + rect.width / 2,
-                y: rect.top + rect.height / 2
-            },
-            dimensions: { x: rect.width, y: rect.height },
         });
         updatePending.current = false;
     }, [elementRef, setMetrics, id]);
