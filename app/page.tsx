@@ -7,12 +7,14 @@ import ClientProjectPanel from "@/components/client-projects/client-project-pane
 import PersonalProjectPannel from "@/components/personal-projects/personal-projects-panel"
 */
 import ContactPanel from "@/app/(components)/contact/contact-panel";
+import DesignBitsPanel from "./(components)/design-bits/design-bits-panel";
 
 export default function Home() {
   return (
     <main className="w-full space-y-32 pb-32">
       <BioPanel />
-      <SnippetsPanel />
+      <DesignBitsPanel/>
+      <SnippetsPanel/>
       <CVPanel />
       {/*
       <WorkWithMe/>
@@ -20,6 +22,10 @@ export default function Home() {
       <PersonalProjectPannel />
       */}
       <ContactPanel />
+      <blockquote className="text-muted-foreground">
+            <p className="italic text-right">{"“"}Simplicity is sanity{"”"}</p>
+            <p className="text-right pr-2 text-sm">— John Maeda</p>
+            </blockquote>
     </main>
   );
 }
