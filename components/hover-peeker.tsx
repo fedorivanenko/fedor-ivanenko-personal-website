@@ -12,7 +12,6 @@ export default function HoverPeeker() {
 
     useCreateElementObserver('hover-peeker',ref)
     const { start, end } = useElementObserver('hover-peeker')
-
     const dimensions = Math.abs(start.y-end.y)
 
     const { scrollYProgress } = useScroll();

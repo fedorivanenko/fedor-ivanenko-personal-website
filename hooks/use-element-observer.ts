@@ -24,11 +24,9 @@ const useElementStore = create<State>((set) => ({
 }));
 
 const useCreateElementObserver = (id: string, elementRef: React.RefObject<HTMLElement | null>) => {
-
     const setMetrics = useElementStore((state) => state.setMetrics);
-    
     const updatePending = React.useRef(false)
-    
+   
     const updateElement = React.useCallback(() => {
         if (!elementRef.current) return
         const rect = elementRef.current.getBoundingClientRect();
