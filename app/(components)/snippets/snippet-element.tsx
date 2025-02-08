@@ -5,26 +5,6 @@ import * as React from "react";
 import Link from "next/link";
 
 export default function SnippetElement() {
-  const activatorRef = React.useRef<HTMLDivElement | null>(null);
-
-  const id = React.useId()
-
-  useCreateElementObserver(id, activatorRef);
-
-  const { distances } = useCreateCollisionDetector("hover-peeker", id);
-
-  const motionDistance = useMotionValue(400);
-
-  React.useEffect(() => {
-    if (distances?.yDistances) {
-      const newDistance = Math.abs(distances.yDistances[1]?.[1] ?? 400);
-      if (Math.abs(motionDistance.get() - newDistance) > 2) {
-        motionDistance.set(newDistance);
-      }
-    }
-  }, [distances.yDistances, motionDistance]);
-
-  const height = useTransform(motionDistance, [0, 400], [200, 40], {ease: easeIn})
 
   return (
     <Link href="/ui/form-errors">
