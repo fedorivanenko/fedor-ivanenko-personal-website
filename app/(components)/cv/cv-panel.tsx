@@ -18,7 +18,7 @@ export default function CVPanel() {
         </Button>
          */}
       <p className="text-muted-foreground space-y-5 leading-relaxed">
-        Having been a designer for almost a decade, I have always been somewhere
+        Having been a designer for almost a decade, I&nbsp;have always been somewhere
         around User Experience Design, working hard to understand people{"'"}s
         needs and build things that make life easier.
       </p>
