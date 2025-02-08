@@ -22,25 +22,24 @@ export default function DesignBitsPanel() {
             className="border border-border/20 rounded"
           />
         </div>
-        <div className="flex flex-col mt-4 space-y-1">
-          <div className="flex justify-between">
-            <h3 className="font-medium leading-none underline-offset-4">
-              Bank Account Balance Chart
-            </h3>
-            <Button className="px-0" variant="ghost" size="inline" asChild>
-              <Link
-                href="https://www.figma.com/design/6kWH882PVQXtAoj2VUUMYI/Budget-Forecaster?node-id=323-87&t=iyG9Fk67NflZNvSh-1"
-                target="_blank"
-                className="whitespace-nowrap flex pr-2 translate-x-2"
-              >
-                <FigmaLogoIcon
-                  style={{ width: "14px", height: "14px" }}
-                  className="translate-x-1"
-                />
-                <span>Figma</span>
-              </Link>
-            </Button>
-          </div>
+        <div className="flex flex-col mt-4 space-y-1 relative">
+          <h3 className="font-medium leading-none underline-offset-4">
+            Bank Account Balance Chart
+          </h3>
+          <Button 
+          className="h-5 px-0" variant="default" size="tiny" asChild>
+            <Link
+              href="https://www.figma.com/design/6kWH882PVQXtAoj2VUUMYI/Budget-Forecaster?node-id=323-87&t=iyG9Fk67NflZNvSh-1"
+              target="_blank"
+              className="whitespace-nowrap flex pr-2 absolute -top-1.5 right-0"
+            >
+              <FigmaLogoIcon
+                style={{ width: "12px", height: "12px" }}
+                className="translate-x-1"
+              />
+              <span>Figma</span>
+            </Link>
+          </Button>
           <p className="flex gap-1.5 w-full text-muted-foreground">
             Part of the prototyping and visual research for an ongoing personal
             project
