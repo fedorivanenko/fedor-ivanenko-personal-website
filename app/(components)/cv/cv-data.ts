@@ -67,7 +67,7 @@ export const jobList: JobType[] = [
     },
     {
         timeline: { start: 2016, end: 2019 },
-        jobTitle: "Wayfinidng Designer",
+        jobTitle: "Wayfinding Designer",
         companyName: "ZLT Group",
         companyDescription: "Boutique Design Studio",
 
