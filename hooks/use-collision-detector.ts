@@ -40,7 +40,7 @@ const calculateDistanceMatrices = (
   const THRESHOLD = 0.1;
 
   const getXDistance = (p1: Point, p2: Point): number => p2.x - p1.x;
-  const getYDistance = (p1: Point, p2: Point): number => p2.y - p1.y;
+  const getYDistance = (p1: Point, p2: Point): number => p2.y - p1.y; 
 
   const tPoints = [target.start, target.end];
   const aPoints = [activator.start, activator.end];
@@ -48,6 +48,7 @@ const calculateDistanceMatrices = (
   const newXDistances = Array(2)
     .fill(0)
     .map(() => Array(2));
+    
   const newYDistances = Array(2)
     .fill(0)
     .map(() => Array(2));

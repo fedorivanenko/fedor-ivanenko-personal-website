@@ -31,7 +31,7 @@ export default function DesignBitsPanel() {
             <Link
               href="https://www.figma.com/design/6kWH882PVQXtAoj2VUUMYI/Budget-Forecaster?node-id=323-87&t=iyG9Fk67NflZNvSh-1"
               target="_blank"
-              className="whitespace-nowrap flex pr-2 absolute -top-1.5 right-0"
+              className="whitespace-nowrap flex pr-2 pl-1 absolute -top-1.5 right-0"
             >
               <FigmaLogoIcon
                 style={{ width: "12px", height: "12px" }}

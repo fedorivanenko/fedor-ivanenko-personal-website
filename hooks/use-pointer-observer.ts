@@ -59,7 +59,7 @@ const PointerObserver = () => {
     }, [setPointer]);
 
     return null
-};
+}; 
 
 const usePointerObserver = () => {
     return usePointerStore(state => state.current);
