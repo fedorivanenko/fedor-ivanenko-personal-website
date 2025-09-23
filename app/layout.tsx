@@ -8,9 +8,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
-import { WindowObserver } from "@/hooks/use-window-observer";
-import { PointerObserver } from "@/hooks/use-pointer-observer";
-import HoverPeeker from "@/components/hover-peeker";
 
 const geistSans = localFont({
   src: "../public/font/Geist-variable.woff2",
@@ -51,14 +48,11 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <HoverPeeker/>
             <Header />
             {children}
             <Footer />
           </ThemeProvider>
         </LazyMotion>
-        <WindowObserver />
-        <PointerObserver />
         <Analytics />
         <SpeedInsights />
       </body>
