@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 import Link from "next/link"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm text-base transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -19,7 +19,7 @@ const buttonVariants = cva(
         secondary:
           "bg-input/75 text-secondary-foreground shadow-sm hover:bg-input/50",
         ghost: "hover:bg-input/50 hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 underline decoration-primary/50 hover:decoration-primary",
+        link: "text-primary underline-offset-4 underline decoration-[1px] decoration-secondary-foreground/30 hover:decoration-secondary-foreground/50 transition-all",
       },
       size: {
         default: "h-9 px-4 py-2",

@@ -1,29 +1,16 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme-provider";
-import localFont from "next/font/local";
-import { LazyMotion, domAnimation } from "motion/react";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "./globals.css";
-import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
-
-const geistSans = localFont({
-  src: "../public/font/Geist-variable.woff2",
-  variable: "--font-geist-sans",
-  preload: true,
-});
-
-const geistMono = localFont({
-  src: "../public/font/GeistMono-variable.woff2",
-  variable: "--font-geist-mono",
-  preload: true,
-});
+import { geist } from "@/lib/fonts";
+import { GsapAnimator } from "@/components/motion/gsap-animator";
 
 export const metadata: Metadata = {
   title: "Fedor Ivanenko",
-  description: "Design Engineering",
+  description: "React / Next.js developer and UX designer",
 };
 
 export default function RootLayout({
@@ -39,20 +26,18 @@ export default function RootLayout({
       </head>
       */}
       <body
-        className={`${geistSans.variable} ${geistMono.variable} font-sans font-[350] min-h-screen flex flex-col max-w-[682px] mx-auto px-5 py-5 md:py-10 text-foreground antialiased`}
+        className={`${geist.variable} min-h-screen flex flex-col mx-auto max-w-screen-md py-5 pt-20 md:pt-40 text-foreground antialiased`}
       >
-        <LazyMotion features={domAnimation}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Header />
-            {children}
-            <Footer />
-          </ThemeProvider>
-        </LazyMotion>
+        <GsapAnimator />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+          <Footer />
+        </ThemeProvider>
         <Analytics />
         <SpeedInsights />
       </body>
