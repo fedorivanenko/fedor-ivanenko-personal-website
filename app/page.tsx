@@ -13,26 +13,22 @@ function BioPanel() {
       <h1 className={cn(sectionVariants(), "animate-blur-fade stagger mb-12")}>
         Fedor Ivanenko
       </h1>
-      <Section className="prose-short pr-16 sm:pr-32 md:pr-0 mb-15">
+      <Section>
+        <div className="prose-short max-w-xs md:max-w-max">
         <p>React / Next.js developer and UX designer.</p>
         <p>
-          Love to create clear and practical websites{" "}
-          <span className="whitespace-nowrap">
-            and craft UX that is simple and obvious.
-          </span>
+          Love to create clear and practical websites and craft UX that is
+          simple and obvious.
         </p>
         <p>
-          Do coding, design, and motion using{" "}
-          <span className="whitespace-nowrap">
-            mostly TypeScript, CSS, Next.js, and Sanity.
-          </span>
+          Do coding, design, and motion using mostly TypeScript, CSS, Next.js,
+          and Sanity.
         </p>
         <p>
-          Open to collaborations with agencies and{" "}
-          <span className="whitespace-nowrap">
-            product teams, or in-house roles.
-          </span>
+          Open to collaborations with agencies and product teams, or in-house
+          roles.
         </p>
+        </div>
       </Section>
     </>
   );
@@ -107,7 +103,7 @@ function ProjectRow({ year, href, name, description }: ProjectData) {
   };
 
   const renderDescription = () => {
-    const descriptionClassName = "";
+    const descriptionClassName = "whitespace-nowrap";
     if (descriptionElement) {
       return cloneElement(descriptionElement, {
         className: cn(descriptionClassName, descriptionElement.props.className),
@@ -117,7 +113,7 @@ function ProjectRow({ year, href, name, description }: ProjectData) {
   };
 
   return (
-    <li className="contents">
+    <li className="contents overflow-x-scroll">
       <p>{year}</p>
       {renderName()}
       {renderDescription()}
@@ -127,7 +123,7 @@ function ProjectRow({ year, href, name, description }: ProjectData) {
 
 function ProjectsPanel() {
   return (
-    <Section>
+    <Section className="overflow-x-scroll mb-7.5 pb-7.5">
       <h2>Projects</h2>
       <ul className="grid grid-cols-[auto_auto_auto] gap-x-3 md:gap-x-5 gap-y-1 mr-auto">
         <ProjectRow
@@ -180,34 +176,21 @@ function PersonalityPanel() {
   return (
     <Section>
       <h2>Personality</h2>
-      <div className="prose-long">
-        <p>I care about experience, performance, and beauty.</p>
+      <div className="prose-long max-w-sm sm:max-w-lg lg:max-w-xl">
+        <p>I care about experience, performance,&nbsp;and&nbsp;beauty.</p>
         <p>
-          My favorite brand is Asics, my favorite car is the Dodge Viper,{" "}
-          <span className="whitespace-nowrap">
-            my favorite writer is Tufte,
-          </span>{" "}
-          and my favorite music is minimal techno.{" "}
-          <span className="whitespace-nowrap">
-            I also brew and drink specialty coffee.
-          </span>
+          My favorite brand is Asics, my favorite car is&nbsp;Dodge Viper,
+          and&nbsp;my&nbsp;favorite music is&nbsp;minimal techno. I also brew and drink
+          specialty&nbsp;coffee.
         </p>
         <p>
-          I choose CSS over JS, a custom hook over a&nbsp;dependency (they’re a
-          liability),{" "}
-          <span className="whitespace-nowrap">global state over providers</span>
-          , and a&nbsp;quick coded prototype over Figma.
+          I choose CSS over JS, a custom hook over a&nbsp;dependency, a&nbsp;global state over&nbsp;providers, and a&nbsp;quickly coded
+          prototype over&nbsp;Figma.
         </p>
         <p>
           I love clean interfaces, having client state derived from
-          the&nbsp;server,{" "}
-          <span className="whitespace-nowrap">
-            subtle typography and animations,
-          </span>{" "}
-          <span className="whitespace-nowrap sm:whitespace-normal">
-            explicit error handling,{" "}
-          </span>
-          <span className="whitespace-nowrap">and use profiler.</span>
+          the&nbsp;server, subtle typography and animations, explicit error
+          handling, and using&nbsp;the&nbsp;profiler.
         </p>
       </div>
     </Section>
@@ -223,16 +206,10 @@ function ContactPanel() {
         <InlineLinkButton href="https://x.com/fedorivanenko_">
           @fedorivanenko_
         </InlineLinkButton>{" "}
-        or{" "}
+        <span className="whitespace-nowrap">or{" "}
         <InlineLinkButton href="mailto:f@fedor.studio">
           f@fedor.studio
         </InlineLinkButton>
-        <br />
-        <span className="whitespace-nowrap">
-          Or check my{" "}
-          <InlineLinkButton href="https://github.com/fedorivanenko">
-            code
-          </InlineLinkButton>
         </span>
       </p>
     </Section>

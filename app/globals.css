@@ -131,6 +131,7 @@
 
   --breakpoint-md: 44rem;
   --breakpoint-sm: 32rem;
+  --breakpoint-xs: 27rem;
 
   --default-mono-font-family: var(--font-geist-mono)
 }
@@ -140,7 +141,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground font-[450] dark:font-[400];
+    @apply bg-background text-foreground font-[450] dark:font-[400] text-[0.96em] xs:text-[1em];
     font-family: var(--font-geist-sans), sans-serif;
   }
 }
