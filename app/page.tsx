@@ -176,7 +176,7 @@ function PersonalityPanel() {
   return (
     <Section>
       <h2>Personality</h2>
-      <div className="prose-long max-w-sm sm:max-w-lg lg:max-w-xl">
+      <div className="prose-long max-w-sm sm:max-w-xl">
         <p>I care about experience, performance,&nbsp;and&nbsp;beauty.</p>
         <p>
           My favorite brand is Asics, my favorite car is&nbsp;Dodge Viper,
