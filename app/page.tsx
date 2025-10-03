@@ -13,7 +13,7 @@ function BioPanel() {
       <h1 className={cn(sectionVariants(), "animate-blur-fade stagger mb-12")}>
         Fedor Ivanenko
       </h1>
-      <Section className="prose-long pr-16 sm:pr-32 md:pr-0 mb-15">
+      <Section className="prose-short pr-16 sm:pr-32 md:pr-0 mb-15">
         <p>React / Next.js developer and UX designer.</p>
         <p>
           Love to create clear and practical websites{" "}

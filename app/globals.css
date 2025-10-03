@@ -156,11 +156,10 @@
     @apply text-secondary-foreground
   }
   .prose-short {
-    @apply space-y-2 dark:space-y-3;
+    @apply space-y-3 dark:space-y-4;
   }
-  
   .prose-long {
-    @apply space-y-3 md:space-y-4 dark:space-y-4 dark:md:space-y-5;
+    @apply space-y-3 dark:space-y-4 md:space-y-4 dark:md:space-y-5;
   }
 }
 
