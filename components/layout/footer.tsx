@@ -6,7 +6,7 @@ export default function Footer() {
     <footer
       className={cn(
         sectionVariants({animated: false}),
-        "w-full flex-row gap-2 text-sm text-muted-foreground mt-auto pt-20 md:pt-40"
+        "w-full flex-row gap-6 text-sm text-muted-foreground mt-auto pt-20 md:pt-40"
       )}
     >
       <span>{new Date().getFullYear()}</span>

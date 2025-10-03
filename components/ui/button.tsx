@@ -27,7 +27,7 @@ const buttonVariants = cva(
         sm: "h-8 rounded-md px-3",
         lg: "h-10 rounded-md px-8",
         icon: "h-9 w-9",
-        inline: "inline-block",
+        inline: "inline-block text-[length:inherit] text-[0.96em] tracking-[0.015em]",
       },
     },
     defaultVariants: {
@@ -71,7 +71,7 @@ function InlineLinkButton({
 }: InlineLinkButtonProps) {
   return (
     <Button 
-      className={cn(className, "px-0 tracking")} 
+      className={cn(className, "px-0")} 
       variant="link" 
       size="inline" 
       asChild
