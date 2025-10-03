@@ -1,56 +1,140 @@
-import { Section } from "@/components/layout/section";
-import { Button, InlineLinkButton } from "@/components/ui/button";
+import { Section, sectionVariants } from "@/components/layout/section";
+import { 
+  //Button, 
+  InlineLinkButton 
+} from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+//import Link from "next/link";
 
 export function BioPanel() {
   return (
-    <Section dataAnimation={null}>
-      <h1 data-animation="fadeInUp" className="text-lg">Fedor Ivanenko</h1>
-      <div data-animation="fadeInUp" className="space-y-3 md:space-y-1.5 mr-20 sm:mr-40 md:mr-0">
-        <p>React / Next.js developer and UX designer.</p>
-        <p>
-          Love to create clear and practical websites and{" "}
+    <>
+      <h1
+        className={cn(
+          sectionVariants(),
+          "animate-blur-fade stagger mb-10"
+        )}
+      >
+        Fedor Ivanenko
+      </h1>
+      <Section className="prose-short pr-16 sm:pr-32 md:pr-0 mb-15">
+          <p>React / Next.js developer and UX designer.</p>
+          <p>
+            Love to create clear and practical websites{" "}
+            <span className="whitespace-nowrap">
+              and craft UX that is simple and obvious.
+            </span>
+          </p>
+          <p>
+            Do coding, design, and motion using{" "}
+            <span className="whitespace-nowrap">
+              mostly TypeScript, CSS, Next.js, and Sanity.
+            </span>
+          </p>
+          <p>
+            Open to collaborations with agencies and{" "}
+            <span className="whitespace-nowrap">
+              product teams, or in-house roles.
+            </span>
+          </p>
+      </Section>
+    </>
+  );
+}
+
+/*
+export function HireMePanel() {
+  return (
+    <Section card className="mb-15">
+      <h2>Hire me</h2>
+      <div className="prose-long">
+        <p className="!leading-normal">
+          I can build a website for you <br />
           <span className="whitespace-nowrap">
-            craft UX that is simple and obvious.
+            — e-commerce, editorial, or a presentation one.
           </span>
         </p>
         <p>
-          Code, design, and animate using mostly{" "}
-          <span className="whitespace-nowrap">
-            TypeScript, GSAP, Next.js, and Sanity.
-          </span>
+          Or help you build complex UI/UX in React ecosystem,<br />
+          optimize Next.js build, setup Sanity CMS,{" "}
+          <span className="whitespace-nowrap">or create animations.</span>
         </p>
-        <p className="">
-          Open to collaborations with agencies and{" "}
-          <span className="whitespace-nowrap">
-            product teams, or in-house roles.
-          </span>
+        <p>
+          My rate is $400 per day, with a 4-day minimum,
+          <br />
+          or $4,000 and up on a per-project basis.
         </p>
+        <div className="flex mt-6 gap-3">
+          <Button variant={"outline"} className="w-min">
+            Hire with Stripe
+          </Button>
+          
+          <Button asChild variant={"outline"}><Link href={"mailto:f@fedor.studio"}>Book a call</Link></Button>
+        </div>
       </div>
     </Section>
   );
 }
+ */
 
-export function HireMePanel() {
-  return(
-    <Section variant={'card'}>
-      <h2>Hire me</h2>
-      <p>
-        
-      </p>
-      <p className="mb-5">
-        You can hire me for $400 a day<br/>
-        5 days minimal involment
-      </p>
-      <Button>Hire with Stripe</Button>
-    </Section>
-  )
-}
-
-export function BlogPanel() {
+export function ProjectsPanel() {
   return (
     <Section>
-      <h2>Writings</h2>
+      <h2>Projects</h2>
+      <ul className="flex flex-col w-full">
+        <li className="flex gap-2 items-center">
+          <p>2025</p>
+          <InlineLinkButton href={"https://www.hellojadey.com/"}>
+            hellojadey.com
+          </InlineLinkButton>
+          <span className="text-sm">in collab with{" "}
+          <InlineLinkButton className="text-sm" href={"https://www.hyuman.tech/"}>hyuman.tech</InlineLinkButton>{" & "}
+          <InlineLinkButton className="text-sm" href={"https://wearemostlysunny.com/"}>mostly sunny</InlineLinkButton>
+          </span>
+        </li>
+        <li className="flex gap-2">
+          <p>2024</p>
+          <InlineLinkButton href={"https://ivpay.io/"}>ivpay.io</InlineLinkButton>
+        </li>
+        <li className="flex gap-2">
+          <p>2024</p>
+          <InlineLinkButton href={"https://www.pzk.design/"}>pzk.design</InlineLinkButton>
+        </li>
+      </ul>
+    </Section>
+  );
+}
 
+export function PersonalityPanel() {
+  return (
+    <Section>
+      <h2>Personality</h2>
+      <div className="prose-long">
+        <p>I care about experience, performance, and beauty.</p>
+        <p>
+          My favorite brand is Asics, my favorite car is the Dodge Viper,{" "}
+          <span className="whitespace-nowrap">my favorite writer is Tufte,</span>{" "}and my favorite music is minimal techno.{" "}
+          <span className="whitespace-nowrap">I also brew and drink specialty coffee.</span>
+        </p>
+        <p>
+          I choose CSS over JS, a custom hook over a&nbsp;dependency
+          (they’re a liability), <span className="whitespace-nowrap">global state over providers</span>, and
+          a&nbsp;quick coded prototype over Figma.
+        </p>
+        <p>
+          I love clean interfaces, having client state derived from
+          the&nbsp;server,{" "}
+          <span className="whitespace-nowrap">
+            subtle typography and animations,
+          </span>{" "}
+          <span className="whitespace-nowrap sm:whitespace-normal">
+            explicit error handling,{" "}
+          </span>
+          <span className="whitespace-nowrap">
+            and profiler.
+          </span>
+        </p>
+      </div>
     </Section>
   );
 }
@@ -68,11 +152,11 @@ export function ContactPanel() {
         <InlineLinkButton href="mailto:f@fedor.studio">
           f@fedor.studio
         </InlineLinkButton>
-        <br/>
-        <span className="whitespace-nowrap">  
+        <br />
+        <span className="whitespace-nowrap">
           Or check my{" "}
           <InlineLinkButton href="https://github.com/fedorivanenko">
-            GitHub
+            code
           </InlineLinkButton>
         </span>
       </p>
@@ -82,10 +166,13 @@ export function ContactPanel() {
 
 export default function Home() {
   return (
-    <main className="w-full space-y-20">
+    <main className="animation-container w-full space-y-20">
       <BioPanel />
+      {/*
       <HireMePanel />
-      <BlogPanel />
+       */}
+      <ProjectsPanel />
+      <PersonalityPanel />
       <ContactPanel />
     </main>
   );
