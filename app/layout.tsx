@@ -5,8 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "./globals.css";
 import Footer from "@/components/layout/footer";
-import { geist } from "@/lib/fonts";
-import { GsapAnimator } from "@/components/motion/gsap-animator";
+import { geist, geistMono } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "Fedor Ivanenko",
@@ -26,9 +25,8 @@ export default function RootLayout({
       </head>
       */}
       <body
-        className={`${geist.variable} min-h-screen flex flex-col mx-auto max-w-screen-md py-5 pt-20 md:pt-40 text-foreground antialiased`}
+        className={`${geist.variable} ${geistMono.variable} min-h-screen flex flex-col mx-auto max-w-screen-md py-5 pt-20 md:pt-40 text-foreground antialiased`}
       >
-        <GsapAnimator />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

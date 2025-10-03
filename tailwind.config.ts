@@ -1,7 +1,6 @@
-import plugin from 'tailwindcss/plugin';
 import type { Config } from 'tailwindcss';
-import { animations } from './lib/animations';
-import { buildFromStyles } from './lib/build-from-styles';
+import plugin from 'tailwindcss/plugin'
+//import { buildInitialStyles } from './lib/build-initial-styles';
 
 const config: Config = {
   content: [
@@ -10,18 +9,17 @@ const config: Config = {
     './components/**/*.{js,ts,jsx,tsx}',
   ],
   plugins: [
-    plugin(({ addBase }) => {
-
-      const animationStyles = Object.fromEntries(
-        Object.entries(animations).map(([key, { from }]) => [
-          `[data-animation="${key}"]`,
-          buildFromStyles(from),
-        ])
+    //buildInitialStyles
+    plugin(function({ addUtilities }) {
+      addUtilities(
+        Object.fromEntries(
+          Array.from({ length: 20 }, (_, i) => [
+            `.animation-container .stagger:nth-child(${i + 1})`,
+            { '--stagger': `${i}` }
+          ])
+        )
       );
-      addBase({
-        ...animationStyles,
-      });
-    }),
+    })
   ],
 };
 
