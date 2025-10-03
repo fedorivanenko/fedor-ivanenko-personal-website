@@ -90,7 +90,7 @@ function ProjectRow({ year, href, name, description }: ProjectData) {
     : null;
 
   const renderName = () => {
-    const nameClassName = "-translate-y-[1px] justify-start mr-1";
+    const nameClassName = "-translate-y-[1px] justify-start mr-0";
     if (href) {
       return <InlineLinkButton href={href} className={nameClassName}>{name}</InlineLinkButton>;
     }
@@ -129,7 +129,7 @@ function ProjectsPanel() {
   return (
     <Section>
       <h2>Projects</h2>
-      <ul className="grid grid-cols-[auto_auto_auto] gap-x-5 gap-y-1 mr-auto">
+      <ul className="grid grid-cols-[auto_auto_auto] gap-x-3 gap-y-1 mr-auto">
         <ProjectRow
           year={2025}
           name={"hellojadey.com"}
