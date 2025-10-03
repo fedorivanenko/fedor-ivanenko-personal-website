@@ -1,9 +1,7 @@
-export type FromVals = Record<string, number | string>;
-
 /**
  * All outputs are strings so they satisfy Tailwind's CssInJs.
 */
-export function buildFromStyles(from: FromVals): Record<string, string> {
+export function convertGSAPtoCSS(styles: gsap.TweenVars): Record<string, string> {
   const rules: Record<string, string> = {};
   const transforms: string[] = [];
 
@@ -16,7 +14,7 @@ export function buildFromStyles(from: FromVals): Record<string, string> {
     skewY:   'skewY',
   };
 
-  for (const [key, raw] of Object.entries(from)) {
+  for (const [key, raw] of Object.entries(styles)) {
     if (raw == null) continue;
 
     if (key in TRANSFORM_MAP) {

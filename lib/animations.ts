@@ -4,7 +4,7 @@ type AnimationConfig = {
   opts: gsap.TweenVars;
 };
 
-const animations = {
+const animationConfigs = {
   fadeInUp: {
     from: { opacity: 0, y: 40, filter: "blur(20px)" },
     to:   { opacity: 1, y: 0, filter: "blur(0px)" },
@@ -17,7 +17,7 @@ const animations = {
   },
 } satisfies Record<string, AnimationConfig>;
 
-type AnimationKeys = keyof typeof animations;
+type AnimationConfigsKeys = keyof typeof animationConfigs;
 
-export { animations }
-export type {AnimationKeys}
+export { animationConfigs }
+export type { AnimationConfig, AnimationConfigsKeys }

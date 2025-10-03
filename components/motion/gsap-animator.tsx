@@ -2,12 +2,13 @@
 
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-
-import { animations } from "@/lib/animations";
+import { animationConfigs, type AnimationConfigsKeys } from "@/lib/animations";
 
 gsap.registerPlugin(useGSAP);
 
-const DELAY = 0.125 //sec
+const DELAY = 0.125;
+
+//<element data-animate="true" style="--stagger: 2; --duration: 500ms;">
 
 export function GsapAnimator({
   selector = "[data-animation]",
@@ -29,10 +30,10 @@ export function GsapAnimator({
     });
 
     elements.forEach((el, i) => {
-      const animationKey = el.dataset.animation;
-      if (animationKey && animationKey in animations) {
-        const animationObject =
-          animations[animationKey as keyof typeof animations];
+      const animationKey = el.dataset.animation as AnimationConfigsKeys;
+      
+      if (animationKey && animationKey in animationConfigs) {
+        const animationObject = animationConfigs[animationKey];
 
         tl.fromTo(
           el,
