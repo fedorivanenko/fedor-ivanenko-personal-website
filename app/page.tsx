@@ -6,7 +6,7 @@ import {
 import { cn } from "@/lib/utils";
 //import Link from "next/link";
 
-export function BioPanel() {
+function BioPanel() {
   return (
     <>
       <h1
@@ -77,7 +77,7 @@ export function HireMePanel() {
 }
  */
 
-export function ProjectsPanel() {
+function ProjectsPanel() {
   return (
     <Section>
       <h2>Projects</h2>
@@ -105,7 +105,7 @@ export function ProjectsPanel() {
   );
 }
 
-export function PersonalityPanel() {
+function PersonalityPanel() {
   return (
     <Section>
       <h2>Personality</h2>
@@ -139,7 +139,7 @@ export function PersonalityPanel() {
   );
 }
 
-export function ContactPanel() {
+function ContactPanel() {
   return (
     <Section>
       <h2>Connect</h2>
