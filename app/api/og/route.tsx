@@ -4,8 +4,8 @@ import { siteConfig } from "@/config/site";
 
 export const runtime = "edge";
 
-async function loadGoogleFont (font: string, text: string) {
-  const url = `https://fonts.googleapis.com/css2?family=${font}&text=${encodeURIComponent(text)}`
+async function loadGoogleFont (font: string, text: string, weight: number = 400) {
+  const url = `https://fonts.googleapis.com/css2?family=${font}:wght@${weight}&text=${encodeURIComponent(text)}`;
   const css = await (await fetch(url)).text()
   const resource = css.match(/src: url\((.+)\) format\('(opentype|truetype)'\)/)
  
@@ -42,6 +42,7 @@ export async function GET(req: Request) {
       <div
       style={{
         fontSize: 44,
+        fontWeight: 600,
       }}
       >
       {title}
@@ -59,10 +60,17 @@ export async function GET(req: Request) {
       fonts: [
         {
           name: 'Geist',
-          data: await loadGoogleFont('Geist', title+description),
+          data: await loadGoogleFont('Geist', title+description, 400),
           style: 'normal',
+          weight: 400,
         },
-      ],
+        {
+          name: 'Geist',
+          data: await loadGoogleFont('Geist', title+description, 600),
+          style: 'normal',
+          weight: 600,
+        },
+      ]
     },
   );
 }
