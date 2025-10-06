@@ -25,9 +25,6 @@ export async function GET(req: Request) {
   const title = searchParams.get("title") ?? siteConfig.name;
   const description = searchParams.get("description") ?? siteConfig.description
 
-  console.log("title: ", title)
-  console.log("desc: ",description)
-
   return new ImageResponse(
     <div
       style={{
