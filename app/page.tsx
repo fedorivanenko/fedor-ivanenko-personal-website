@@ -84,52 +84,57 @@ function ProjectRow({ year, href, name, description }: ProjectData) {
   );
 }
 
+const projectsData:ProjectData[] = [
+  {
+    year: 2025,
+    name: "hellojadey.com",
+    href: "https://www.hellojadey.com/",
+    description: (
+      <p>
+        Development via{" "}
+        <InlineLinkButton href="https://www.hyuman.tech/">
+          hyuman.tech
+        </InlineLinkButton>
+      </p>
+    )
+  },
+  {
+    year: 2025,
+    name: "TBA",
+    description: (
+      <p>
+        Development via{" "}
+        <InlineLinkButton href="https://midnight.agency/">
+          midnight.agency
+        </InlineLinkButton>
+      </p>
+    )
+  },
+  {
+    year: 2024,
+    name: "ivpay.io",
+    href: "https://ivpay.io/",
+    description: <p>Development</p>
+  },
+  {
+    year: 2024,
+    name: "pzk.design",
+    href: "https://www.pzk.design/",
+    description: <p>Design and development</p>
+  }
+];
+
 function ProjectsPanel() {
   return (
     <Section className="overflow-x-scroll mb-7.5 pb-7.5">
       <h2>Projects</h2>
       <ul className="grid grid-cols-[auto_auto_auto] gap-x-3 md:gap-x-5 gap-y-1 mr-auto">
-        <ProjectRow
-          year={2025}
-          name={"hellojadey.com"}
-          href={"https://www.hellojadey.com/"}
-          description={
-            <p>
-              Development via{" "}
-              <InlineLinkButton
-                href={"https://www.hyuman.tech/"}
-              >
-                hyuman.tech
-              </InlineLinkButton>
-            </p>
-          }
-        />
-        <ProjectRow
-          year={2025}
-          name="TBA"
-          description={
-            <p>
-            Development via{" "}
-            <InlineLinkButton
-              href={"https://midnight.agency/"}
-            >
-              midnight.agency
-            </InlineLinkButton>
-          </p>
-          }
-        />
-        <ProjectRow
-          year={2024}
-          name="ivpay.io"
-          href="https://ivpay.io/"
-          description="Development"
-        />
-        <ProjectRow
-          year={2024}
-          name="pzk.design"
-          href="https://www.pzk.design/"
-          description="Design and development"
-        />
+        {projectsData.map((project) => (
+          <ProjectRow
+            key={`${project.year}-${project.name}`}
+            {...project}
+          />
+        ))}
       </ul>
     </Section>
   );
