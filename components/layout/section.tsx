@@ -1,3 +1,4 @@
+import * as React from 'react' 
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 
@@ -25,14 +26,14 @@ export interface SectionProps
   extends React.HTMLAttributes<HTMLElement>,
     VariantProps<typeof sectionVariants> {
   className?: string;
+  as?: 'section' | 'div'
 }
 
-function Section({ className, animated, card, ...props }: SectionProps) {
-  return (
-    <section
-      className={cn(sectionVariants({ animated, card }), className, "")}
-      {...props}
-    />
+function Section({ className, animated, card, as = 'section', ...props }: SectionProps) {
+  return React.createElement(
+    as,
+    { className: cn(sectionVariants({ animated, card }), className), ...props },
+    props.children
   );
 }
 
