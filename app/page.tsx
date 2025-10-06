@@ -1,11 +1,9 @@
 import { Section, sectionVariants } from "@/components/layout/section";
 import {
   buttonVariants,
-  //Button,
   InlineLinkButton,
 } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-//import Link from "next/link";
 
 function BioPanel() {
   return (
@@ -15,59 +13,24 @@ function BioPanel() {
       </h1>
       <Section>
         <div className="prose-short max-w-xs md:max-w-max">
-        <p>React / Next.js developer and UX designer.</p>
-        <p>
-          Love to create clear and practical websites and craft UX that is
-          simple and obvious.
-        </p>
-        <p>
-          Do coding, design, and motion using mostly TypeScript, CSS, Next.js,
-          and Sanity.
-        </p>
-        <p>
-          Open to collaborations with agencies and product teams, or in-house
-          roles.
-        </p>
+          <p>React / Next.js developer and UX designer.</p>
+          <p>
+            Love to create clear and practical websites and craft UX that is
+            simple and obvious.
+          </p>
+          <p>
+            Do coding, design, and motion using mostly TypeScript, CSS, Next.js,
+            and Sanity.
+          </p>
+          <p>
+            Open to collaborations with agencies and product teams, or in-house
+            roles.
+          </p>
         </div>
       </Section>
     </>
   );
 }
-
-/*
-export function HireMePanel() {
-  return (
-    <Section card className="mb-15">
-      <h2>Hire me</h2>
-      <div className="prose-long">
-        <p className="!leading-normal">
-          I can build a website for you <br />
-          <span className="whitespace-nowrap">
-            — e-commerce, editorial, or a presentation one.
-          </span>
-        </p>
-        <p>
-          Or help you build complex UI/UX in React ecosystem,<br />
-          optimize Next.js build, setup Sanity CMS,{" "}
-          <span className="whitespace-nowrap">or create animations.</span>
-        </p>
-        <p>
-          My rate is $400 per day, with a 4-day minimum,
-          <br />
-          or $4,000 and up on a per-project basis.
-        </p>
-        <div className="flex mt-6 gap-3">
-          <Button variant={"outline"} className="w-min">
-            Hire with Stripe
-          </Button>
-          
-          <Button asChild variant={"outline"}><Link href={"mailto:f@fedor.studio"}>Book a call</Link></Button>
-        </div>
-      </div>
-    </Section>
-  );
-}
- */
 
 import { cloneElement, isValidElement, ReactElement } from 'react';
 
@@ -220,9 +183,6 @@ export default function Home() {
   return (
     <main className="animation-container w-full space-y-20">
       <BioPanel />
-      {/*
-      <HireMePanel />
-       */}
       <ProjectsPanel />
       <PersonalityPanel />
       <ContactPanel />
