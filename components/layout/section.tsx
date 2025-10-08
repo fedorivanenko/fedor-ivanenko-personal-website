@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const sectionVariants = cva(
-  "flex flex-col space-y-3 leading-relaxed",
+  "flex flex-col prose-short leading-relaxed",
   {
     variants: {
       animated: {
