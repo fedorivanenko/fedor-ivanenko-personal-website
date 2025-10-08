@@ -148,11 +148,19 @@ function PersonalityPanel() {
         <p>I care about experience, performance,&nbsp;and&nbsp;beauty.</p>
         <p>
           My favorite brand is Asics, my favorite car is&nbsp;Dodge Viper,
-          and&nbsp;my&nbsp;favorite music is&nbsp;minimal techno. I also brew and drink
-          specialty&nbsp;coffee.
+          and&nbsp;my&nbsp;favorite music is&nbsp;
+          <InlineLinkButton href="https://youtu.be/M5cRHG-rA04">
+            nightcore
+          </InlineLinkButton>{" "}
+          and{" "}
+          <InlineLinkButton href="https://youtu.be/8dercZbT3Tw">
+            techno
+          </InlineLinkButton>
+          . I also brew and drink specialty&nbsp;coffee.
         </p>
         <p>
-          I choose CSS over JS, a custom hook over a&nbsp;dependency, a&nbsp;global state over&nbsp;providers, and a&nbsp;quickly coded
+          I choose CSS over JS, a custom hook over a&nbsp;dependency,
+          a&nbsp;global state over&nbsp;providers, and a&nbsp;quickly coded
           prototype over&nbsp;Figma.
         </p>
         <p>
@@ -186,7 +194,7 @@ function ContactPanel() {
 
 export default function Home() {
   return (
-    <main className="animation-container w-full space-y-20">
+    <main>
       <BioPanel />
       <ProjectsPanel />
       <PersonalityPanel />
