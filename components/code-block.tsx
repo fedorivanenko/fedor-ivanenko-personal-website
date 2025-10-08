@@ -4,7 +4,7 @@ import { createCssVariablesTheme } from 'shiki/core'
 
 interface CodeBlockProps {
   children: string;
-  lang: BundledLanguage;
+  lang?: BundledLanguage;
 }
 
 const cssVarsTheme = createCssVariablesTheme({
@@ -15,13 +15,13 @@ const cssVarsTheme = createCssVariablesTheme({
 })
 
 const highlighter = await createHighlighter({
-  langs: ['typescript', 'css'],
+  langs: ['tsx', 'css', 'html', 'angular-html', 'jsx'],
   themes: [cssVarsTheme]
 })
 
-async function CodeBlock(props: CodeBlockProps) {
-    const out = await highlighter.codeToHtml(props.children, {
-    lang: props.lang,
+async function CodeBlock({children, lang ='tsx'}: CodeBlockProps) {
+    const out = await highlighter.codeToHtml(children, {
+    lang: lang,
     theme: 'fedor-css-theme',
     transformers: [
       {
@@ -33,7 +33,14 @@ async function CodeBlock(props: CodeBlockProps) {
     ],
   });
 
-  return <div dangerouslySetInnerHTML={{ __html: out }} />;
+  return (
+    <div className="relative">
+      <div className="absolute left-2 top-2.5 md:top-4 z-10 rounded-full text-[0.66rem] md:text-xs font-mono text-foreground/50">
+        {lang}
+      </div>
+      <div dangerouslySetInnerHTML={{ __html: out }} />
+    </div>
+  )
 }
 
 export { CodeBlock }

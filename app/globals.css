@@ -144,6 +144,12 @@
     @apply bg-background text-foreground font-[450] dark:font-[400] text-[0.96em] xs:text-[1em];
     font-family: var(--font-geist-sans), sans-serif;
   }
+  main {
+    @apply animation-container w-full space-y-12.5 sm:space-y-20
+  }
+  article {
+    @apply space-y-7.5 sm:space-y-12.5
+  }
 }
 
 @layer typography {
@@ -153,7 +159,7 @@
   h1 {
     @apply text-lg
   }
-  p {
+  p, ul {
     @apply text-secondary-foreground
   }
   .prose-short {
@@ -161,6 +167,9 @@
   }
   .prose-long {
     @apply space-y-3 dark:space-y-4 md:space-y-4 dark:md:space-y-5;
+  }
+  p code {
+    @apply text-sm rounded-sm bg-card/25 px-1 py-0.5 break-words whitespace-pre-wrap
   }
 }
 
@@ -198,9 +207,12 @@
 
 @layer code {
   pre {
-    @apply px-10 py-7.5 rounded-2xl text-sm -mx-2.5 md:-mx-7.5 ;
+    /*TODO: fix this abomination */
+    @apply px-5 md:px-10 py-2.5 pt-7.5 md:py-7.5 md:pt-10 rounded-2xl text-xs md:text-sm -mx-2.5 md:-mx-7.5 overflow-x-scroll;
   }
 
+  /*
+  */
   pre:has(code .line[data-line]) {
     counter-reset: line;
   }
@@ -208,7 +220,7 @@
   pre code .line[data-line]::before {
     counter-increment: line;
     content: counter(line);
-    @apply w-4 inline-block text-left mr-8 text-sm select-none;
+    @apply hidden w-4 lg:inline-block text-left mr-8 text-sm select-none text-foreground/50;
   }
 
   pre code [data-line] {
