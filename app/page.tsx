@@ -126,7 +126,7 @@ const projectsData:ProjectData[] = [
 
 function ProjectsPanel() {
   return (
-    <Section className="overflow-x-scroll mb-7.5 pb-7.5">
+    <Section className="overflow-x-scroll mb-7.5 pb-7.5" id="projects">
       <h2>Projects</h2>
       <ul className="grid grid-cols-[auto_auto_auto] gap-x-3 md:gap-x-5 gap-y-1 mr-auto">
         {projectsData.map((project) => (
@@ -142,7 +142,7 @@ function ProjectsPanel() {
 
 function PersonalityPanel() {
   return (
-    <Section>
+    <Section id="personality">
       <h2>Personality</h2>
       <div className="prose-long max-w-sm sm:max-w-xl">
         <p>I care about experience, performance,&nbsp;and&nbsp;beauty.</p>
@@ -175,7 +175,7 @@ function PersonalityPanel() {
 
 function ContactPanel() {
   return (
-    <Section>
+    <Section id="contacts">
       <h2>Connect</h2>
       <p>
         Reach me at{" "}
