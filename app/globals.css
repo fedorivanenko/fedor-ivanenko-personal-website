@@ -133,7 +133,8 @@
   --breakpoint-sm: 32rem;
   --breakpoint-xs: 27rem;
 
-  --default-mono-font-family: var(--font-geist-mono)
+  --default-mono-font-family: var(--font-geist-mono);
+  --default-font-family: var(--font-geist-sans);
 }
 
 @layer base {
@@ -142,7 +143,6 @@
   }
   body {
     @apply bg-background text-foreground font-[450] dark:font-[400] text-[0.96em] xs:text-[1em];
-    font-family: var(--font-geist-sans), sans-serif;
   }
   main {
     @apply animation-container w-full space-y-12.5 sm:space-y-20
@@ -207,12 +207,9 @@
 
 @layer code {
   pre {
-    /*TODO: fix this abomination */
-    @apply px-5 md:px-10 py-2.5 pt-7.5 md:py-7.5 md:pt-10 rounded-2xl text-xs md:text-sm -mx-2.5 md:-mx-7.5 overflow-x-scroll;
+    @apply px-5 md:px-10 py-2.5 pt-7.5 md:py-7.5 md:pt-10 rounded-2xl text-sm -mx-2.5 md:-mx-7.5 overflow-x-scroll;
   }
 
-  /*
-  */
   pre:has(code .line[data-line]) {
     counter-reset: line;
   }
@@ -226,4 +223,7 @@
   pre code [data-line] {
     @apply relative py-0.5 inline-block;
   }
+}
+
+@layer scroll {  
 }
