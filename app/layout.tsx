@@ -15,14 +15,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${geist.variable} ${geistMono.variable}`}>
       {/*
       <head>
         <script src="https://unpkg.com/react-scan/dist/auto.global.js" async />
       </head>
       */}
       <body
-        className={`${geist.variable} ${geistMono.variable} min-h-screen flex flex-col mx-auto max-w-screen-md my-5 mt-20 md:mt-40 text-foreground antialiased`}
+        className="min-h-screen flex flex-col mx-auto max-w-screen-md my-5 mt-20 md:mt-40 text-foreground antialiased"
       >
         <ThemeProvider
           attribute="class"
