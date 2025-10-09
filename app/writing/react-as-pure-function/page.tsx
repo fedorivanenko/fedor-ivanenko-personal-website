@@ -14,16 +14,16 @@ export default function Page() {
         </h1>
         <Section>
           <p>
-            Great{" "}
+            A great{" "}
             <InlineLinkButton href="https://x.com/dillon_mulroy/status/1975656699685171670">
-              @dillon_mulroy’s tweet
+              tweet
             </InlineLinkButton>{" "}
-            inspired me to write about what&nbsp;the React mindset is.
+            by @dillon_mulroy got me thinking about what is the React mindset.
           </p>
 
           <p>
-            We have to start by taking a look at the year 2013,{" "}<span className="whitespace-nowrap">when React was
-            created</span>.
+            I have to start by taking a look at the year 2013,{" "}
+            <span className="whitespace-nowrap">when React was created</span>.
           </p>
 
           <p>
@@ -33,7 +33,7 @@ export default function Page() {
           </p>
         </Section>
         <Section>
-          <p>Let{"'"}s take a look at Angular 1.0 example:</p>
+          <p>Let{"'"}s take a look at Angular 1.x example:</p>
           <CodeBlock lang="angular-html">
             {[
               '<body ng-controller="DemoController">',
@@ -48,16 +48,17 @@ export default function Page() {
             ].join("\n")}
           </CodeBlock>
           <p>
-            ng-model creates a watcher that keeps the model (user.name) and the
-            view (&lt;input&gt; value) synchronized. When the user changes the
-            input element in the DOM, Angular’s watcher updates the model and
-            then updates the DOM accordingly.
+            <code>ng-model</code> creates a watcher that keeps the model (
+            <code>user.name</code>) and the view (<code>&lt;input&gt;</code>)
+            synchronized. When the user changes the input element in the DOM,
+            Angular’s watcher updates the model and then updates the DOM
+            accordingly.
           </p>
 
           <p>
             The problem was that thousands of watchers were mutating the DOM
             individually during each digest cycle. This had roughly{" "}
-            <code>O(number of watchers × number of passes)</code> complexity and
+            <code>𝖮(number of watchers × number of passes)</code> complexity and
             could lead to DOM conflicts.
           </p>
         </Section>
@@ -86,29 +87,25 @@ export default function Page() {
               "});",
             ].join("\n")}
           </CodeBlock>
-          <p>Not much of a difference, right?</p>
-
           <p>
-            But here, the DOM is never <em>mutated</em>; it is only{" "}
-            <em>derived</em> from <code>this.state</code>.
+            Here he DOM is never <em>mutated</em>; it is only <em>derived</em>{" "}
+            from <code>this.state</code>.
           </p>
 
           <p>
-            The whole React concept can be summarized as:<br/>
+            The whole React concept can be summarized as:
+            <br />
             The UI is a pure function of state and props
           </p>
 
           <p>
             This allows React to collect all state changes and apply them
             together in a single render/reconciliation cycle. No DOM conflicts
-            and roughly <code>O(number of diffs)</code> complexity.
+            and roughly <code>𝖮(number of diffs)</code> complexity.
           </p>
         </Section>
         <Section>
-          <p>
-            With the functional syntax the model is even more
-            obvious:
-          </p>
+          <p>With the functional syntax the model is even more obvious:</p>
           <CodeBlock lang="jsx">
             {[
               "function App() {",
@@ -144,11 +141,15 @@ export default function Page() {
 
           <p>
             This makes the entire data flow explicit → you can see exactly where
-            data enters <code>props</code>, how it transforms <code>state</code>
-            , and where it leaves <code>render</code> or <code>effects</code>.
+            data enters (<code>props</code>), how it transforms (
+            <code>state</code>) , and where it leaves (<code>render</code>) or (
+            <code>effects</code>).
           </p>
 
-          <p>Which leads to more fluent code and better abstractions.</p>
+          <p>
+            Which naturally leads to better abstractions and clearer separation
+            of concerns.
+          </p>
         </Section>
         <Section>
           <p>
@@ -188,29 +189,52 @@ export default function Page() {
           </p>
 
           <p>
-            <code>variants</code> defines how the animation looks, not when it
-            runs. Placing it inside the component mixes animation policy
-            (design) with runtime logic (reacting to <code>open</code>). That
-            means when you later need to make every animation slightly faster,
-            it becomes a hassle.
+            <code>variants</code> define how the animation looks, not when it
+            runs. Putting them inside the component mixes animation policy with
+            runtime logic. That means when, sixteen components later, you decide
+            to make every animation slightly faster, it won’t be fun.
           </p>
 
           <p>
             Moving it outside the component (ideally into CSS) keeps things easy
-            to track. And when we decide to expand the animation system, all
-            configuration is already centralized.
+            to track. And&nbsp;when we decide to expand the animation system,
+            all configuration is already centralized.
           </p>
         </Section>
         <Section>
           <h2>Takeways</h2>
           <ul className="prose-short">
-            <li>The UI should be a direct projection of data.</li>
-            <li>Render is pure → fully determined by props and state.</li>
+            <li>In React, the UI is a direct projection of data.</li>
+            <li>The render is pure, fully determined by props and state.</li>
             <li>
-              Keeping the entire data flow explicit lead to better
-              abstractions{" "}<span className="whitespace-nowrap">and predictable behavior.</span>
+              Making the entire data flow explicit naturally leads to better
+              abstractions and{" "}
+              <span className="xs:whitespace-nowrap">
+                a clearer separation of concerns
+              </span>
             </li>
           </ul>
+        </Section>
+        <Section>
+          <h2>Readings</h2>
+          <ul className="space-y-1">
+              <li>
+                <InlineLinkButton href="https://legacy.reactjs.org/blog/2013/06/05/why-react.html">
+                  Pete Hunt. “Why did we build React?“ (2013)
+                </InlineLinkButton>
+              </li>
+              <li>
+                <InlineLinkButton href="https://legacy.reactjs.org/docs/react-component.html">
+                  React Team. “React Component API.” (2013)
+                </InlineLinkButton>
+              </li>
+              <li>
+                <InlineLinkButton href="https://2013.jsconf.eu/speakers/pete-hunt-react-rethinking-best-practices.html">
+                  Pete Hunt. “React: Rethinking Best Practices.” (2013). JSConf
+                  EU
+                </InlineLinkButton>
+              </li>
+            </ul>
         </Section>
       </article>
     );
