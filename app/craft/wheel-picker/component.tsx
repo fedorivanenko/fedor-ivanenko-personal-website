@@ -3,6 +3,12 @@
 import * as React from "react";
 import { Form } from "@base-ui-components/react/form";
 import { Field } from "@base-ui-components/react/field";
+import { useWheel } from '@use-gesture/react'
+
+export interface WheelPickerOptions {
+  value: string;
+  label: string;
+}
 
 export interface WheelPickerProps {
   value: string;
@@ -10,10 +16,8 @@ export interface WheelPickerProps {
   onFocus?: React.FocusEventHandler<HTMLDivElement>;
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
   id?: string;
-  tabIndex?: number;
   ariaRequired?: boolean;
   ariaDisabled?: boolean;
-  ref?: React.Ref<HTMLInputElement>;
 }
 
 function WheelPicker({
@@ -22,16 +26,28 @@ function WheelPicker({
   onFocus,
   onBlur,
   id,
-  tabIndex = 0,
   ariaRequired,
   ariaDisabled,
-  ref,
 }: WheelPickerProps) {
+
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  useWheel(
+    ({ delta: [, dy], event }) => {
+      event.preventDefault();
+      console.log(dy);
+    },
+    {
+      target: ref,
+      eventOptions: { passive: false }
+    }
+  );
+
   return (
     <div
       ref={ref}
       id={id}
-      tabIndex={tabIndex}
+      tabIndex={-1}
       onFocus={onFocus}
       onBlur={onBlur}
       role="listbox"
@@ -41,6 +57,7 @@ function WheelPicker({
     >
       {["US", "DE", "FR"].map((option) => (
         <div
+          tabIndex={-1}
           key={option}
           role="option"
           aria-selected={value === option}
@@ -95,7 +112,6 @@ function BaseFieldTest() {
             return (
               <div>
                 <WheelPicker
-                  tabIndex={0}
                   value={value}
                   onPick={setValue}
                   onFocus={onFocus}
