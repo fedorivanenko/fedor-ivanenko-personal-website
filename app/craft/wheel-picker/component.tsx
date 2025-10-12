@@ -1,0 +1,137 @@
+"use client";
+
+import * as React from "react";
+import { Form } from "@base-ui-components/react/form";
+import { Field } from "@base-ui-components/react/field";
+
+export interface WheelPickerProps {
+  value: string;
+  onPick: (value: string) => void;
+  onFocus?: React.FocusEventHandler<HTMLDivElement>;
+  onBlur?: React.FocusEventHandler<HTMLDivElement>;
+  id?: string;
+  tabIndex?: number;
+  ariaRequired?: boolean;
+  ariaDisabled?: boolean;
+  ref?: React.Ref<HTMLInputElement>;
+}
+
+function WheelPicker({
+  value,
+  onPick,
+  onFocus,
+  onBlur,
+  id,
+  tabIndex = 0,
+  ariaRequired,
+  ariaDisabled,
+  ref,
+}: WheelPickerProps) {
+  return (
+    <div
+      ref={ref}
+      id={id}
+      tabIndex={tabIndex}
+      onFocus={onFocus}
+      onBlur={onBlur}
+      role="listbox"
+      aria-required={ariaRequired}
+      aria-disabled={ariaDisabled}
+      className="border rounded p-2 w-40"
+    >
+      {["US", "DE", "FR"].map((option) => (
+        <div
+          key={option}
+          role="option"
+          aria-selected={value === option}
+          className={`cursor-pointer p-1 ${
+            value === option ? "bg-accent text-white" : ""
+          }`}
+          onClick={() => onPick(option)}
+        >
+          {option}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+type ControlWithRef = Field.Control.Props & {
+  ref?: React.Ref<HTMLDivElement>;
+};
+
+function BaseFieldTest() {
+  const [errors, setErrors] = React.useState({});
+
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <Form
+      errors={errors}
+      onClearErrors={setErrors}
+      onSubmit={async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        const value = formData.get("country") as string;
+        console.log(value);
+      }}
+    >
+      <Field.Root name="country">
+        <Field.Control
+          value={value}
+          required
+          onValueChange={setValue}
+          render={(controlProps) => {
+            const {
+              name,
+              id,
+              ["aria-disabled"]: ariaDisabled,
+              ["aria-required"]: ariaRequired,
+              ref,
+              onFocus,
+              onBlur,
+            }: ControlWithRef = controlProps;
+
+            return (
+              <div>
+                <WheelPicker
+                  tabIndex={0}
+                  value={value}
+                  onPick={setValue}
+                  onFocus={onFocus}
+                  onBlur={onBlur}
+                  aria-disabled={ariaDisabled}
+                  aria-required={ariaRequired}
+                />
+
+                <input
+                  ref={ref as React.Ref<HTMLInputElement>}
+                  id={id}
+                  name={name}
+                  type="text"
+                  value={value}
+                  required
+                  tabIndex={-1}
+                  aria-hidden="true"
+                  className="sr-only"
+                />
+              </div>
+            );
+          }}
+        />
+        <Field.Error />
+        <Field.Validity>
+          {(validity) => (validity.validity.valid ? "true" : "false")}
+        </Field.Validity>
+      </Field.Root>
+      <button type="submit">Submit</button>
+    </Form>
+  );
+}
+
+function RHFTest() {
+  return null;
+}
+
+export { WheelPicker };
+export { RHFTest, BaseFieldTest };
