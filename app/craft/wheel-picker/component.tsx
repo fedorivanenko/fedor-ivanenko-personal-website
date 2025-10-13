@@ -19,7 +19,7 @@ export interface WheelPickerProps {
   ariaDisabled?: React.AriaAttributes["aria-disabled"];
   disabled?: boolean;
   settings? : WheelPickerSettings
-  options? : WheelPickerOption[]
+  options : WheelPickerOption[]
 }
 
 export interface WheelPickerSettings {
@@ -49,6 +49,21 @@ const createCenteredPositions = (length: number): number[] => {
   });
 };
 
+const options = [
+  { value: "JAN", label: "January" },
+  { value: "FEB", label: "February" },
+  { value: "MAR", label: "March" },
+  { value: "APR", label: "April" },
+  { value: "MAY", label: "May" },
+  { value: "JUN", label: "June" },
+  { value: "JUL", label: "July" },
+  { value: "AUG", label: "August" },
+  { value: "SEP", label: "September" },
+  { value: "OCT", label: "October" },
+  { value: "NOV", label: "November" },
+  { value: "DEC", label: "December" }
+] satisfies WheelPickerOption[]
+
 //Core
 function WheelPicker({
   value,
@@ -57,22 +72,8 @@ function WheelPicker({
   onBlur,
   ariaRequired,
   ariaDisabled,
-  //disabled, //TODO: create a disabled state
-  options = [
-    { value: "JAN", label: "January" },
-    { value: "FEB", label: "February" },
-    { value: "MAR", label: "March" },
-    { value: "APR", label: "April" },
-    { value: "MAY", label: "May" },
-    { value: "JUN", label: "June" },
-    { value: "JUL", label: "July" },
-    { value: "AUG", label: "August" },
-    { value: "SEP", label: "September" },
-    { value: "OCT", label: "October" },
-    { value: "NOV", label: "November" },
-    { value: "DEC", label: "December" }
-  ]
-  ,
+  //disabled,
+  options,
   settings = {
     treshHold: 32,
     throttle: 50
@@ -83,7 +84,7 @@ function WheelPicker({
     () => createCenteredPositions(options.length)
   );
 
-  const ref = React.useRef<HTMLDivElement>(null);
+  const gestureRef = React.useRef<HTMLDivElement>(null);
   const eY = React.useRef<number>(0)
   const prevDir = React.useRef<number>(0)
 
@@ -114,21 +115,21 @@ function WheelPicker({
       }
     },
     {
-      target: ref,
+      target: gestureRef,
       eventOptions: { passive: false },
     }
   );
 
   return (
     <div
-      ref={ref}
+      ref={gestureRef}
       tabIndex={-1}
       onFocus={onFocus}
       onBlur={onBlur}
       role="listbox"
       aria-required={ariaRequired}
       aria-disabled={ariaDisabled}
-      className="border rounded p-2 w-40 h-10 relative mb-12"
+      className="border rounded p-2 w-40 h-24 relative mb-12 overflow-hidden"
     >
       {options.map((option, index) => (
         <div
@@ -141,7 +142,7 @@ function WheelPicker({
             transform: `translateY(${32 * optionPositions[index]}px)`,
             opacity: Math.abs(optionPositions[index]) >= 2 ? 0 : 1
           }}
-          className={`absolute top-1 left-2 h-8 cursor-pointer p-1 transition-all duration-200 ease-out ${
+          className={`absolute top-8 w-36 left-2 h-8 cursor-pointer p-1 transition-all duration-200 ease-out ${
             value === option.value ? "bg-accent text-white" : ""
           }`}
           //onClick={() => onPick(option.value)}
@@ -154,7 +155,7 @@ function WheelPicker({
 }
 
 type ControlWithRef = Field.Control.Props & {
-  ref?: React.Ref<HTMLDivElement>;
+  ref?: React.Ref<HTMLInputElement>;
 };
 
 //Base UI Adapter
@@ -170,11 +171,11 @@ function BaseFieldTest() {
       onSubmit={async (event) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const value = formData.get("country") as string;
-        console.log(value);
+        const value = formData.get("month") as string;
+        console.log('submited:', value);
       }}
     >
-      <Field.Root name="country">
+      <Field.Root name="month">
         <Field.Control
           value={value}
           required
@@ -189,6 +190,7 @@ function BaseFieldTest() {
               ref,
               onFocus,
               onBlur,
+              onChange,
             }: ControlWithRef = controlProps;
 
             return (
@@ -201,16 +203,17 @@ function BaseFieldTest() {
                   ariaDisabled={ariaDisabled}
                   ariaRequired={ariaRequired}
                   disabled={disabled}
+                  options={options}
                 />
 
                 <input
-                  ref={ref as React.Ref<HTMLInputElement>}
+                  ref={ref}
                   disabled={disabled}
                   id={id}
+                  value={value}
+                  onChange={onChange}
                   name={name}
                   type="text"
-                  value={value}
-                  required
                   tabIndex={-1}
                   aria-hidden="true"
                   className="sr-only"
@@ -219,9 +222,13 @@ function BaseFieldTest() {
             );
           }}
         />
-        <Field.Error />
+        <Field.Error/>
         <Field.Validity>
-          {(validity) => (validity.validity.valid ? "true" : "false")}
+          {(validity) => {
+            return (
+              <p>{validity.validity.valid ? "true" : "false"}</p>
+            )
+          }}
         </Field.Validity>
       </Field.Root>
       <button type="submit">Submit</button>
