@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Form } from "@base-ui-components/react/form";
 import { Field } from "@base-ui-components/react/field";
-import { useWheel } from '@use-gesture/react'
+import { useWheel } from "@use-gesture/react";
 
 export interface WheelPickerOptions {
   value: string;
@@ -15,9 +15,9 @@ export interface WheelPickerProps {
   onPick: (value: string) => void;
   onFocus?: React.FocusEventHandler<HTMLDivElement>;
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
-  id?: string;
-  ariaRequired?: boolean;
-  ariaDisabled?: boolean;
+  ariaRequired?: React.AriaAttributes["aria-required"];
+  ariaDisabled?: React.AriaAttributes["aria-disabled"];
+  disabled?: boolean;
 }
 
 function WheelPicker({
@@ -25,11 +25,10 @@ function WheelPicker({
   onPick,
   onFocus,
   onBlur,
-  id,
   ariaRequired,
   ariaDisabled,
+  disabled,
 }: WheelPickerProps) {
-
   const ref = React.useRef<HTMLDivElement>(null);
 
   useWheel(
@@ -39,14 +38,15 @@ function WheelPicker({
     },
     {
       target: ref,
-      eventOptions: { passive: false }
+      eventOptions: { passive: false },
     }
   );
+
+  console.log("disbaled:", disabled);
 
   return (
     <div
       ref={ref}
-      id={id}
       tabIndex={-1}
       onFocus={onFocus}
       onBlur={onBlur}
@@ -102,6 +102,7 @@ function BaseFieldTest() {
             const {
               name,
               id,
+              disabled,
               ["aria-disabled"]: ariaDisabled,
               ["aria-required"]: ariaRequired,
               ref,
@@ -110,18 +111,20 @@ function BaseFieldTest() {
             }: ControlWithRef = controlProps;
 
             return (
-              <div>
+              <>
                 <WheelPicker
                   value={value}
                   onPick={setValue}
                   onFocus={onFocus}
                   onBlur={onBlur}
-                  aria-disabled={ariaDisabled}
-                  aria-required={ariaRequired}
+                  ariaDisabled={ariaDisabled}
+                  ariaRequired={ariaRequired}
+                  disabled={disabled}
                 />
 
                 <input
                   ref={ref as React.Ref<HTMLInputElement>}
+                  disabled={disabled}
                   id={id}
                   name={name}
                   type="text"
@@ -131,7 +134,7 @@ function BaseFieldTest() {
                   aria-hidden="true"
                   className="sr-only"
                 />
-              </div>
+              </>
             );
           }}
         />
