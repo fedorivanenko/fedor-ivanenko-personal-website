@@ -5,48 +5,54 @@ import { Form } from "@base-ui-components/react/form";
 import { Field } from "@base-ui-components/react/field";
 import { useWheel } from "@use-gesture/react";
 
-export interface WheelPickerOption {
-  value: string;
-  label: string;
-}
-
 export interface WheelPickerProps {
   value: string;
+  options: {
+    value: string;
+    label: string;
+  }[];
   onPick: (value: string) => void;
   onFocus?: React.FocusEventHandler<HTMLDivElement>;
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
-  ariaRequired?: React.AriaAttributes["aria-required"];
-  ariaDisabled?: React.AriaAttributes["aria-disabled"];
+  required?: boolean;
   disabled?: boolean;
-  settings? : WheelPickerSettings
-  options : WheelPickerOption[]
+  settings?: {
+    treshHold: number;
+    throttle: number;
+    loop: boolean;
+  };
 }
 
-export interface WheelPickerSettings {
-  treshHold: number
-  throttle: number
-}
-
-const shiftDown = (prev: number[]) => {
-  const next = [...prev];
-  const last = next.pop()!;
-  next.unshift(last);
-  return next;
+const shiftUp = (prev: number[], loop: boolean) => {
+  if (loop) {
+    const next = [...prev];
+    const first = next.shift()!;
+    next.push(first);
+    return next;
+  }
+  const first = prev[0];
+  if (first >= 0) return prev;
+  return prev.map((n) => n + 1);
 };
 
-const shiftUp = (prev: number[]) => {
-  const next = [...prev];
-  const first = next.shift()!;
-  next.push(first);
-  return next;
+const shiftDown = (prev: number[], loop: boolean) => {
+  if (loop) {
+    const next = [...prev];
+    const last = next.pop()!;
+    next.unshift(last);
+    return next;
+  }
+  const last = prev[prev.length - 1];
+  if (last <= 0) return prev;
+  return prev.map((n) => n - 1);
 };
 
-const createCenteredPositions = (length: number): number[] => {
-  const mid = Math.floor(length / 2);
-  return Array.from({ length }, (_, i) => {
-    if (i <= mid) return i;
-    return i - length;
-  });
+const createPositions = (length: number, centered: boolean): number[] => {
+  if (centered) {
+    const mid = Math.floor(length / 2);
+    return Array.from({ length }, (_, i) => (i <= mid ? i : i - length));
+  }
+  return Array.from({ length }, (_, i) => i);
 };
 
 const options = [
@@ -61,8 +67,8 @@ const options = [
   { value: "SEP", label: "September" },
   { value: "OCT", label: "October" },
   { value: "NOV", label: "November" },
-  { value: "DEC", label: "December" }
-] satisfies WheelPickerOption[]
+  { value: "DEC", label: "December" },
+] satisfies WheelPickerProps["options"];
 
 //Core
 function WheelPicker({
@@ -70,45 +76,48 @@ function WheelPicker({
   onPick,
   onFocus,
   onBlur,
-  ariaRequired,
-  ariaDisabled,
-  //disabled,
+  required,
+  disabled,
   options,
   settings = {
     treshHold: 32,
-    throttle: 50
-  }
+    throttle: 50,
+    loop: true,
+  },
 }: WheelPickerProps) {
-  
-  const [optionPositions, setOptionPositions] = React.useState<number[]>(
-    () => createCenteredPositions(options.length)
+  const [optionPositions, setOptionPositions] = React.useState<number[]>(() =>
+    createPositions(options.length, settings.loop)
   );
 
   const gestureRef = React.useRef<HTMLDivElement>(null);
-  const eY = React.useRef<number>(0)
-  const prevDir = React.useRef<number>(0)
-
+  const eY = React.useRef<number>(0);
+  const prevDir = React.useRef<number>(0);
   const lastUpdate = React.useRef<number>(0);
 
-  React.useEffect(()=>{
-    onPick(options[optionPositions.indexOf(0)].value)
-  },[optionPositions, onPick, options])
+  React.useEffect(() => {
+    onPick(options[optionPositions.indexOf(0)].value);
+  }, [optionPositions, onPick, options]);
 
   useWheel(
     ({ direction: [, dirY], delta: [, dY], event }) => {
+      if (disabled) return;
       event.preventDefault();
       eY.current += Math.abs(dY);
-      
+
       if (dirY !== prevDir.current && dirY !== 0) {
         prevDir.current = dirY;
         eY.current = 0;
         return;
       }
-      
+
       if (eY.current > settings.treshHold) {
         const now = Date.now();
         if (now - lastUpdate.current >= settings.throttle) {
-          setOptionPositions(dirY > 0 ? shiftDown : shiftUp);
+          setOptionPositions((prev) =>
+            dirY > 0
+              ? shiftDown([...prev], settings.loop)
+              : shiftUp([...prev], settings.loop)
+          );
           lastUpdate.current = now;
           eY.current = 0;
         }
@@ -120,18 +129,29 @@ function WheelPicker({
     }
   );
 
-  const handleKeyDown = (e : React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (disabled) return;
     switch (e.key) {
-      case 'ArrowDown':
-        e.preventDefault()
-        setOptionPositions(shiftDown)
-        break
-        case 'ArrowUp':
-        e.preventDefault()
-        setOptionPositions(shiftUp)
-        break
+      case "ArrowDown":
+        e.preventDefault();
+        setOptionPositions((prev) => shiftDown([...prev], settings.loop));
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        setOptionPositions((prev) => shiftUp([...prev], settings.loop));
+        break;
     }
-  }
+  };
+
+  const handleClick = () => {
+    if (disabled) return;
+    gestureRef.current?.focus();
+  };
+
+  const handleWheel = () => {
+    if (disabled) return;
+    gestureRef.current?.focus();
+  };
 
   return (
     <div
@@ -139,13 +159,13 @@ function WheelPicker({
       tabIndex={0}
       onFocus={onFocus}
       onBlur={onBlur}
-      onClick={() => gestureRef.current?.focus()}
-      onWheel={() => gestureRef.current?.focus()}
+      onClick={() => handleClick()}
+      onWheel={() => handleWheel()}
       onKeyDown={(e) => handleKeyDown(e)}
       role="listbox"
-      aria-required={ariaRequired}
-      aria-disabled={ariaDisabled}
-      className="border rounded p-2 w-40 h-24 relative mb-12 overflow-hidden focus:ring-1 focus:ring-blue-500"
+      aria-required={required ? true : undefined}
+      aria-disabled={disabled ? true : undefined}
+      className="border aria-disabled:select-none cursor-grab aria-disabled:cursor-not-allowed rounded p-2 w-40 h-24 relative mb-12 overflow-hidden ring-2 ring-transparent focus:ring-blue-500"
       style={{ perspective: "600px" }}
     >
       {options.map((option, index) => (
@@ -156,12 +176,10 @@ function WheelPicker({
           aria-selected={value === option.value}
           data-position={optionPositions[index]}
           style={{
-            //rotateX(${optionPositions[index]}deg)
             transform: `translateY(${32 * optionPositions[index]}px)`,
-            opacity: Math.abs(optionPositions[index]) >= 3 ? 0 : 1
+            opacity: Math.abs(optionPositions[index]) >= 3 ? 0 : 1,
           }}
-          className={`absolute top-8 w-36 left-2 h-8 cursor-pointer p-1 transition-all duration-200 ease-out`}
-          //onClick={() => onPick(option.value)}
+          className={`absolute top-8 w-36 left-2 h-8 p-1 transition-all duration-200 ease-out`}
         >
           {option.label}
         </div>
@@ -188,7 +206,7 @@ function BaseFieldTest() {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const value = formData.get("month") as string;
-        console.log('submited:', value);
+        console.log("submited:", value);
       }}
     >
       <Field.Root name="month">
@@ -201,8 +219,7 @@ function BaseFieldTest() {
               name,
               id,
               disabled,
-              ["aria-disabled"]: ariaDisabled,
-              ["aria-required"]: ariaRequired,
+              required,
               ref,
               onFocus,
               onBlur,
@@ -213,23 +230,22 @@ function BaseFieldTest() {
               <>
                 <WheelPicker
                   value={value}
+                  options={options}
                   onPick={setValue}
                   onFocus={onFocus}
                   onBlur={onBlur}
-                  ariaDisabled={ariaDisabled}
-                  ariaRequired={ariaRequired}
+                  required={required}
                   disabled={disabled}
-                  options={options}
                 />
 
                 <input
-                  ref={ref}
-                  disabled={disabled}
                   id={id}
-                  value={value}
-                  onChange={onChange}
+                  ref={ref}
                   name={name}
                   type="text"
+                  value={value}
+                  disabled={disabled}
+                  onChange={onChange}
                   tabIndex={-1}
                   aria-hidden="true"
                   className="sr-only"
@@ -238,12 +254,10 @@ function BaseFieldTest() {
             );
           }}
         />
-        <Field.Error/>
+        <Field.Error />
         <Field.Validity>
           {(validity) => {
-            return (
-              <p>{validity.validity.valid ? "true" : "false"}</p>
-            )
+            return <p>{validity.validity.valid ? "true" : "false"}</p>;
           }}
         </Field.Validity>
       </Field.Root>
