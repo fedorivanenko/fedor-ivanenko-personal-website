@@ -120,16 +120,33 @@ function WheelPicker({
     }
   );
 
+  const handleKeyDown = (e : React.KeyboardEvent) => {
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault()
+        setOptionPositions(shiftDown)
+        break
+        case 'ArrowUp':
+        e.preventDefault()
+        setOptionPositions(shiftUp)
+        break
+    }
+  }
+
   return (
     <div
       ref={gestureRef}
-      tabIndex={-1}
+      tabIndex={0}
       onFocus={onFocus}
       onBlur={onBlur}
+      onClick={() => gestureRef.current?.focus()}
+      onWheel={() => gestureRef.current?.focus()}
+      onKeyDown={(e) => handleKeyDown(e)}
       role="listbox"
       aria-required={ariaRequired}
       aria-disabled={ariaDisabled}
-      className="border rounded p-2 w-40 h-24 relative mb-12 overflow-hidden"
+      className="border rounded p-2 w-40 h-24 relative mb-12 overflow-hidden focus:ring-1 focus:ring-blue-500"
+      style={{ perspective: "600px" }}
     >
       {options.map((option, index) => (
         <div
@@ -139,12 +156,11 @@ function WheelPicker({
           aria-selected={value === option.value}
           data-position={optionPositions[index]}
           style={{
+            //rotateX(${optionPositions[index]}deg)
             transform: `translateY(${32 * optionPositions[index]}px)`,
-            opacity: Math.abs(optionPositions[index]) >= 2 ? 0 : 1
+            opacity: Math.abs(optionPositions[index]) >= 3 ? 0 : 1
           }}
-          className={`absolute top-8 w-36 left-2 h-8 cursor-pointer p-1 transition-all duration-200 ease-out ${
-            value === option.value ? "bg-accent text-white" : ""
-          }`}
+          className={`absolute top-8 w-36 left-2 h-8 cursor-pointer p-1 transition-all duration-200 ease-out`}
           //onClick={() => onPick(option.value)}
         >
           {option.label}
