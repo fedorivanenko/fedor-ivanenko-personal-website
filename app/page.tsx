@@ -15,7 +15,7 @@ function BioPanel() {
         )}
       >
         <h1>Fedor Ivanenko</h1>
-        <p className="text-sm">Design Engineer</p>
+        <p>Design Engineer</p>
       </div>
       <Section>
         <div className="prose-short">
