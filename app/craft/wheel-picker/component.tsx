@@ -25,11 +25,11 @@ export interface WheelPickerProps {
   };
 }
 
-const shift = (prev: number[], loop: boolean, direction: number) => {
+const shift = (prev: number[], loop: boolean, dir: number) => {
   const next = [...prev];
 
   if (loop) {
-    if (direction === 1) {
+    if (dir === 1) {
       const first = next.shift()!;
       next.push(first);
     } else {
@@ -39,7 +39,7 @@ const shift = (prev: number[], loop: boolean, direction: number) => {
     return next;
   }
 
-  if (direction === 1) {
+  if (dir === 1) {
     const first = next[0];
     if (first >= 0) return next;
     return next.map((n) => n + 1);
@@ -71,6 +71,8 @@ const options = [
   { value: "OCT", label: "October" },
   { value: "NOV", label: "November" },
   { value: "DEC", label: "December" },
+  { value: "THR", label: "Trinteber" },
+  { value: "FOU", label: "Fourtember" },
 ] satisfies WheelPickerProps["options"];
 
 //Core
@@ -101,34 +103,43 @@ function WheelPicker({
 
   const [springs] = useSprings(
     options.length,
-    (index) => {
-      const velocityFactor = Math.abs(wheelState.velocity);
-      const tension = 240 + velocityFactor * 50;
-      const friction = 20 + velocityFactor * 10;
-
+    (i) => {
+      const { velocity, positions } = wheelState;
+      const v = Math.abs(velocity);
+      const pos = positions[i];
+      const dist = Math.abs(pos);
+  
       return {
-        rotateX: wheelState.positions[index] * settings.angleStep,
-        opacity:
-          Math.abs(wheelState.positions[index]) <
-          Math.floor(options.length / 2) - 2
-            ? 1
-            : 0,
+        scale: pos ? 0.9 : 1,
+        rotateX: pos * settings.angleStep,
+        opacity: [1, 0.75, 0.5, 0.25][dist] ?? 0,
+        immediate: dist > 4,
         config: {
-          tension: Math.min(500, tension),
-          friction: Math.min(100, friction),
-        },
-        immediate: () => {
-          if (
-            Math.abs(wheelState.positions[index]) >
-            Math.floor(options.length / 2) - 2
-          )
-            return true;
-          return false;
+          tension: Math.min(500, 240 + v * 50),
+          friction: Math.min(100, 20 + v * 10),
         },
       };
     },
     [wheelState]
   );
+
+  const wheelStateUpdate = ({
+    direction,
+    velocity,
+  }: {
+    direction: number;
+    velocity: number;
+  }) => {
+    const now = Date.now();
+    if (now - lastUpdate.current >= settings.throttle) {
+      setWheelState((prev) => ({
+        positions: shift([...prev.positions], settings.loop, direction),
+        velocity: velocity,
+      }));
+      lastUpdate.current = now;
+      eY.current = 0;
+    }
+  };
 
   React.useEffect(() => {
     onPick(options[wheelState.positions.indexOf(0)].value);
@@ -147,15 +158,10 @@ function WheelPicker({
       }
 
       if (eY.current > settings.treshHold) {
-        const now = Date.now();
-        if (now - lastUpdate.current >= settings.throttle) {
-          setWheelState((prev) => ({
-            positions: shift([...prev.positions], settings.loop, dirY),
-            velocity: vY,
-          }));
-          lastUpdate.current = now;
-          eY.current = 0;
-        }
+        wheelStateUpdate({
+          direction: dirY,
+          velocity: vY,
+        });
       }
     },
     {
@@ -169,17 +175,17 @@ function WheelPicker({
     switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
-        setWheelState((prev) => ({
-          positions: shift([...prev.positions], settings.loop, -1),
+        wheelStateUpdate({
+          direction: -1,
           velocity: 0,
-        }));
+        });
         break;
       case "ArrowUp":
         e.preventDefault();
-        setWheelState((prev) => ({
-          positions: shift([...prev.positions], settings.loop, 1),
+        wheelStateUpdate({
+          direction: 1,
           velocity: 0,
-        }));
+        });
         break;
       case "Escape":
         e.preventDefault();
@@ -209,9 +215,15 @@ function WheelPicker({
       role="listbox"
       aria-required={required ? true : undefined}
       aria-disabled={disabled ? true : undefined}
-      className="[--h:20rem] h-[var(--h)] [transform-style:preserve-3d] select-none border border-border cursor-grab rounded w-40 relative mb-12 overflow-hidden outline-none focus:ring-2 focus:ring-blue-500"
-      style={{ perspective: "64rem" }}
+      className="[--h:12rem] h-[var(--h)] [transform-style:preserve-3d] select-none border border-border cursor-grab rounded w-40 relative mb-12 overflow-hidden outline-none focus:ring-2 focus:ring-blue-500"
+      style={{
+        perspective: "64rem",
+        ["--height" as string]: "2rem",
+        ["--step" as string]: (settings.angleStep * Math.PI) / 180,
+        ["--r" as string]: "calc(var(--height) / var(--step))",
+      }}
     >
+      <div className="absolute -translate-y-1/2 inset-x-2 top-1/2 rounded bg-foreground/20 h-[var(--height)]" />
       {options.map((option, index) => (
         <animated.div
           tabIndex={-1}
@@ -220,16 +232,13 @@ function WheelPicker({
           aria-selected={value === option.value}
           style={{
             ...springs[index],
+            scale: springs[index].scale,
             rotateX: springs[index].rotateX,
             opacity: springs[index].opacity,
             transformOrigin: "center center calc(-1 * var(--r))",
             backfaceVisibility: "hidden",
-            // CSS variables as separate props
-            ["--height" as string]: "2rem",
-            ["--step" as string]: (settings.angleStep * Math.PI) / 180,
-            ["--r" as string]: "calc(var(--height) / var(--step))",
           }}
-          className={`absolute -tanslate-y-1/2 flex flex-col items-center justify-center top-1/2 w-full h-[--height] rounded`}
+          className={`absolute -translate-y-1/2 flex flex-col items-center justify-center top-1/2 w-full h-[var(--height)] `}
         >
           {option.label}
         </animated.div>
@@ -243,7 +252,7 @@ type ControlWithRef = Field.Control.Props & {
 };
 
 //Base UI Adapter
-function BaseFieldTest() {
+function BaseUITest() {
   const [errors, setErrors] = React.useState({});
 
   const [value, setValue] = React.useState<string>("");
@@ -320,5 +329,9 @@ function RHFTest() {
   return null;
 }
 
+function TanStackFormTest() {
+  return null
+}
+
 export { WheelPicker };
-export { RHFTest, BaseFieldTest };
+export { RHFTest, BaseUITest, TanStackFormTest};
