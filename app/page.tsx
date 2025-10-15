@@ -36,6 +36,7 @@ function BioPanel() {
             <InlineLinkButton href="https://lawsofsimplicity.com/">
               simplicity
             </InlineLinkButton>
+            .
           </p>
           <p>
             I build clear and practical websites and craft UX that is
