@@ -1,11 +1,11 @@
 import { Section } from "@/components/layout/section";
-import { BaseFieldTest } from "./component";
+import { BaseUITest } from "./component";
 
 export default function Page() {
     return (
         <main>
             <Section>
-            <BaseFieldTest/>
+            <BaseUITest/>
             </Section>
         </main>
     )
