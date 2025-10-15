@@ -179,7 +179,7 @@ function PersonalityPanel() {
         </p>
         <p>
           I choose CSS over JS, a custom hook over a&nbsp;dependency,
-          a&nbsp;global state over&nbsp;providers, and a&nbsp;quickly coded
+          a&nbsp;global store over&nbsp;contex providers, and a&nbsp;quickly coded
           prototype over&nbsp;Figma.
         </p>
         <p>
