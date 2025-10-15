@@ -79,7 +79,6 @@ function InlineLinkButton({
       <Link 
         href={href}
         target={target}
-        className="inline-flex"
         {...props}
       >
         {children}
