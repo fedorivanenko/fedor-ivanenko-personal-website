@@ -8,24 +8,43 @@ import { cn } from "@/lib/utils";
 function BioPanel() {
   return (
     <>
-      <h1 className={cn(sectionVariants(), "animate-blur-fade stagger mb-12")}>
-        Fedor Ivanenko
-      </h1>
+      <div
+        className={cn(
+          sectionVariants({animated:true}),
+          "!space-y-0 mb-12"
+        )}
+      >
+        <h1>Fedor Ivanenko</h1>
+        <p className="text-sm">Design Engineer</p>
+      </div>
       <Section>
-        <div className="prose-short max-w-xs md:max-w-max">
-          <p>React / Next.js developer and UX designer.</p>
+        <div className="prose-short">
           <p>
-            Love to create clear and practical websites and craft UX that is
-            simple and obvious.
+            I care about experience, performance, and beauty,{" "}
+            <br className="hidden md:block" />
+            <InlineLinkButton href="https://maxleiter.com/blog/ship-every-day">
+              ship daily,
+            </InlineLinkButton>{" "}
+            aim for{" "}
+            <InlineLinkButton
+              className="whitespace-break-spaces inline-block"
+              href="https://github.com/tigerbeetle/tigerbeetle/blob/ac75926f8868093b342ce2c64eac1e3001cf2301/docs/TIGER_STYLE.md#technical-debt"
+            >
+              zero
+            </InlineLinkButton>{" "}
+            technical debt, and pursue{" "}
+            <InlineLinkButton href="https://lawsofsimplicity.com/">
+              simplicity
+            </InlineLinkButton>
           </p>
           <p>
-            Do coding, design, and motion using mostly TypeScript, CSS, Next.js,
-            and Sanity.
+            I build clear and practical websites and craft UX that is
+            simple and obvious.{" "}
+            <br className="hidden md:block" />
+            Using mostly TS, CSS, React, Next.js, and
+            Sanity.
           </p>
-          <p>
-            Open to collaborations with agencies and product teams, or in-house
-            roles.
-          </p>
+          <p>Let{"'"}s build batshit sites together.</p>
         </div>
       </Section>
     </>
@@ -145,7 +164,7 @@ function PersonalityPanel() {
     <Section id="personality">
       <h2>Personality</h2>
       <div className="prose-long max-w-sm sm:max-w-xl">
-        <p>I care about experience, performance,&nbsp;and&nbsp;beauty.</p>
+
         <p>
           My favorite brand is Asics, my favorite car is&nbsp;Dodge Viper,
           and&nbsp;my&nbsp;favorite music is&nbsp;
