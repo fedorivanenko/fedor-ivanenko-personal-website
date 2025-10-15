@@ -4,6 +4,7 @@ import * as React from "react";
 import { Form } from "@base-ui-components/react/form";
 import { Field } from "@base-ui-components/react/field";
 import { useWheel } from "@use-gesture/react";
+import { animated, useSprings } from "@react-spring/web";
 
 export interface WheelPickerProps {
   value: string;
@@ -17,34 +18,36 @@ export interface WheelPickerProps {
   required?: boolean;
   disabled?: boolean;
   settings?: {
+    angleStep: number;
     treshHold: number;
     throttle: number;
     loop: boolean;
   };
 }
 
-const shiftUp = (prev: number[], loop: boolean) => {
-  if (loop) {
-    const next = [...prev];
-    const first = next.shift()!;
-    next.push(first);
-    return next;
-  }
-  const first = prev[0];
-  if (first >= 0) return prev;
-  return prev.map((n) => n + 1);
-};
+const shift = (prev: number[], loop: boolean, direction: number) => {
+  const next = [...prev];
 
-const shiftDown = (prev: number[], loop: boolean) => {
   if (loop) {
-    const next = [...prev];
-    const last = next.pop()!;
-    next.unshift(last);
+    if (direction === 1) {
+      const first = next.shift()!;
+      next.push(first);
+    } else {
+      const last = next.pop()!;
+      next.unshift(last);
+    }
     return next;
   }
-  const last = prev[prev.length - 1];
-  if (last <= 0) return prev;
-  return prev.map((n) => n - 1);
+
+  if (direction === 1) {
+    const first = next[0];
+    if (first >= 0) return next;
+    return next.map((n) => n + 1);
+  } else {
+    const last = next[next.length - 1];
+    if (last <= 0) return next;
+    return next.map((n) => n - 1);
+  }
 };
 
 const createPositions = (length: number, centered: boolean): number[] => {
@@ -80,26 +83,59 @@ function WheelPicker({
   disabled,
   options,
   settings = {
+    angleStep: 12, //deg
     treshHold: 32,
-    throttle: 50,
+    throttle: 75,
     loop: true,
   },
 }: WheelPickerProps) {
-  const [optionPositions, setOptionPositions] = React.useState<number[]>(() =>
-    createPositions(options.length, settings.loop)
-  );
+  const [wheelState, setWheelState] = React.useState(() => ({
+    positions: createPositions(options.length, settings.loop),
+    velocity: 0,
+  }));
 
   const gestureRef = React.useRef<HTMLDivElement>(null);
   const eY = React.useRef<number>(0);
   const prevDir = React.useRef<number>(0);
   const lastUpdate = React.useRef<number>(0);
 
+  const [springs] = useSprings(
+    options.length,
+    (index) => {
+      const velocityFactor = Math.abs(wheelState.velocity);
+      const tension = 240 + velocityFactor * 50;
+      const friction = 20 + velocityFactor * 10;
+
+      return {
+        rotateX: wheelState.positions[index] * settings.angleStep,
+        opacity:
+          Math.abs(wheelState.positions[index]) <
+          Math.floor(options.length / 2) - 2
+            ? 1
+            : 0,
+        config: {
+          tension: Math.min(500, tension),
+          friction: Math.min(100, friction),
+        },
+        immediate: () => {
+          if (
+            Math.abs(wheelState.positions[index]) >
+            Math.floor(options.length / 2) - 2
+          )
+            return true;
+          return false;
+        },
+      };
+    },
+    [wheelState]
+  );
+
   React.useEffect(() => {
-    onPick(options[optionPositions.indexOf(0)].value);
-  }, [optionPositions, onPick, options]);
+    onPick(options[wheelState.positions.indexOf(0)].value);
+  }, [wheelState, onPick, options]);
 
   useWheel(
-    ({ direction: [, dirY], delta: [, dY], event }) => {
+    ({ velocity: [, vY], direction: [, dirY], delta: [, dY], event }) => {
       if (disabled) return;
       event.preventDefault();
       eY.current += Math.abs(dY);
@@ -113,11 +149,10 @@ function WheelPicker({
       if (eY.current > settings.treshHold) {
         const now = Date.now();
         if (now - lastUpdate.current >= settings.throttle) {
-          setOptionPositions((prev) =>
-            dirY > 0
-              ? shiftDown([...prev], settings.loop)
-              : shiftUp([...prev], settings.loop)
-          );
+          setWheelState((prev) => ({
+            positions: shift([...prev.positions], settings.loop, dirY),
+            velocity: vY,
+          }));
           lastUpdate.current = now;
           eY.current = 0;
         }
@@ -134,12 +169,21 @@ function WheelPicker({
     switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
-        setOptionPositions((prev) => shiftDown([...prev], settings.loop));
+        setWheelState((prev) => ({
+          positions: shift([...prev.positions], settings.loop, -1),
+          velocity: 0,
+        }));
         break;
       case "ArrowUp":
         e.preventDefault();
-        setOptionPositions((prev) => shiftUp([...prev], settings.loop));
+        setWheelState((prev) => ({
+          positions: shift([...prev.positions], settings.loop, 1),
+          velocity: 0,
+        }));
         break;
+      case "Escape":
+        e.preventDefault();
+        gestureRef.current?.blur();
     }
   };
 
@@ -165,24 +209,30 @@ function WheelPicker({
       role="listbox"
       aria-required={required ? true : undefined}
       aria-disabled={disabled ? true : undefined}
-      className="border aria-disabled:select-none cursor-grab aria-disabled:cursor-not-allowed rounded p-2 w-40 h-24 relative mb-12 overflow-hidden ring-2 ring-transparent focus:ring-blue-500"
-      style={{ perspective: "600px" }}
+      className="[--h:20rem] h-[var(--h)] [transform-style:preserve-3d] select-none border border-border cursor-grab rounded w-40 relative mb-12 overflow-hidden outline-none focus:ring-2 focus:ring-blue-500"
+      style={{ perspective: "64rem" }}
     >
       {options.map((option, index) => (
-        <div
+        <animated.div
           tabIndex={-1}
           key={option.label}
           role="option"
           aria-selected={value === option.value}
-          data-position={optionPositions[index]}
           style={{
-            transform: `translateY(${32 * optionPositions[index]}px)`,
-            opacity: Math.abs(optionPositions[index]) >= 3 ? 0 : 1,
+            ...springs[index],
+            rotateX: springs[index].rotateX,
+            opacity: springs[index].opacity,
+            transformOrigin: "center center calc(-1 * var(--r))",
+            backfaceVisibility: "hidden",
+            // CSS variables as separate props
+            ["--height" as string]: "2rem",
+            ["--step" as string]: (settings.angleStep * Math.PI) / 180,
+            ["--r" as string]: "calc(var(--height) / var(--step))",
           }}
-          className={`absolute top-8 w-36 left-2 h-8 p-1 transition-all duration-200 ease-out`}
+          className={`absolute -tanslate-y-1/2 flex flex-col items-center justify-center top-1/2 w-full h-[--height] rounded`}
         >
           {option.label}
-        </div>
+        </animated.div>
       ))}
     </div>
   );
