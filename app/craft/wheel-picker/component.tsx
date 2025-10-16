@@ -8,7 +8,7 @@ type CSSSize = `${number}${"px" | "rem" | "em"}`;
 
 export interface WheelPickerProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  callbackRef?: (instance: any) => void; //RHF callback
+  callbackRef?: (instance: any) => void; //RHF callback to set the focus
   value: string;
   options: {
     value: string;
