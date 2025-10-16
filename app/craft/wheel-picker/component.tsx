@@ -138,11 +138,20 @@ function WheelPicker({
     }
   };
   
-  // update parent state
+  // update parent form
+  const first = React.useRef(true);
+
   React.useEffect(() => {
-    onPick(options[wheelState.positions.indexOf(0)].value);
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    const selected = options[wheelState.positions.indexOf(0)].value;
+    console.log('pick:',selected)
+    onPick(selected);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [wheelState.positions]);
+  }, [onPick, wheelState.positions]);
+
 
   useWheel(
     ({ velocity: [, vY], direction: [, dirY], delta: [, dY], event }) => {
