@@ -6,15 +6,11 @@ import { TanStackFormTest } from "./implementations/tanstack-form";
 export default function Page() {
   return (
     <main>
-      <Section className="hidden">
-        <BaseUITest />
-      </Section>
-      <Section className="hidden">
+      <Section className="flex flex-row ">
         <RHFTest />
-      </Section>
-      <Section>
+        <BaseUITest />
         <TanStackFormTest/>
-        </Section>
+      </Section>
     </main>
   );
 }

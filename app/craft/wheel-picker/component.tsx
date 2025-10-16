@@ -91,6 +91,13 @@ function WheelPicker({
   }));
 
   const wheelPickerRef = React.useRef<HTMLDivElement>(null);
+  const setWheelPickerRef = React.useCallback(
+    (element: HTMLDivElement | null) => {
+      wheelPickerRef.current = element;
+      if (callbackRef) callbackRef(element);
+    },
+    [callbackRef]
+  );
 
   const [springs] = useSprings(
     options.length,
@@ -130,11 +137,12 @@ function WheelPicker({
       eY.current = 0;
     }
   };
-
+  
   // update parent state
   React.useEffect(() => {
     onPick(options[wheelState.positions.indexOf(0)].value);
-  }, [wheelState, onPick, options]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wheelState.positions]);
 
   useWheel(
     ({ velocity: [, vY], direction: [, dirY], delta: [, dY], event }) => {
@@ -197,10 +205,7 @@ function WheelPicker({
 
   return (
     <div
-      ref={(element) => {
-        wheelPickerRef.current = element;
-        callbackRef?.(element);
-      }}
+      ref={setWheelPickerRef}
       tabIndex={0}
       onFocus={onFocus}
       onBlur={onBlur}

@@ -23,20 +23,20 @@ function TanStackFormTest() {
   const [data, setData] = React.useState<string | null>(null);
 
   return (
-    <div className="flex gap-8">
       <form
         onSubmit={(e) => {
-          e.preventDefault();
-          form.handleSubmit();
+            e.preventDefault();
+            form.handleSubmit();
         }}
-        className="flex flex-col"
-      >
+        className="flex flex-col items-center space-y-6 flex-1"
+        >
+          <h2>TanStack Form</h2>
         <form.Field name="month">
           {(field) => {
             return (
               <div
                 data-invalid={field.state.meta.errors.length > 0}
-                className="flex data-[invalid=true]:ring-destructive ring-2 ring-offset-4 ring-offset-background ring-background transition-all duration-250 rounded h-48 w-40 gap-1"
+                className="border border-border flex data-[invalid=true]:ring-destructive ring-2 ring-offset-4 ring-offset-background ring-background transition-all duration-250 rounded h-48 w-40 gap-1"
               >
                 <WheelPicker
                   value={field.state.value}
@@ -50,16 +50,15 @@ function TanStackFormTest() {
         </form.Field>
         <button
           type="submit"
-          className="mt-4 border border-border rounded hover:bg-accent/20 transition-colors"
+          className="w-40 border border-border rounded hover:bg-accent/20 transition-colors"
         >
           Submit
         </button>
-      </form>
       <div>
         {"{"}month:{data}
         {"}"}
       </div>
-    </div>
+      </form>
   );
 }
 

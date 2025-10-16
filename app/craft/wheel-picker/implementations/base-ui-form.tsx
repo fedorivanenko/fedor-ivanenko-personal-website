@@ -15,6 +15,8 @@ function BaseUITest() {
   const [errors, setErrors] = React.useState({});
   const [month, setMonth] = React.useState<string>("");
 
+    const [data, setData] = React.useState<string | null>(null);
+
   return (
     <Form
       errors={errors}
@@ -24,8 +26,11 @@ function BaseUITest() {
         const formData = new FormData(event.currentTarget);
         const value = formData.get("date") as string;
         console.log("submited:", value);
+        setData(value)
       }}
+      className={'flex-1 flex flex-col space-y-6 items-center'}
     >
+      <h2>Base UI Form</h2>
       <Field.Root name="date">
         <Field.Control
           value={month}
@@ -43,7 +48,7 @@ function BaseUITest() {
             }: ControlWithRef = controlProps;
 
             return (
-              <div className="flex h-48 gap-1 w-40">
+              <div className="border border-border flex h-48 gap-1 w-40">
                 <WheelPicker
                   value={month}
                   options={monthOptions}
@@ -70,14 +75,17 @@ function BaseUITest() {
             );
           }}
         />
-        <Field.Error />
-        <Field.Validity>
-          {(validity) => {
-            return <p>{validity.validity.valid ? "true" : "false"}</p>;
-          }}
-        </Field.Validity>
       </Field.Root>
-      <button type="submit">Submit</button>
+      <button
+          type="submit"
+          className="border w-40 border-border rounded hover:bg-accent/20 transition-colors"
+        >
+          Submit
+        </button>
+        <div>
+        {"{"}month:{data}
+        {"}"}
+      </div>
     </Form>
   );
 }
