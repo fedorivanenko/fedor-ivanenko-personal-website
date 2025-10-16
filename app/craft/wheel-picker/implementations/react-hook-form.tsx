@@ -5,12 +5,9 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { WheelPicker } from "../component";
 import { monthOptions } from "../data";
+import { formSchema } from "../data";
 
 import * as z from "zod";
-
-const formSchema = z.object({
-  month: z.string().min(1, "pick a month"),
-});
 
 function RHFTest() {
   const form = useForm<z.infer<typeof formSchema>>({

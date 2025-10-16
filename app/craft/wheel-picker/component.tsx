@@ -26,16 +26,26 @@ export interface WheelPickerProps {
   loop?: boolean;
 }
 
-const shift = (prev: number[], loop: boolean, dir: number) => {
+const shift = (
+  prev: number[],
+  loop: boolean,
+  dir: number,
+  size: number = 1
+) => {
   const next = [...prev];
+  const clampedSize = Math.min(Math.max(size, 0), next.length);
 
   if (loop) {
     if (dir === 1) {
-      const first = next.shift()!;
-      next.push(first);
+      for (let i = 0; i < clampedSize; i++) {
+        const first = next.shift()!;
+        next.push(first);
+      }
     } else {
-      const last = next.pop()!;
-      next.unshift(last);
+      for (let i = 0; i < clampedSize; i++) {
+        const last = next.pop()!;
+        next.unshift(last);
+      }
     }
     return next;
   }
@@ -43,11 +53,11 @@ const shift = (prev: number[], loop: boolean, dir: number) => {
   if (dir === 1) {
     const first = next[0];
     if (first >= 0) return next;
-    return next.map((n) => n + 1);
+    return next.map((n) => n + clampedSize);
   } else {
     const last = next[next.length - 1];
     if (last <= 0) return next;
-    return next.map((n) => n - 1);
+    return next.map((n) => n - clampedSize);
   }
 };
 
@@ -81,7 +91,7 @@ function WheelPicker({
   }));
 
   const wheelPickerRef = React.useRef<HTMLDivElement>(null);
-  
+
   const [springs] = useSprings(
     options.length,
     (i) => {
@@ -107,7 +117,7 @@ function WheelPicker({
   const lastUpdate = React.useRef<number>(0);
   const eY = React.useRef<number>(0);
   const prevDir = React.useRef<number>(0);
-  
+
   // debouncing
   const wheelStateUpdate = ({ dir, vel }: { dir: number; vel: number }) => {
     const now = Date.now();
@@ -152,7 +162,6 @@ function WheelPicker({
   );
 
   // events
-  
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (disabled) return;
     switch (e.key) {
@@ -187,57 +196,50 @@ function WheelPicker({
   };
 
   return (
-      <div
+    <div
       ref={(element) => {
         wheelPickerRef.current = element;
         callbackRef?.(element);
       }}
-        tabIndex={0}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        onClick={() => handleClick()}
-        onWheel={() => handleWheel()}
-        onKeyDown={(e) => handleKeyDown(e)}
-        role="listbox"
-        aria-required={required ? true : undefined}
-        aria-disabled={disabled ? true : undefined}
-        className="select-none text-[inherit] aria-[disabled]:opacity-75 aria-[disabled]:bg-foreground/5 cursor-grab rounded relative flex-1 overflow-hidden outline-none focus:ring-2 focus:ring-accent"
-        style={{
-          perspective: "64rem",
-          ["--rad" as string]: (angleStep * 3.14159) / 180,
-          ["--wheel-picker-height" as string]: height,
-        }}
-      >
-        <div className="absolute -translate-y-1/2 inset-x-2 top-1/2 rounded bg-foreground/20 h-[var(--wheel-picker-height)]" />
-        {options.map((option, index) => (
-          <animated.div
-            tabIndex={-1}
-            key={option.label}
-            role="option"
-            aria-selected={value === option.value}
-            style={{
-              ...springs[index],
-              scale: springs[index].scale,
-              rotateX: springs[index].rotateX,
-              opacity: springs[index].opacity,
-              transformOrigin:
-                "center center calc(-1 * calc(var(--wheel-picker-height) / var(--rad)))",
-              backfaceVisibility: "hidden",
-            }}
-            className="absolute -translate-y-1/2 flex flex-col items-center justify-center top-1/2 w-full h-[var(--wheel-picker-height)]"
-          >
-            {option.label}
-          </animated.div>
-        ))}
+      tabIndex={0}
+      onFocus={onFocus}
+      onBlur={onBlur}
+      onClick={() => handleClick()}
+      onWheel={() => handleWheel()}
+      onKeyDown={(e) => handleKeyDown(e)}
+      role="listbox"
+      aria-required={required ? true : undefined}
+      aria-disabled={disabled ? true : undefined}
+      className="select-none text-[inherit] aria-[disabled]:opacity-75 aria-[disabled]:bg-foreground/5 cursor-grab rounded relative flex-1 overflow-hidden outline-none focus:ring-2 focus:ring-accent"
+      style={{
+        perspective: "64rem",
+        ["--rad" as string]: (angleStep * 3.14159) / 180,
+        ["--wheel-picker-height" as string]: height,
+      }}
+    >
+      <div className="absolute -translate-y-1/2 inset-x-2 top-1/2 rounded bg-foreground/20 h-[var(--wheel-picker-height)]" />
+      {options.map((option, index) => (
+        <animated.div
+          tabIndex={-1}
+          key={option.label}
+          role="option"
+          aria-selected={value === option.value}
+          style={{
+            ...springs[index],
+            scale: springs[index].scale,
+            rotateX: springs[index].rotateX,
+            opacity: springs[index].opacity,
+            transformOrigin:
+              "center center calc(-1 * calc(var(--wheel-picker-height) / var(--rad)))",
+            backfaceVisibility: "hidden",
+          }}
+          className="absolute -translate-y-1/2 flex flex-col items-center justify-center top-1/2 w-full h-[var(--wheel-picker-height)]"
+        >
+          {option.label}
+        </animated.div>
+      ))}
     </div>
   );
 }
 
-
-
-function TanStackFormTest() {
-  return null;
-}
-
 export { WheelPicker };
-export { TanStackFormTest };

@@ -1,4 +1,5 @@
 import { WheelPickerProps } from "./component";
+import * as z from "zod";
 
 export const monthOptions = [
     { value: "", label: "" },
@@ -22,3 +23,7 @@ export const monthOptions = [
     { value: "AM", label: "AM" },
     { value: "PM", label: "PM" },
   ] satisfies WheelPickerProps["options"];
+
+  export const formSchema = z.object({
+    month: z.string().min(1, "pick a month"),
+  });
