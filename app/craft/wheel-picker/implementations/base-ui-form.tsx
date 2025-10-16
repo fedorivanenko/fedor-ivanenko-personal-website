@@ -31,8 +31,11 @@ function BaseUITest() {
       className={'flex-1 flex flex-col space-y-6 items-center'}
     >
       <h2>Base UI Form</h2>
-      <Field.Root name="date">
+      <Field.Root name="date"
+        className="border border-border flex data-[invalid]:ring-destructive ring-2 ring-offset-4 ring-offset-background ring-transparent transition-all duration-250 rounded h-48 w-40 gap-1"
+      >
         <Field.Control
+          onValueChange={setMonth}
           value={month}
           required
           render={(controlProps) => {
@@ -48,7 +51,7 @@ function BaseUITest() {
             }: ControlWithRef = controlProps;
 
             return (
-              <div className="border border-border flex h-48 gap-1 w-40">
+              <>
                 <WheelPicker
                   value={month}
                   options={monthOptions}
@@ -61,17 +64,18 @@ function BaseUITest() {
 
                 <input
                   ref={ref}
+                  value={month}
+                  required={required}
                   id={id}
                   name={name}
                   type="text"
-                  value={month}
                   disabled={disabled}
                   onChange={onChange}
                   tabIndex={-1}
                   aria-hidden="true"
                   className="sr-only"
                 />
-              </div>
+              </>
             );
           }}
         />

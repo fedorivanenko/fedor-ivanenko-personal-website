@@ -36,7 +36,7 @@ function TanStackFormTest() {
           return (
             <div
               data-invalid={field.state.meta.errors.length > 0}
-              className="border border-border flex data-[invalid=true]:ring-destructive ring-2 ring-offset-4 ring-offset-background ring-background transition-all duration-250 rounded h-48 w-40 gap-1"
+              className="border border-border flex data-[invalid=true]:ring-destructive ring-2 ring-offset-4 ring-offset-background ring-transparent transition-all duration-250 rounded h-48 w-40 gap-1"
             >
               <WheelPicker
                 value={field.state.value}
