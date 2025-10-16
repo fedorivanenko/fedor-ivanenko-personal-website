@@ -25,13 +25,6 @@ function RHFTest() {
     setData(data.month);
   }
 
-  const handlePick = React.useCallback(
-    (value: string) => {
-      form.setValue("month", value, { shouldValidate: true });
-    },
-    [form]
-  );
-
   return (
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-center space-y-6 flex-1">
         <h2>React Hook Form</h2>
@@ -47,7 +40,7 @@ function RHFTest() {
                 callbackRef={field.ref}
                 value={field.value}
                 options={monthOptions}
-                onPick={handlePick}
+                onPick={field.onChange}
                 disabled={field.disabled}
                 onBlur={field.onBlur}
               />
