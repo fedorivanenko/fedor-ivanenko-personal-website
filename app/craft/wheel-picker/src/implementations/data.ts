@@ -1,4 +1,4 @@
-import { WheelPickerOption } from "./component";
+import { WheelPickerOption } from "../wheel-picker";
 import * as z from "zod";
 
 export const monthOptions = [

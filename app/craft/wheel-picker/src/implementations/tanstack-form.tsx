@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import { useForm } from "@tanstack/react-form";
-import { WheelPicker } from "../component";
-import { formSchema } from "../data";
-import { monthOptions } from "../data";
+import { WheelPicker } from "../wheel-picker";
+import { formSchema } from "./data";
+import { monthOptions } from "./data";
 
 function TanStackFormTest() {
   const form = useForm({

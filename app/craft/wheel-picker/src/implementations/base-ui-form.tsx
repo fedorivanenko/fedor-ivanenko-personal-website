@@ -3,8 +3,8 @@
 import * as React from "react";
 import { Form } from "@base-ui-components/react/form";
 import { Field } from "@base-ui-components/react/field";
-import { monthOptions } from "../data";
-import { WheelPicker } from "../component";
+import { monthOptions } from "./data";
+import { WheelPicker } from "../wheel-picker";
 
 type ControlWithRef = Field.Control.Props & {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
