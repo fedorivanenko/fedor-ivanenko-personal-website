@@ -7,15 +7,14 @@ import { monthOptions } from "../data";
 import { WheelPicker } from "../component";
 
 type ControlWithRef = Field.Control.Props & {
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ref?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ref?: any; //misterious callback from inside the base-ui
 };
 
 function BaseUITest() {
+  const [data, setData] = React.useState<string | null>(null);
   const [errors, setErrors] = React.useState({});
   const [month, setMonth] = React.useState<string>("");
-
-    const [data, setData] = React.useState<string | null>(null);
 
   return (
     <Form
