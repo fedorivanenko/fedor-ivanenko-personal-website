@@ -3,6 +3,7 @@
 import * as React from "react";
 import { useGesture } from "@use-gesture/react";
 import { animated, useSprings } from "@react-spring/web";
+import { cn } from "@/lib/utils";
 
 type CSSSize = `${number}${"px" | "rem" | "em"}`;
 
@@ -32,6 +33,9 @@ export interface WheelPickerProps {
   treshHold?: number;
   throttle?: number;
   loop?: boolean;
+  containerClassName?: string
+  optionClassName?: string
+  pickedClassName?: string
 }
 
 const shift = (prev: number[], loop: boolean, dir: number) => {
@@ -83,6 +87,9 @@ function WheelPicker({
   angleStep = 12, //deg
   height = "2em",
   throttle = 75, //ms
+  containerClassName,
+  optionClassName,
+  pickedClassName,
 }: WheelPickerProps) {
   const [wheelState, setWheelState] = React.useState(() => ({
     pos: createPositions(options.length, loop),
@@ -285,14 +292,14 @@ function WheelPicker({
       role="listbox"
       aria-required={required ? true : undefined}
       aria-disabled={disabled ? true : undefined}
-      className="select-none touch-none text-[inherit] aria-[disabled]:opacity-75 aria-[disabled]:bg-foreground/5 cursor-grab rounded relative flex-1 overflow-hidden outline-none focus:ring-2 focus:ring-accent"
+        className={cn("select-none touch-none text-[inherit] aria-[disabled]:opacity-75 aria-[disabled]:bg-foreground/5 cursor-grab rounded relative flex-1 overflow-hidden outline-none focus:ring-2 focus:ring-accent", containerClassName)}
       style={{
         perspective: "64rem",
         ["--rad" as string]: (angleStep * 3.14159) / 180,
         ["--wheel-picker-height" as string]: height,
       }}
     >
-      <div className="absolute -translate-y-1/2 inset-x-2 top-1/2 rounded bg-foreground/20 h-[var(--wheel-picker-height)]" />
+      <div className={cn("absolute -translate-y-1/2 inset-x-2 top-1/2 rounded bg-foreground/20 h-[var(--wheel-picker-height)]", pickedClassName)} />
       {options.map((option, index) => (
         <animated.div
           tabIndex={-1}
@@ -307,7 +314,7 @@ function WheelPicker({
               "center center calc(-1 * calc(var(--wheel-picker-height) / var(--rad)))",
             backfaceVisibility: "hidden",
           }}
-          className="absolute -translate-y-1/2 flex flex-col items-center justify-center top-1/2 w-full h-[var(--wheel-picker-height)]"
+          className={cn("absolute -translate-y-1/2 flex flex-col items-center justify-center top-1/2 w-full h-[var(--wheel-picker-height)]", optionClassName)}
         >
           {option.label}
         </animated.div>
