@@ -140,26 +140,29 @@ function WheelPicker({
 
   // update parent form
   const first = React.useRef(true);
-  const cooldown = React.useRef(false);
+  const timer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
   React.useEffect(() => {
     if (first.current) {
       first.current = false;
       return;
     }
-    //if (cooldown.current) return;
 
-    cooldown.current = true;
-    const selected = options[wheelState.positions.indexOf(0)].value;
-    onPick(selected);
+    if (timer.current) clearTimeout(timer.current);
 
-    const t = setTimeout(() => {
-      cooldown.current = false;
-    }, 150);
+    // debounce to not overload parent form
+    timer.current = setTimeout(() => {
+      const selected = options[wheelState.positions.indexOf(0)].value;
+      onPick(selected);
+      timer.current = null;
+    }, 200);
 
-    return () => clearTimeout(t);
+    return () => {
+      if (timer.current) clearTimeout(timer.current);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onPick, wheelState.positions]);
+
 
   useGesture(
     {
