@@ -17,7 +17,7 @@ export interface WheelPickerOption {
 }
 
 export interface WheelPickerProps {
-  forwardedRef?: React.Ref<WheelPickerHandle>
+  forwardedRef?: React.Ref<WheelPickerHandle>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   callbackRef?: (instance: any) => void; //RHF callback to set the focus
   value: string;
@@ -51,14 +51,13 @@ const shift = (prev: number[], loop: boolean, dir: number) => {
   if (dir === 1) {
     const first = next[0];
     if (first >= 0) return next;
-    return next.map(n => n + 1);
+    return next.map((n) => n + 1);
   } else {
     const last = next[next.length - 1];
     if (last <= 0) return next;
-    return next.map(n => n - 1);
+    return next.map((n) => n - 1);
   }
 };
-
 
 const createPositions = (length: number, centered: boolean): number[] => {
   if (centered) {
