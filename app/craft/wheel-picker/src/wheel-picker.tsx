@@ -30,7 +30,10 @@ export interface WheelPickerProps {
   disabled?: boolean;
   height?: CSSSize; // size of the highleter element
   angleStep?: number; // wheel curvage
-  treshHold?: number; // wheel/drag sensivity
+  treshHold?: {
+    wheel: number
+    drag: number
+  }; // wheel/drag sensivity
   throttle?: number; // 
   loop?: boolean; // infinite loop
   containerClassName?: string
@@ -83,7 +86,10 @@ function WheelPicker({
   disabled,
   options,
   loop = options.length >= 4,
-  treshHold = 32, //px
+  treshHold = {
+    wheel: 32,
+    drag: 32    
+  }, //px
   angleStep = 12, //deg
   height = "2em",
   throttle = 75, //ms
@@ -214,7 +220,7 @@ function WheelPicker({
       }) => {
         if (disabled) return;
         event.preventDefault();
-        handleMove(dirY, vY, Math.abs(dY));
+        handleMove(dirY, vY, Math.abs(dY), 'wheel');
       },
       onDrag: ({
         direction: [, dirY],
@@ -225,14 +231,14 @@ function WheelPicker({
       }) => {
         if (disabled) return;
         if (first) eY.current = 0;
-        handleMove(-dirY, vY, Math.abs(my));
+        handleMove(-dirY, vY, Math.abs(my), 'drag');
         if (last) eY.current = 0;
       },
     },
     { target: wheelPickerRef, eventOptions: { passive: false } }
   );
 
-  function handleMove(dirY: number, vY: number, dY: number) {
+  function handleMove(dirY: number, vY: number, dY: number, action: 'wheel' | 'drag') {
     eY.current += dY;
 
     if (dirY !== prevDir.current && dirY !== 0) {
@@ -240,8 +246,13 @@ function WheelPicker({
       eY.current = 0;
       return;
     }
-
-    if (eY.current > treshHold) {
+    const tresh = action === "wheel"
+    ? treshHold.wheel
+    : action === "drag"
+      ? treshHold.drag
+      : 32;
+  
+    if (eY.current > tresh) {
       wheelStateUpdate({ dir: dirY, vel: vY });
     }
   }
