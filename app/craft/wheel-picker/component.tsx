@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useWheel } from "@use-gesture/react";
+import { useGesture } from "@use-gesture/react";
 import { animated, useSprings } from "@react-spring/web";
 
 type CSSSize = `${number}${"px" | "rem" | "em"}`;
@@ -137,7 +137,7 @@ function WheelPicker({
       eY.current = 0;
     }
   };
-  
+
   // update parent form
   const first = React.useRef(true);
 
@@ -147,36 +147,52 @@ function WheelPicker({
       return;
     }
     const selected = options[wheelState.positions.indexOf(0)].value;
-    console.log('pick:',selected)
+    console.log("pick:", selected);
     onPick(selected);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onPick, wheelState.positions]);
 
-
-  useWheel(
-    ({ velocity: [, vY], direction: [, dirY], delta: [, dY], event }) => {
-      if (disabled) return;
-      event.preventDefault();
-      eY.current += Math.abs(dY);
-
-      if (dirY !== prevDir.current && dirY !== 0) {
-        prevDir.current = dirY;
-        eY.current = 0;
-        return;
-      }
-
-      if (eY.current > treshHold) {
-        wheelStateUpdate({
-          dir: dirY,
-          vel: vY,
-        });
-      }
-    },
+  useGesture(
     {
-      target: wheelPickerRef,
-      eventOptions: { passive: false },
-    }
+      onWheel: ({
+        velocity: [, vY],
+        direction: [, dirY],
+        delta: [, dY],
+        event,
+      }) => {
+        if (disabled) return;
+        event.preventDefault();
+        handleMove(dirY, vY, Math.abs(dY));
+      },
+      onDrag: ({
+        movement: [, my],
+        direction: [, dirY],
+        velocity: [, vY],
+        first,
+        last,
+      }) => {
+        if (disabled) return;
+        if (first) eY.current = 0;
+        handleMove(dirY, vY, Math.abs(my));
+        if (last) eY.current = 0;
+      },
+    },
+    { target: wheelPickerRef, eventOptions: { passive: false } }
   );
+
+  function handleMove(dirY: number, vY: number, deltaY: number) {
+    eY.current += deltaY;
+
+    if (dirY !== prevDir.current && dirY !== 0) {
+      prevDir.current = dirY;
+      eY.current = 0;
+      return;
+    }
+
+    if (eY.current > treshHold) {
+      wheelStateUpdate({ dir: dirY, vel: vY });
+    }
+  }
 
   // events
   const handleKeyDown = (e: React.KeyboardEvent) => {
