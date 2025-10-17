@@ -83,7 +83,7 @@ function WheelPicker({
   treshHold = 32, //px
   angleStep = 12, //deg
   height = "2em",
-  throttle = 200, //ms
+  throttle = 175, //ms
 }: WheelPickerProps) {
   const [wheelState, setWheelState] = React.useState(() => ({
     positions: createPositions(options.length, loop),
