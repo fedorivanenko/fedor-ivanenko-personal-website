@@ -83,7 +83,7 @@ function WheelPicker({
   treshHold = 32, //px
   angleStep = 12, //deg
   height = "2em",
-  throttle = 175, //ms
+  throttle = 75, //ms
 }: WheelPickerProps) {
   const [wheelState, setWheelState] = React.useState(() => ({
     positions: createPositions(options.length, loop),
@@ -129,7 +129,6 @@ function WheelPicker({
   const wheelStateUpdate = ({ dir, vel }: { dir: number; vel: number }) => {
     const now = Date.now();
     if (now - lastUpdate.current >= throttle) {
-      console.log('updated')
       setWheelState((prev) => ({
         positions: shift([...prev.positions], loop, dir),
         velocity: vel,
@@ -141,14 +140,24 @@ function WheelPicker({
 
   // update parent form
   const first = React.useRef(true);
+  const cooldown = React.useRef(false);
 
   React.useEffect(() => {
     if (first.current) {
       first.current = false;
       return;
     }
+    if (cooldown.current) return;
+
+    cooldown.current = true;
     const selected = options[wheelState.positions.indexOf(0)].value;
     onPick(selected);
+
+    const t = setTimeout(() => {
+      cooldown.current = false;
+    }, 500);
+
+    return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onPick, wheelState.positions]);
 
