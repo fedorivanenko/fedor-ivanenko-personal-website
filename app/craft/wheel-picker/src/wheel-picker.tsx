@@ -28,11 +28,11 @@ export interface WheelPickerProps {
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
   required?: boolean;
   disabled?: boolean;
-  height?: CSSSize;
-  angleStep?: number;
-  treshHold?: number;
-  throttle?: number;
-  loop?: boolean;
+  height?: CSSSize; // size of the highleter element
+  angleStep?: number; // wheel curvage
+  treshHold?: number; // wheel/drag sensivity
+  throttle?: number; // 
+  loop?: boolean; // infinite loop
   containerClassName?: string
   optionClassName?: string
   pickedClassName?: string
