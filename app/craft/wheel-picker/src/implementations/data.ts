@@ -15,13 +15,6 @@ export const monthOptions = [
     { value: "OCT", label: "October" },
     { value: "NOV", label: "November" },
     { value: "DEC", label: "December" },
-    { value: "THR", label: "Trinteber" },
-    { value: "FOU", label: "Fourtember" },
-  ] satisfies WheelPickerOption[];
-  
-  export const dayPeriodOptions = [
-    { value: "AM", label: "AM" },
-    { value: "PM", label: "PM" },
   ] satisfies WheelPickerOption[];
 
   export const formSchema = z.object({

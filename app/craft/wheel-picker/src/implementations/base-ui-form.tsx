@@ -7,13 +7,17 @@ import { monthOptions } from "./data";
 import { WheelPicker } from "../wheel-picker";
 
 type ControlWithRef = Field.Control.Props & {
+  // Base UI provides a callback ref here
+  // used to wire focus, events, and validity
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ref?: any; //misterious callback from inside the base-ui
+  ref?: any;
 };
 
-function BaseUITest() {
-  const [data, setData] = React.useState<string | null>(null);
+function BaseUIForm() {
+  // Base UI’s native way to track validation errors
   const [errors, setErrors] = React.useState({});
+
+  // Controlled field value 
   const [month, setMonth] = React.useState<string>("");
 
   return (
@@ -25,16 +29,15 @@ function BaseUITest() {
         const formData = new FormData(event.currentTarget);
         const value = formData.get("date") as string;
         console.log("submited:", value);
-        setData(value)
       }}
       className={'flex-1 flex flex-col space-y-6 items-center'}
     >
-      <h2>Base UI Form</h2>
       <Field.Root name="date"
+        // validation state is exposed via [data-invalid]
         className="border border-border flex data-[invalid]:ring-destructive ring-2 ring-offset-4 ring-offset-background ring-transparent transition-all duration-250 rounded h-48 w-40 gap-1"
       >
         <Field.Control
-          onValueChange={setMonth}
+          onValueChange={setMonth} // keeps Field.Control and WheelPicker in sync
           value={month}
           required
           render={(controlProps) => {
@@ -54,7 +57,7 @@ function BaseUITest() {
                 <WheelPicker
                   value={month}
                   options={monthOptions}
-                  onPick={setMonth}
+                  onPick={setMonth} // update controlled value
                   onFocus={onFocus}
                   onBlur={onBlur}
                   required={required}
@@ -62,13 +65,16 @@ function BaseUITest() {
                 />
 
                 <input
+                  // Mirror the controlled value into a real input so:
+                  // 1) Base UI can use native events/validity
+                  // 2) the form can submit value
                   id={id}
-                  ref={ref}
+                  ref={ref} // registers this input with Field.Control
                   name={name}
                   value={month}
                   required={required}
                   disabled={disabled}
-                  onChange={onChange}
+                  onChange={onChange}  // lets Field.Control observe changes
                   tabIndex={-1}
                   type="text"
                   aria-hidden="true"
@@ -85,12 +91,8 @@ function BaseUITest() {
         >
           Submit
         </button>
-        <div>
-        {"{"}month:{data}
-        {"}"}
-      </div>
     </Form>
   );
 }
 
-export { BaseUITest };
+export { BaseUIForm as BaseUITest };
