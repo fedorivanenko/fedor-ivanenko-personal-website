@@ -7,8 +7,8 @@ import { animated, useSprings } from "@react-spring/web";
 type CSSSize = `${number}${"px" | "rem" | "em"}`;
 
 export interface WheelPickerHandle {
-  rotateTo: (option: WheelPickerOption['value']) => void;
-  clear: () => void;
+  rotateTo: (option: WheelPickerOption) => void;
+  reset: () => void;
 }
 
 export interface WheelPickerOption {
@@ -34,26 +34,16 @@ export interface WheelPickerProps {
   loop?: boolean;
 }
 
-const shift = (
-  prev: number[],
-  loop: boolean,
-  dir: number,
-  size: number = 1
-) => {
+const shift = (prev: number[], loop: boolean, dir: number) => {
   const next = [...prev];
-  const clampedSize = Math.min(Math.max(size, 0), next.length);
 
   if (loop) {
     if (dir === 1) {
-      for (let i = 0; i < clampedSize; i++) {
-        const first = next.shift()!;
-        next.push(first);
-      }
+      const first = next.shift()!;
+      next.push(first);
     } else {
-      for (let i = 0; i < clampedSize; i++) {
-        const last = next.pop()!;
-        next.unshift(last);
-      }
+      const last = next.pop()!;
+      next.unshift(last);
     }
     return next;
   }
@@ -61,13 +51,14 @@ const shift = (
   if (dir === 1) {
     const first = next[0];
     if (first >= 0) return next;
-    return next.map((n) => n + clampedSize);
+    return next.map(n => n + 1);
   } else {
     const last = next[next.length - 1];
     if (last <= 0) return next;
-    return next.map((n) => n - clampedSize);
+    return next.map(n => n - 1);
   }
 };
+
 
 const createPositions = (length: number, centered: boolean): number[] => {
   if (centered) {
@@ -109,20 +100,6 @@ function WheelPicker({
     [callbackRef]
   );
 
-  // expose imperiative methods
-  React.useImperativeHandle(
-    forwardedRef,
-    () => ({
-      rotateTo() {
-        console.log("rotate");
-      },
-      clear() {
-        console.log("clear");
-      },
-    }),
-    []
-  );
-
   const [springs] = useSprings(
     options.length,
     (i) => {
@@ -150,17 +127,20 @@ function WheelPicker({
   const prevDir = React.useRef<number>(0);
 
   // throttle animation updates
-  const wheelStateUpdate = ({ dir, vel }: { dir: number; vel: number }) => {
-    const now = Date.now();
-    if (now - lastUpdate.current >= throttle) {
-      setWheelState((prev) => ({
-        pos: shift([...prev.pos], loop, dir),
-        vel: vel,
-      }));
-      lastUpdate.current = now;
-      eY.current = 0;
-    }
-  };
+  const wheelStateUpdate = React.useCallback(
+    ({ dir, vel }: { dir: number; vel: number }) => {
+      const now = Date.now();
+      if (now - lastUpdate.current >= throttle) {
+        setWheelState((prev) => ({
+          pos: shift([...prev.pos], loop, dir),
+          vel,
+        }));
+        lastUpdate.current = now;
+        eY.current = 0;
+      }
+    },
+    [loop, throttle, setWheelState]
+  );
 
   // update parent form
   const first = React.useRef(true);
@@ -187,6 +167,36 @@ function WheelPicker({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onPick, wheelState.pos]);
 
+  // imperiative rotation
+  const animateSteps = React.useCallback(
+    async (dist: number) => {
+      const steps = Math.abs(dist);
+      const dir = -Math.sign(dist);
+
+      for (let i = 0; i < steps; i++) {
+        wheelStateUpdate({ dir, vel: 0 });
+        await new Promise((res) => setTimeout(res, throttle + 5));
+      }
+    },
+    [wheelStateUpdate, throttle]
+  );
+
+  // expose imperiative methods
+  React.useImperativeHandle(
+    forwardedRef,
+    () => ({
+      rotateTo(to) {
+        const pos = options.findIndex((opt) => opt.value === to.value);
+        if (pos >= 0) {
+          animateSteps(wheelState.pos[pos]);
+        }
+      },
+      reset() {
+        animateSteps(wheelState.pos[0]);
+      },
+    }),
+    [wheelState.pos, animateSteps, options]
+  );
 
   useGesture(
     {
