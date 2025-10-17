@@ -15,7 +15,7 @@ function BioPanel() {
         )}
       >
         <h1>Fedor Ivanenko</h1>
-        <p>Design Engineer</p>
+        <p>designer + engineer</p>
       </div>
       <Section>
         <div className="prose-short">
@@ -42,7 +42,7 @@ function BioPanel() {
             I build clear and practical websites and craft UX that is
             simple and obvious.{" "}
             <br className="hidden md:block" />
-            Using mostly TS, CSS, React, Next.js, and
+            Using mostly TypeSscript, CSS, React, Next.js, and
             Sanity.
           </p>
           <p>Let{"'"}s build batshit sites together.</p>
