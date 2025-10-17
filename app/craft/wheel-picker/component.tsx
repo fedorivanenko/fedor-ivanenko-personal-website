@@ -86,11 +86,12 @@ function WheelPicker({
   throttle = 75, //ms
 }: WheelPickerProps) {
   const [wheelState, setWheelState] = React.useState(() => ({
-    positions: createPositions(options.length, loop),
-    velocity: 0,
+    pos: createPositions(options.length, loop),
+    vel: 0,
   }));
 
   const wheelPickerRef = React.useRef<HTMLDivElement>(null);
+  //combine inner ref with RHF callback ref
   const setWheelPickerRef = React.useCallback(
     (element: HTMLDivElement | null) => {
       wheelPickerRef.current = element;
@@ -102,8 +103,8 @@ function WheelPicker({
   const [springs] = useSprings(
     options.length,
     (i) => {
-      const { velocity, positions } = wheelState;
-      const v = Math.abs(velocity);
+      const { vel: velocity, pos: positions } = wheelState;
+      const vel = Math.abs(velocity);
       const pos = positions[i];
       const dist = Math.abs(pos);
 
@@ -113,8 +114,8 @@ function WheelPicker({
         opacity: [1, 0.75, 0.5, 0.25][dist] ?? 0,
         immediate: dist > 4,
         config: {
-          tension: Math.min(500, 250 + v * 250),
-          friction: Math.min(100, 20 + v * 10),
+          tension: Math.min(500, 250 + vel * 250),
+          friction: Math.min(100, 20 + vel * 10),
         },
       };
     },
@@ -125,13 +126,13 @@ function WheelPicker({
   const eY = React.useRef<number>(0);
   const prevDir = React.useRef<number>(0);
 
-  // debouncing
+  // throttle animation updates
   const wheelStateUpdate = ({ dir, vel }: { dir: number; vel: number }) => {
     const now = Date.now();
     if (now - lastUpdate.current >= throttle) {
       setWheelState((prev) => ({
-        positions: shift([...prev.positions], loop, dir),
-        velocity: vel,
+        pos: shift([...prev.pos], loop, dir),
+        vel: vel,
       }));
       lastUpdate.current = now;
       eY.current = 0;
@@ -152,16 +153,16 @@ function WheelPicker({
 
     // debounce to not overload parent form
     timer.current = setTimeout(() => {
-      const selected = options[wheelState.positions.indexOf(0)].value;
+      const selected = options[wheelState.pos.indexOf(0)].value;
       onPick(selected);
       timer.current = null;
-    }, 200);
+    }, 125);
 
     return () => {
       if (timer.current) clearTimeout(timer.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onPick, wheelState.positions]);
+  }, [onPick, wheelState.pos]);
 
 
   useGesture(
