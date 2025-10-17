@@ -95,4 +95,4 @@ function BaseUIForm() {
   );
 }
 
-export { BaseUIForm as BaseUITest };
+export { BaseUIForm };

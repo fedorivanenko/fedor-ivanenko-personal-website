@@ -5,7 +5,7 @@ import { WheelPicker } from "../wheel-picker";
 import { formSchema } from "./data";
 import { monthOptions } from "./data";
 
-function TanStackFormTest() {
+function TanStackForm() {
   const form = useForm({
     defaultValues: {
       month: "",
@@ -55,4 +55,4 @@ function TanStackFormTest() {
   );
 }
 
-export { TanStackFormTest };
+export { TanStackForm };
