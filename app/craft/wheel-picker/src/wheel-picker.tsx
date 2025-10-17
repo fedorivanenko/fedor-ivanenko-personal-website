@@ -38,7 +38,7 @@ export interface WheelPickerProps {
   loop?: boolean; // infinite loop
   containerClassName?: string
   optionClassName?: string
-  pickedClassName?: string
+  highliterClassName?: string
 }
 
 const shift = (prev: number[], loop: boolean, dir: number) => {
@@ -95,7 +95,7 @@ function WheelPicker({
   throttle = 75, //ms
   containerClassName,
   optionClassName,
-  pickedClassName,
+  highliterClassName,
 }: WheelPickerProps) {
   const [wheelState, setWheelState] = React.useState(() => ({
     pos: createPositions(options.length, loop),
@@ -310,7 +310,7 @@ function WheelPicker({
         ["--wheel-picker-height" as string]: height,
       }}
     >
-      <div className={cn("absolute -translate-y-1/2 inset-x-2 top-1/2 rounded bg-foreground/20 h-[var(--wheel-picker-height)]", pickedClassName)} />
+      <div className={cn("absolute -translate-y-1/2 inset-x-2 top-1/2 rounded bg-foreground/20 h-[var(--wheel-picker-height)]", highliterClassName)} />
       {options.map((option, index) => (
         <animated.div
           tabIndex={-1}
