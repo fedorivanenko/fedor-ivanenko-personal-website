@@ -45,7 +45,6 @@ function BioPanel() {
             Using mostly TypeSscript, CSS, React, Next.js, and
             Sanity.
           </p>
-          <p>Let{"'"}s build batshit sites together.</p>
         </div>
       </Section>
     </>
