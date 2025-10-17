@@ -83,7 +83,7 @@ function WheelPicker({
   treshHold = 32, //px
   angleStep = 12, //deg
   height = "2em",
-  throttle = 75, //ms
+  throttle = 200, //ms
 }: WheelPickerProps) {
   const [wheelState, setWheelState] = React.useState(() => ({
     positions: createPositions(options.length, loop),
@@ -129,6 +129,7 @@ function WheelPicker({
   const wheelStateUpdate = ({ dir, vel }: { dir: number; vel: number }) => {
     const now = Date.now();
     if (now - lastUpdate.current >= throttle) {
+      console.log('updated')
       setWheelState((prev) => ({
         positions: shift([...prev.positions], loop, dir),
         velocity: vel,
@@ -147,7 +148,6 @@ function WheelPicker({
       return;
     }
     const selected = options[wheelState.positions.indexOf(0)].value;
-    console.log("pick:", selected);
     onPick(selected);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onPick, wheelState.positions]);
@@ -165,9 +165,9 @@ function WheelPicker({
         handleMove(dirY, vY, Math.abs(dY));
       },
       onDrag: ({
-        movement: [, my],
         direction: [, dirY],
         velocity: [, vY],
+        movement: [, my],
         first,
         last,
       }) => {
@@ -180,8 +180,8 @@ function WheelPicker({
     { target: wheelPickerRef, eventOptions: { passive: false } }
   );
 
-  function handleMove(dirY: number, vY: number, deltaY: number) {
-    eY.current += deltaY;
+  function handleMove(dirY: number, vY: number, dY: number) {
+    eY.current += dY;
 
     if (dirY !== prevDir.current && dirY !== 0) {
       prevDir.current = dirY;
@@ -240,7 +240,7 @@ function WheelPicker({
       role="listbox"
       aria-required={required ? true : undefined}
       aria-disabled={disabled ? true : undefined}
-      className="select-none text-[inherit] aria-[disabled]:opacity-75 aria-[disabled]:bg-foreground/5 cursor-grab rounded relative flex-1 overflow-hidden outline-none focus:ring-2 focus:ring-accent"
+      className="select-none touch-none text-[inherit] aria-[disabled]:opacity-75 aria-[disabled]:bg-foreground/5 cursor-grab rounded relative flex-1 overflow-hidden outline-none focus:ring-2 focus:ring-accent"
       style={{
         perspective: "64rem",
         ["--rad" as string]: (angleStep * 3.14159) / 180,
@@ -255,7 +255,6 @@ function WheelPicker({
           role="option"
           aria-selected={value === option.value}
           style={{
-            ...springs[index],
             scale: springs[index].scale,
             rotateX: springs[index].rotateX,
             opacity: springs[index].opacity,
