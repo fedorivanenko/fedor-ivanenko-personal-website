@@ -147,7 +147,7 @@ function WheelPicker({
       first.current = false;
       return;
     }
-    if (cooldown.current) return;
+    //if (cooldown.current) return;
 
     cooldown.current = true;
     const selected = options[wheelState.positions.indexOf(0)].value;
@@ -155,7 +155,7 @@ function WheelPicker({
 
     const t = setTimeout(() => {
       cooldown.current = false;
-    }, 500);
+    }, 150);
 
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
