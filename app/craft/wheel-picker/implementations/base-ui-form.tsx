@@ -62,15 +62,15 @@ function BaseUITest() {
                 />
 
                 <input
+                  id={id}
                   ref={ref}
+                  name={name}
                   value={month}
                   required={required}
-                  id={id}
-                  name={name}
-                  type="text"
                   disabled={disabled}
                   onChange={onChange}
                   tabIndex={-1}
+                  type="text"
                   aria-hidden="true"
                   className="sr-only"
                 />
