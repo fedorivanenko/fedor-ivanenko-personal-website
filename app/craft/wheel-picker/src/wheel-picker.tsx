@@ -310,7 +310,7 @@ function WheelPicker({
         ["--wheel-picker-height" as string]: height,
       }}
     >
-      <div className={cn("absolute -translate-y-1/2 inset-x-2 top-1/2 rounded bg-foreground/20 h-[var(--wheel-picker-height)]", highliterClassName)} />
+      <div className={cn("absolute -translate-y-1/2 inset-x-2 top-1/2 rounded bg-foreground/5 h-[var(--wheel-picker-height)]", highliterClassName)} />
       {options.map((option, index) => (
         <animated.div
           tabIndex={-1}
