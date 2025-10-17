@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { WheelPicker } from "../component";
+import { WheelPicker, WheelPickerHandle } from "../component";
 import { monthOptions } from "../data";
 import { formSchema } from "../data";
 
@@ -25,6 +25,8 @@ function RHFTest() {
     setData(data.month);
   }
 
+  const wheelPickerRef = React.useRef<WheelPickerHandle>(null)
+
   return (
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-center space-y-6 flex-1">
         <h2>React Hook Form</h2>
@@ -37,6 +39,7 @@ function RHFTest() {
               className="border border-border flex data-[invalid=true]:ring-destructive ring-2 ring-offset-4 ring-offset-background ring-transparent transition-all duration-250 rounded h-48 w-40 gap-1"
             >
               <WheelPicker
+                forwardedRef={wheelPickerRef}
                 callbackRef={field.ref}
                 value={field.value}
                 options={monthOptions}
@@ -53,6 +56,7 @@ function RHFTest() {
         >
           Submit
         </button>
+        <button onClick={wheelPickerRef.current?.clear}>clear</button>
       <div>
         {"{"}month:{data}
         {"}"}

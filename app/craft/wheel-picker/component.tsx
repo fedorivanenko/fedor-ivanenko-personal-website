@@ -6,14 +6,22 @@ import { animated, useSprings } from "@react-spring/web";
 
 type CSSSize = `${number}${"px" | "rem" | "em"}`;
 
+export interface WheelPickerHandle {
+  rotateTo: (option: WheelPickerOption['value']) => void;
+  clear: () => void;
+}
+
+export interface WheelPickerOption {
+  value: string;
+  label: string;
+}
+
 export interface WheelPickerProps {
+  forwardedRef?: React.Ref<WheelPickerHandle>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   callbackRef?: (instance: any) => void; //RHF callback to set the focus
   value: string;
-  options: {
-    value: string;
-    label: string;
-  }[];
+  options: WheelPickerOption[];
   onPick: (value: string) => void;
   onFocus?: React.FocusEventHandler<HTMLDivElement>;
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
@@ -71,6 +79,7 @@ const createPositions = (length: number, centered: boolean): number[] => {
 
 //Core
 function WheelPicker({
+  forwardedRef,
   callbackRef,
   value,
   onPick,
@@ -92,12 +101,26 @@ function WheelPicker({
 
   const wheelPickerRef = React.useRef<HTMLDivElement>(null);
   //combine inner ref with RHF callback ref
-  const setWheelPickerRef = React.useCallback(
+  const setRefs = React.useCallback(
     (element: HTMLDivElement | null) => {
       wheelPickerRef.current = element;
       if (callbackRef) callbackRef(element);
     },
     [callbackRef]
+  );
+
+  // expose imperiative methods
+  React.useImperativeHandle(
+    forwardedRef,
+    () => ({
+      rotateTo() {
+        console.log("rotate");
+      },
+      clear() {
+        console.log("clear");
+      },
+    }),
+    []
   );
 
   const [springs] = useSprings(
@@ -243,7 +266,7 @@ function WheelPicker({
 
   return (
     <div
-      ref={setWheelPickerRef}
+      ref={setRefs}
       tabIndex={0}
       onFocus={onFocus}
       onBlur={onBlur}
