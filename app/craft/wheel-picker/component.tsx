@@ -173,7 +173,7 @@ function WheelPicker({
       }) => {
         if (disabled) return;
         if (first) eY.current = 0;
-        handleMove(dirY, vY, Math.abs(my));
+        handleMove(-dirY, vY, Math.abs(my));
         if (last) eY.current = 0;
       },
     },
