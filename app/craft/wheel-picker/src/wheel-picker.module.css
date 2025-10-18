@@ -1,0 +1,61 @@
+.container {
+    user-select: none;
+    touch-action: none;
+    font-size: inherit;
+    cursor: grab;
+    border-radius: 0.5rem;
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+    outline: none;
+    perspective: 64rem;
+    transition: opacity 0.2s ease;
+  }
+  
+  .container[aria-disabled="true"] {
+    opacity: 0.75;
+    background-color: color-mix(in srgb, var(--foreground) 5%, transparent);
+  }
+  
+  .container:focus {
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+  
+  .highlighter {
+    position: absolute;
+    inset-inline: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 0.5rem;
+    background-color: color-mix(in srgb, var(--foreground) 5%, transparent);
+    height: var(--wheel-picker-height);
+  }
+  
+  .option {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: var(--wheel-picker-height);
+    transform-origin: center center calc(-1 * calc(var(--wheel-picker-height) / var(--rad)));
+    backface-visibility: hidden;
+  }
+  
+  .wrapper {
+    border: 1px solid var(--border);
+    display: flex;
+    border-radius: 0.5rem;
+    box-shadow:
+        0 0 0 4px var(--background),   /* ring-offset */
+        0 0 0 6px transparent;         /* ring (2px + offset) */
+    transition: all 0.25s ease;
+  }
+  
+  .wrapper[data-invalid] {
+    box-shadow: 0 0 0 2px var(--destructive);
+  }
+  
