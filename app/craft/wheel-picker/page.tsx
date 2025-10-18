@@ -31,15 +31,27 @@ export default function Page() {
           .
         </p>
         <p>
-          Validation, a11y, and keyboard control are included. Compatible with
-          shadcn and base-ui.
+          Validation, a11y, and keyboard control are included.
+          <br />
+          Compatible with{" "}
+          <InlineLinkButton href="https://ui.shadcn.com/docs">
+            shadcn-ui
+          </InlineLinkButton>{" "}
+          and{" "}
+          <InlineLinkButton
+            href={"https://base-ui.com/react/overview/quick-start"}
+          >
+            base-ui
+          </InlineLinkButton>
+          .
         </p>
         <p>
-          Get the{" "}
+          Get the source code from{" "}
           <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/blob/6917bd117555299900d298b7f168035b421f81b4/app/craft/wheel-picker/src/wheel-picker.tsx">
-            source code
+            GitHub
           </InlineLinkButton>
-          . npm and CLI installations are coming.
+          . <br />
+          npm and CLI installations are coming.
         </p>
       </Section>
       <Section className="flex flex-row mb-9" card>
@@ -67,24 +79,35 @@ export default function Page() {
       <Section>
         <p>
           See the implementations for{" "}
-          <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/blob/6917bd117555299900d298b7f168035b421f81b4/app/craft/wheel-picker/src/implementations/tanstack-form.tsx">
+          <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/blob/main/app/craft/wheel-picker/src/implementations/react-hook-form.tsx">
             react-hook-form
           </InlineLinkButton>
           ,{" "}
-          <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/blob/5dad94df9f851da8997de7f85e36a74f36991d1b/app/craft/wheel-picker/src/implementations/tanstack-form.tsx">
+          <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/blob/main/app/craft/wheel-picker/src/implementations/tanstack-form.tsx">
             tanstack-form
           </InlineLinkButton>
           , and{" "}
-          <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/blob/6917bd117555299900d298b7f168035b421f81b4/app/craft/wheel-picker/src/implementations/base-ui-form.tsx">
+          <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/blob/main/app/craft/wheel-picker/src/implementations/base-ui-form.tsx">
             base-ui
           </InlineLinkButton>
         </p>
         <p>
-          Current version made with Tailwind v4 and uses{" "}
+          Current version made with Tailwind v4 and uses shadcn/ui{" "}
           <InlineLinkButton href="https://ui.shadcn.com/docs/theming#list-of-variables">
-            shadcn/ui
+            variables convention
+          </InlineLinkButton>
+          . CSS&nbsp;modules version is coming.
+        </p>
+        <p>
+          See the{" "}
+          <InlineLinkButton
+            href={
+              "https://github.com/fedorivanenko/fedor-ivanenko-personal-website/tree/main/app/craft/wheel-picker/src"
+            }
+          >
+            source code
           </InlineLinkButton>{" "}
-          variables convention. CSS&nbsp;modules version is coming.
+          for more details.
         </p>
       </Section>
 
