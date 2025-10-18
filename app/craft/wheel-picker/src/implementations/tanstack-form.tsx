@@ -52,6 +52,10 @@ function TanStackForm() {
               <WheelPicker
                 // Note that WheelPicker is intentionally uncontrolled
                 // and exposes an imperative API for external control
+                //
+                // Looping the value through form.state would trigger 
+                // a form re-render on every update, which can occur
+                // as frequently as every 50 ms
                 forwardedRef={pickerRef}
                 options={monthOptions}
                 onPick={field.handleChange} // updates form state

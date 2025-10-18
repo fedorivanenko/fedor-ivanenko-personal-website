@@ -7,37 +7,72 @@ import { cn } from "@/lib/utils";
 
 type CSSSize = `${number}${"px" | "rem" | "em"}`;
 
+// Exposed imperative API methods for external control
 export interface WheelPickerHandle {
+  // Rotates wheel to a specific option
   rotateTo: (option: WheelPickerOption) => void;
+  // Resets wheel position to the first option
   reset: () => void;
 }
 
+// Shape of each selectable option in the picker
 export interface WheelPickerOption {
+  // Option value used for selection and form integration
   value: string;
+  // Display label rendered inside the wheel
   label: React.ReactNode;
 }
 
+// Props for the WheelPicker component
 export interface WheelPickerProps {
+  // Ref exposing the WheelPickerHandle API
   forwardedRef?: React.Ref<WheelPickerHandle>;
+
+  // React Hook Form internal callback for focus management
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  callbackRef?: (instance: any) => void; //RHF callback to set the focus
+  callbackRef?: (instance: any) => void;
+
+  // List of selectable options displayed in the wheel
   options: WheelPickerOption[];
+
+  // Callback fired when user selects an option
   onPick: (value: string) => void;
+
+  // Handlers for focus and blur events (a11y and form integration)
   onFocus?: React.FocusEventHandler<HTMLDivElement>;
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
+
+  // Marks the picker as required for aria-required
   required?: boolean;
+
+  // Disables user input and animations
   disabled?: boolean;
-  height?: CSSSize; // size of the highleter element
-  angleStep?: number; // wheel curvage
+
+  // Height of the highlighter (e.g., "1.2em", "32px")
+  height?: CSSSize;
+
+  // Angular distance between visible options in degrees (controls curvature)
+  angleStep?: number;
+
+  // Threshold (in px) to trigger selection movement for wheel and drag
   tresHold?: {
     wheel: number;
     drag: number;
-  }; // wheel/drag sensivity
-  loop?: boolean; // infinite loop
+  };
+
+  // Enables infinite looping (default true if > 6 options)
+  loop?: boolean;
+
+  // Optional custom class for the root container
   containerClassName?: string;
+
+  // Optional custom class applied to each option
   optionClassName?: string;
+
+  // Optional custom class for the highlighter element
   highliterClassName?: string;
 }
+
 
 const shift = (prev: number[], loop: boolean, dir: number) => {
   const next = [...prev];
@@ -93,7 +128,8 @@ function WheelPicker({
   optionClassName,
   highliterClassName,
 }: WheelPickerProps) {
-  const throttle = 72; //ms
+  // minimum interval (ms) between wheel updates to prevent animation jamming
+  const throttle = 72; 
 
   const [wheelState, setWheelState] = React.useState(() => ({
     pos: createPositions(options.length, loop),
@@ -213,6 +249,7 @@ function WheelPicker({
     [wheelState.pos, animateSteps, rotateTo]
   );
 
+  // gestures
   useWheel(
     ({ velocity: [, vY], direction: [, dirY], delta: [, dY], event }) => {
       if (disabled) return;

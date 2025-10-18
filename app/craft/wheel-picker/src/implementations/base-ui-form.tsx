@@ -20,8 +20,8 @@ export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
 }
 
 type ControlWithRef = Field.Control.Props & {
-  // Base UI provides a callback ref here
-  // used to wire focus, events, and validity
+  // Base UI provides a callback ref 
+  // to wire focus, events, and validity
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ref?: any;
 };
@@ -76,6 +76,10 @@ function BaseUIForm() {
                 <WheelPicker
                   // Note that WheelPicker is intentionally uncontrolled
                   // and exposes an imperative API for external control
+                  //
+                  // Looping the value through form.state would trigger
+                  // a form re-render on every update, which can occur
+                  // as frequently as every 50 ms
                   forwardedRef={pickerRef}
                   options={monthOptions}
                   onPick={setMonth} // update controlled value
