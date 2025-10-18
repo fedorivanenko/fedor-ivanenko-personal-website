@@ -162,7 +162,7 @@
   h1 {
     @apply text-lg
   }
-  p, ul {
+  p, ul, tbody {
     @apply text-secondary-foreground
   }
   .prose-short {
@@ -172,11 +172,25 @@
     @apply space-y-3 dark:space-y-4 md:space-y-4 dark:md:space-y-5;
   }
   p code {
-    @apply text-sm rounded-sm bg-card px-1.5 py-1 break-words whitespace-pre-wrap border border-card-border
+    @apply text-sm text-foreground rounded-sm bg-card px-1.5 py-1 break-words whitespace-pre-wrap border border-card-border
   }
   span[data-no-brakes] {
     @apply whitespace-nowrap
   }
+  /*
+  tbody code {
+    @apply text-sm text-foreground
+  }
+  tbody {
+    @apply whitespace-nowrap text-base divide-y divide-card-border
+  }
+  td {
+    @apply py-1.5 pr-4
+  }
+  td:first-child {
+    @apply pl-4
+  }
+  */
 }
 
 @keyframes fadeInUp {
