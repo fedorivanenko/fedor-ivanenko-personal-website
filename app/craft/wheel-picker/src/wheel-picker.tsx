@@ -84,9 +84,9 @@ function WheelPicker({
   options,
   loop = options.length >= 6,
   tresHold = {
-    wheel: 32,
-    drag: 24,
-  }, //px
+    wheel: 32, //px
+    drag: 24, //px
+  },
   angleStep = 12, //deg
   height = "2em",
   containerClassName,
@@ -191,26 +191,33 @@ function WheelPicker({
     [wheelStateUpdate, throttle]
   );
 
+  const rotateTo = React.useCallback(
+    (to: WheelPickerOption) => {
+      const pos = options.findIndex((opt) => opt.value === to.value);
+      if (pos >= 0) {
+        animateSteps(wheelState.pos[pos]);
+      }
+    },
+    [options, wheelState.pos, animateSteps]
+  );
+
   // expose imperiative methods
   React.useImperativeHandle(
     forwardedRef,
     () => ({
-      rotateTo(to) {
-        const pos = options.findIndex((opt) => opt.value === to.value);
-        if (pos >= 0) {
-          animateSteps(wheelState.pos[pos]);
-        }
-      },
+      rotateTo,
       reset() {
         animateSteps(wheelState.pos[0]);
       },
     }),
-    [wheelState.pos, animateSteps, options]
+    [wheelState.pos, animateSteps, rotateTo]
   );
 
   useWheel(
     ({ velocity: [, vY], direction: [, dirY], delta: [, dY], event }) => {
       if (disabled) return;
+      console.log(dY)
+
       event.preventDefault();
       handleMove(dirY, vY, Math.abs(dY), "wheel");
     },
@@ -368,6 +375,7 @@ function WheelPicker({
             "absolute -translate-y-1/2 flex flex-col items-center justify-center top-1/2 w-full h-[var(--wheel-picker-height)]",
             optionClassName
           )}
+          onClick={() => rotateTo(option)}
         >
           {option.label}
         </animated.div>
