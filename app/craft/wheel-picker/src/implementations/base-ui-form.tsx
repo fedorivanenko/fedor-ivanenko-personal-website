@@ -4,7 +4,20 @@ import * as React from "react";
 import { Form } from "@base-ui-components/react/form";
 import { Field } from "@base-ui-components/react/field";
 import { monthOptions } from "./data";
-import { WheelPicker } from "../wheel-picker";
+import {
+  WheelPicker,
+  WheelPickerHandle,
+  wheelPickerWrapperStyle,
+} from "../wheel-picker";
+
+export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button
+      className="border text-sm w-full py-1 cursor-pointer border-border rounded hover:bg-accent/20 transition-colors"
+      {...props}
+    />
+  );
+}
 
 type ControlWithRef = Field.Control.Props & {
   // Base UI provides a callback ref here
@@ -17,8 +30,10 @@ function BaseUIForm() {
   // Base UI’s native way to track validation errors
   const [errors, setErrors] = React.useState({});
 
-  // Controlled field value 
+  // Controlled field value
   const [month, setMonth] = React.useState<string>("");
+
+  const pickerRef = React.useRef<WheelPickerHandle | null>(null);
 
   return (
     <Form
@@ -30,11 +45,15 @@ function BaseUIForm() {
         const value = formData.get("date") as string;
         console.log("submited:", value);
       }}
-      className={'flex-1 flex flex-col space-y-6 items-center'}
+      onReset={() => {
+        pickerRef.current?.reset();
+      }}
+      className={"flex-1 flex flex-col space-y-6 items-center"}
     >
-      <Field.Root name="date"
+      <Field.Root
+        name="date"
         // validation state is exposed via [data-invalid]
-        className="border border-border flex data-[invalid]:ring-destructive ring-2 ring-offset-4 ring-offset-background ring-transparent transition-all duration-250 rounded h-48 w-40 gap-1"
+        className={wheelPickerWrapperStyle}
       >
         <Field.Control
           onValueChange={setMonth} // keeps Field.Control and WheelPicker in sync
@@ -55,7 +74,9 @@ function BaseUIForm() {
             return (
               <>
                 <WheelPicker
-                  value={month}
+                  // Note that WheelPicker is intentionally uncontrolled
+                  // and exposes an imperative API for external control
+                  forwardedRef={pickerRef}
                   options={monthOptions}
                   onPick={setMonth} // update controlled value
                   onFocus={onFocus}
@@ -74,7 +95,7 @@ function BaseUIForm() {
                   value={month}
                   required={required}
                   disabled={disabled}
-                  onChange={onChange}  // lets Field.Control observe changes
+                  onChange={onChange} // lets Field.Control observe changes
                   tabIndex={-1}
                   type="text"
                   aria-hidden="true"
@@ -85,12 +106,10 @@ function BaseUIForm() {
           }}
         />
       </Field.Root>
-      <button
-          type="submit"
-          className="border w-40 border-border rounded hover:bg-accent/20 transition-colors"
-        >
-          Submit
-        </button>
+      <div className="flex flex-col space-y-1 w-40">
+        <Button type="submit">Submit</Button>
+        <Button type="reset">Reset</Button>
+      </div>
     </Form>
   );
 }

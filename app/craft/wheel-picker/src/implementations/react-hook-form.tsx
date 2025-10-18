@@ -1,12 +1,17 @@
 "use client";
 
+import { useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { WheelPicker } from "../wheel-picker";
+import { WheelPicker, WheelPickerHandle, WheelPickerWrapper } from "../wheel-picker";
 import { monthOptions } from "./data";
 import { formSchema } from "./data";
 
 import * as z from "zod";
+
+export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  return <button className="border text-sm w-full py-1 cursor-pointer border-border rounded hover:bg-accent/20 transition-colors" {...props} />;
+}
 
 function ReactHookForm() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -17,6 +22,8 @@ function ReactHookForm() {
     mode: "onChange",
   });
 
+  const pickerRef = useRef<WheelPickerHandle | null>(null);
+
   function onSubmit(data: z.infer<typeof formSchema>) {
     console.log("submitted", data);
   }
@@ -24,35 +31,38 @@ function ReactHookForm() {
   return (
     <form
       onSubmit={form.handleSubmit(onSubmit)}
+      onReset={() => {
+        form.reset();
+        pickerRef.current?.reset();
+      }}
       className="flex flex-col items-center space-y-6 flex-1"
     >
       <Controller
         name="month"
         control={form.control}
         render={({ field, fieldState }) => (
-          <div
+          <WheelPickerWrapper
             // validation state is exposed via fieldState
-            data-invalid={fieldState.invalid}
-            className="border border-border flex data-[invalid=true]:ring-destructive ring-2 ring-offset-4 ring-offset-background ring-transparent transition-all duration-250 rounded h-48 w-40 gap-1"
+            invalid={fieldState.invalid}
+            className="w-40 h-48 ring-offset-card"
           >
             <WheelPicker
-              // note, that source of truth is form state
+              // Note that WheelPicker is intentionally uncontrolled
+              // and exposes an imperative API for external control
+              forwardedRef={pickerRef}
               callbackRef={field.ref} // allows RHF to control focus
-              value={field.value}
               options={monthOptions}
               onPick={field.onChange} // updates RHF form state
               onBlur={field.onBlur}
               disabled={field.disabled}
             />
-          </div>
+          </WheelPickerWrapper>
         )}
       />
-      <button
-        type="submit"
-        className="border w-40 border-border rounded hover:bg-accent/20 transition-colors"
-      >
-        Submit
-      </button>
+      <div className="flex flex-col space-y-1 w-40">
+        <Button type="submit">Submit</Button>
+        <Button type="reset">Reset</Button>
+      </div>
     </form>
   );
 }
