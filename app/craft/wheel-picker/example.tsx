@@ -47,6 +47,7 @@ function Example() {
             className="w-60 sm:w-40 h-64 sm:h-48 ring-offset-card text-xl sm:text-base"
           >
             <WheelPicker
+              id='month'
               forwardedRef={pickerRef}
               callbackRef={field.ref}
               options={monthOptions}

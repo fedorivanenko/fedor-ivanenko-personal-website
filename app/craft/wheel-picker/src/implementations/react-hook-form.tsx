@@ -47,6 +47,7 @@ function ReactHookForm() {
             className="w-40 h-48 ring-offset-card"
           >
             <WheelPicker
+              id={field.name}
               // Note that WheelPicker is intentionally uncontrolled
               // and exposes an imperative API for external control
               //

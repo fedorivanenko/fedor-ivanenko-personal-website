@@ -51,7 +51,7 @@ function BaseUIForm() {
       className={"flex-1 flex flex-col space-y-6 items-center"}
     >
       <Field.Root
-        name="date"
+        name="month"
         // validation state is exposed via [data-invalid]
         className={wheelPickerWrapperStyle}
       >
@@ -74,6 +74,7 @@ function BaseUIForm() {
             return (
               <>
                 <WheelPicker
+                  id={'month'}
                   // Note that WheelPicker is intentionally uncontrolled
                   // and exposes an imperative API for external control
                   //

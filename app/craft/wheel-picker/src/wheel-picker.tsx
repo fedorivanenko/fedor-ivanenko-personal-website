@@ -25,6 +25,9 @@ export interface WheelPickerOption {
 
 // Props for the WheelPicker component
 export interface WheelPickerProps {
+  //
+  id: string
+  
   // Ref exposing the WheelPickerHandle API
   forwardedRef?: React.Ref<WheelPickerHandle>;
 
@@ -109,6 +112,7 @@ const createPositions = (length: number, centered: boolean): number[] => {
 
 //Core
 function WheelPicker({
+  id,
   forwardedRef,
   callbackRef,
   onPick,
@@ -367,6 +371,7 @@ function WheelPicker({
 
   return (
     <div
+      id={id}
       ref={setRefs}
       tabIndex={0}
       onFocus={onFocus}
@@ -374,9 +379,10 @@ function WheelPicker({
       onClick={() => handleClick()}
       onWheel={() => handleWheel()}
       onKeyDown={(e) => handleKeyDown(e)}
-      role="listbox"
       aria-required={required ? true : undefined}
       aria-disabled={disabled ? true : undefined}
+      role="listbox"
+      aria-live="polite"
       className={cn(
         "select-none touch-none text-[inherit] aria-[disabled]:opacity-75 aria-[disabled]:bg-foreground/5 cursor-grab rounded relative flex-1 overflow-hidden outline-none focus:ring-2 focus:ring-accent",
         containerClassName
