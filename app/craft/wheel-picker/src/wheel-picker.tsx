@@ -216,7 +216,6 @@ function WheelPicker({
   useWheel(
     ({ velocity: [, vY], direction: [, dirY], delta: [, dY], event }) => {
       if (disabled) return;
-      console.log(dY)
 
       event.preventDefault();
       handleMove(dirY, vY, Math.abs(dY), "wheel");
