@@ -177,6 +177,9 @@
   span[data-no-brakes] {
     @apply whitespace-nowrap
   }
+  br {
+    @apply hidden xs:block
+  }
   /*
   tbody code {
     @apply text-sm text-foreground
