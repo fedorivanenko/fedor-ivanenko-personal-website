@@ -50,7 +50,7 @@ export default function Page() {
           <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/tree/main/app/craft/wheel-picker/src">
             GitHub
           </InlineLinkButton>
-          . <br />
+          .{" "}<br />
           npm and CLI installations are coming.
         </p>
       </Section>
@@ -92,21 +92,20 @@ export default function Page() {
           </InlineLinkButton>
         </p>
         <p>
-          Current version made with Tailwind v4 and uses shadcn/ui{" "}
+          Styling includes both tailwind v4 and css.module versions{' '}<br/>with shadcn/ui{" "}
           <InlineLinkButton href="https://ui.shadcn.com/docs/theming#list-of-variables">
-            variables convention
-          </InlineLinkButton>.
+            variables convention.
+          </InlineLinkButton>
         </p>
         <p>
-          See the{" "}
+          For more details, check the{" "}
           <InlineLinkButton
             href={
               "https://github.com/fedorivanenko/fedor-ivanenko-personal-website/tree/main/app/craft/wheel-picker/src"
             }
           >
             source code
-          </InlineLinkButton>{" "}
-          for more details.
+          </InlineLinkButton>.
         </p>
       </Section>
 
