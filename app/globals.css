@@ -45,9 +45,9 @@
 .dark {
   --background: oklch(0.205 0 0);
   --foreground: oklch(0.975 0 0);
-  --card: oklch(0.185 0 0);
+  --card: oklch(0.188 0 0);
   --card-foreground: oklch(0.985 0 0);
-  --card-border: oklch(0.225 0 0);
+  --card-border: oklch(0.235 0 0);
   --popover: oklch(0.145 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.985 0 0);
@@ -172,7 +172,7 @@
     @apply space-y-3 dark:space-y-4 md:space-y-4 dark:md:space-y-5;
   }
   p code {
-    @apply text-sm rounded-sm bg-card/50 px-1.5 py-1 break-words whitespace-pre-wrap
+    @apply text-sm rounded-sm bg-card px-1.5 py-1 break-words whitespace-pre-wrap border border-card-border
   }
   span[data-no-brakes] {
     @apply whitespace-nowrap
@@ -213,7 +213,11 @@
 
 @layer code {
   pre {
-    @apply px-5 md:px-10 py-2.5 pt-7.5 md:py-7.5 md:pt-10 rounded-2xl text-sm leading-snug -mx-2.5 md:-mx-7.5 overflow-x-scroll;
+    @apply px-5 md:px-7.5 py-2.5 pt-7.5 md:py-5 md:pt-10 rounded-2xl text-sm leading-snug -mx-2.5 md:-mx-5 overflow-x-scroll;
+  }
+
+  .shiki {
+    @apply border border-card-border
   }
 
   pre:has(code .line[data-line]) {
@@ -223,7 +227,7 @@
   pre code .line[data-line]::before {
     counter-increment: line;
     content: counter(line);
-    @apply hidden w-4 lg:inline-block text-left mr-8 text-xs select-none text-foreground/50;
+    @apply w-4 lg:inline-block text-left mr-5 text-xs select-none text-foreground/50;
   }
 
   pre code [data-line] {
