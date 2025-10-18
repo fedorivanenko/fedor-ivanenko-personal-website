@@ -14,7 +14,7 @@ export interface WheelPickerHandle {
 
 export interface WheelPickerOption {
   value: string;
-  label: string;
+  label: React.ReactNode;
 }
 
 export interface WheelPickerProps {
@@ -359,7 +359,7 @@ function WheelPicker({
       {options.map((option, index) => (
         <animated.div
           tabIndex={-1}
-          key={option.label}
+          key={option.value}
           role="option"
           aria-selected={option.value === selectedValue}
           style={{
