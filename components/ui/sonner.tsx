@@ -26,7 +26,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       style={
         {
           "--normal-bg": "var(--card)",
-          "--normal-text": "var(--card-foreground)",
+          "--normal-text": "var(--foreground)",
           "--normal-border": "var(--card-border)",
           "--border-radius": "var(--radius)",
         } as React.CSSProperties
