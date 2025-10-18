@@ -21,7 +21,6 @@ export interface WheelPickerProps {
   forwardedRef?: React.Ref<WheelPickerHandle>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   callbackRef?: (instance: any) => void; //RHF callback to set the focus
-  value: string;
   options: WheelPickerOption[];
   onPick: (value: string) => void;
   onFocus?: React.FocusEventHandler<HTMLDivElement>;
@@ -78,7 +77,6 @@ const createPositions = (length: number, centered: boolean): number[] => {
 function WheelPicker({
   forwardedRef,
   callbackRef,
-  value,
   onPick,
   onFocus,
   onBlur,
@@ -291,6 +289,9 @@ function WheelPicker({
     wheelPickerRef.current?.focus();
   };
 
+  const selectedIndex = wheelState.pos.indexOf(0);
+  const selectedValue = options[selectedIndex]?.value;
+
   return (
     <div
       ref={setRefs}
@@ -316,7 +317,7 @@ function WheelPicker({
           tabIndex={-1}
           key={option.label}
           role="option"
-          aria-selected={value === option.value}
+          aria-selected={option.value === selectedValue}
           style={{
             scale: springs[index].scale,
             rotateX: springs[index].rotateX,

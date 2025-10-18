@@ -10,6 +10,7 @@
   --foreground: oklch(0.185 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
+  --card-border: oklch(0.922 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.205 0 0);
@@ -46,6 +47,7 @@
   --foreground: oklch(0.975 0 0);
   --card: oklch(0.185 0 0);
   --card-foreground: oklch(0.985 0 0);
+  --card-border: oklch(0.225 0 0);
   --popover: oklch(0.145 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.985 0 0);
@@ -96,6 +98,7 @@
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
+  --color-card-border: var(--card-border);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
@@ -169,7 +172,10 @@
     @apply space-y-3 dark:space-y-4 md:space-y-4 dark:md:space-y-5;
   }
   p code {
-    @apply text-sm rounded-sm bg-card/25 px-1 py-0.5 break-words whitespace-pre-wrap
+    @apply text-sm rounded-sm bg-card/50 px-1.5 py-1 break-words whitespace-pre-wrap
+  }
+  span[data-no-brakes] {
+    @apply whitespace-nowrap
   }
 }
 
@@ -207,7 +213,7 @@
 
 @layer code {
   pre {
-    @apply px-5 md:px-10 py-2.5 pt-7.5 md:py-7.5 md:pt-10 rounded-2xl text-[0.85rem] leading-snug -mx-2.5 md:-mx-7.5 overflow-x-scroll;
+    @apply px-5 md:px-10 py-2.5 pt-7.5 md:py-7.5 md:pt-10 rounded-2xl text-sm leading-snug -mx-2.5 md:-mx-7.5 overflow-x-scroll;
   }
 
   pre:has(code .line[data-line]) {

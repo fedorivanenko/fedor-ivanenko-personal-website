@@ -6,6 +6,7 @@ import "./globals.css";
 import Footer from "@/components/layout/footer";
 import { geist, geistMono } from "@/lib/fonts";
 import { generateMetadata } from "@/lib/metadata";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata = generateMetadata();
 
@@ -24,6 +25,7 @@ export default function RootLayout({
       <body
         className="min-h-screen flex flex-col mx-auto max-w-screen-md my-5 mt-20 md:mt-40 text-foreground antialiased"
       >
+        <Toaster/>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
