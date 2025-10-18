@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useGesture } from "@use-gesture/react";
+import { useDrag, useWheel } from "@use-gesture/react";
 import { animated, useSprings } from "@react-spring/web";
 import { cn } from "@/lib/utils";
 
@@ -29,15 +29,14 @@ export interface WheelPickerProps {
   disabled?: boolean;
   height?: CSSSize; // size of the highleter element
   angleStep?: number; // wheel curvage
-  treshHold?: {
-    wheel: number
-    drag: number
+  tresHold?: {
+    wheel: number;
+    drag: number;
   }; // wheel/drag sensivity
-  throttle?: number; // 
   loop?: boolean; // infinite loop
-  containerClassName?: string
-  optionClassName?: string
-  highliterClassName?: string
+  containerClassName?: string;
+  optionClassName?: string;
+  highliterClassName?: string;
 }
 
 const shift = (prev: number[], loop: boolean, dir: number) => {
@@ -83,18 +82,19 @@ function WheelPicker({
   required,
   disabled,
   options,
-  loop = options.length >= 4,
-  treshHold = {
+  loop = options.length >= 6,
+  tresHold = {
     wheel: 32,
-    drag: 32    
+    drag: 24,
   }, //px
   angleStep = 12, //deg
   height = "2em",
-  throttle = 75, //ms
   containerClassName,
   optionClassName,
   highliterClassName,
 }: WheelPickerProps) {
+  const throttle = 72; //ms
+
   const [wheelState, setWheelState] = React.useState(() => ({
     pos: createPositions(options.length, loop),
     vel: 0,
@@ -208,48 +208,78 @@ function WheelPicker({
     [wheelState.pos, animateSteps, options]
   );
 
-  useGesture(
-    {
-      onWheel: ({
-        velocity: [, vY],
-        direction: [, dirY],
-        delta: [, dY],
-        event,
-      }) => {
-        if (disabled) return;
-        event.preventDefault();
-        handleMove(dirY, vY, Math.abs(dY), 'wheel');
-      },
-      onDrag: ({
-        direction: [, dirY],
-        velocity: [, vY],
-        movement: [, my],
-        first,
-        last,
-      }) => {
-        if (disabled) return;
-        if (first) eY.current = 0;
-        handleMove(-dirY, vY, Math.abs(my), 'drag');
-        if (last) eY.current = 0;
-      },
+  useWheel(
+    ({ velocity: [, vY], direction: [, dirY], delta: [, dY], event }) => {
+      if (disabled) return;
+      event.preventDefault();
+      handleMove(dirY, vY, Math.abs(dY), "wheel");
     },
-    { target: wheelPickerRef, eventOptions: { passive: false } }
+    {
+      target: wheelPickerRef,
+      eventOptions: { passive: false },
+    }
   );
 
-  function handleMove(dirY: number, vY: number, dY: number, action: 'wheel' | 'drag') {
-    eY.current += dY;
+  useDrag(
+    ({
+      direction: [, dirY],
+      velocity: [, vY],
+      delta: [, dY],
+      first,
+      last,
+      event,
+    }) => {
+      if (disabled) return;
+      event.preventDefault();
+      if (first) eY.current = 0;
+
+      handleMove(-dirY, vY, dY, "drag");
+
+      // inertia
+      if (last && vY > 0.1) {
+        const steps = Math.min(Math.round(vY * 8), 12);
+
+        for (let i = 0; i < steps; i++) {
+          const decay = Math.exp(-i / 6);
+          const vel = vY * 4 * decay;
+          const delay = throttle + i * i * 6;
+          
+          setTimeout(() => {
+            wheelStateUpdate({ dir: -dirY, vel });
+          }, delay);
+        }
+      }
+    },
+    {
+      target: wheelPickerRef,
+      axis: "y",
+      filterTaps: true,
+      rubberband: 0,
+      eventOptions: { passive: false },
+      pointer: { touch: true },
+    }
+  );
+
+  function handleMove(
+    dirY: number,
+    vY: number,
+    dY: number,
+    action: "wheel" | "drag"
+  ) {
+    eY.current += Math.abs(dY);
 
     if (dirY !== prevDir.current && dirY !== 0) {
       prevDir.current = dirY;
       eY.current = 0;
       return;
     }
-    const tresh = action === "wheel"
-    ? treshHold.wheel
-    : action === "drag"
-      ? treshHold.drag
-      : 32;
-  
+    const tresh =
+      action === "wheel"
+        ? tresHold.wheel
+        : action === "drag"
+        ? tresHold.drag
+        : 32;
+
     if (eY.current > tresh) {
       wheelStateUpdate({ dir: dirY, vel: vY });
     }
@@ -304,14 +334,22 @@ function WheelPicker({
       role="listbox"
       aria-required={required ? true : undefined}
       aria-disabled={disabled ? true : undefined}
-        className={cn("select-none touch-none text-[inherit] aria-[disabled]:opacity-75 aria-[disabled]:bg-foreground/5 cursor-grab rounded relative flex-1 overflow-hidden outline-none focus:ring-2 focus:ring-accent", containerClassName)}
+      className={cn(
+        "select-none touch-none text-[inherit] aria-[disabled]:opacity-75 aria-[disabled]:bg-foreground/5 cursor-grab rounded relative flex-1 overflow-hidden outline-none focus:ring-2 focus:ring-accent",
+        containerClassName
+      )}
       style={{
         perspective: "64rem",
         ["--rad" as string]: (angleStep * 3.14159) / 180,
         ["--wheel-picker-height" as string]: height,
       }}
     >
-      <div className={cn("absolute -translate-y-1/2 inset-x-2 top-1/2 rounded bg-foreground/5 h-[var(--wheel-picker-height)]", highliterClassName)} />
+      <div
+        className={cn(
+          "absolute -translate-y-1/2 inset-x-2 top-1/2 rounded bg-foreground/5 h-[var(--wheel-picker-height)]",
+          highliterClassName
+        )}
+      />
       {options.map((option, index) => (
         <animated.div
           tabIndex={-1}
@@ -326,7 +364,10 @@ function WheelPicker({
               "center center calc(-1 * calc(var(--wheel-picker-height) / var(--rad)))",
             backfaceVisibility: "hidden",
           }}
-          className={cn("absolute -translate-y-1/2 flex flex-col items-center justify-center top-1/2 w-full h-[var(--wheel-picker-height)]", optionClassName)}
+          className={cn(
+            "absolute -translate-y-1/2 flex flex-col items-center justify-center top-1/2 w-full h-[var(--wheel-picker-height)]",
+            optionClassName
+          )}
         >
           {option.label}
         </animated.div>
@@ -335,4 +376,22 @@ function WheelPicker({
   );
 }
 
-export { WheelPicker };
+interface WheelPickerWrapperProps extends React.HTMLAttributes<HTMLDivElement> {
+  invalid: boolean;
+}
+
+const wheelPickerWrapperStyle =
+  "border border-border flex data-[invalid]:ring-destructive ring-2 ring-offset-4 ring-offset-background ring-transparent transition-all duration-250 rounded";
+
+function WheelPickerWrapper(props: WheelPickerWrapperProps) {
+  return (
+    <div
+      {...(props.invalid ? { "data-invalid": "" } : null)}
+      className={cn(wheelPickerWrapperStyle, props.className)}
+    >
+      {props.children}
+    </div>
+  );
+}
+
+export { WheelPicker, WheelPickerWrapper, wheelPickerWrapperStyle };
