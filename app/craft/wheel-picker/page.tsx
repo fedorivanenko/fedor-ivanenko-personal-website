@@ -47,7 +47,7 @@ export default function Page() {
         </p>
         <p>
           Get the source code from{" "}
-          <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/blob/6917bd117555299900d298b7f168035b421f81b4/app/craft/wheel-picker/src/wheel-picker.tsx">
+          <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/tree/main/app/craft/wheel-picker/src">
             GitHub
           </InlineLinkButton>
           . <br />
@@ -95,8 +95,7 @@ export default function Page() {
           Current version made with Tailwind v4 and uses shadcn/ui{" "}
           <InlineLinkButton href="https://ui.shadcn.com/docs/theming#list-of-variables">
             variables convention
-          </InlineLinkButton>
-          . CSS&nbsp;modules version is coming.
+          </InlineLinkButton>.
         </p>
         <p>
           See the{" "}
