@@ -148,6 +148,7 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    scrollbar-color: var(--color-border) transparent;
   }
   body {
     @apply bg-background text-secondary-foreground min-h-screen antialiased font-[450] dark:font-[400] text-[0.96em] xs:text-[1em];
