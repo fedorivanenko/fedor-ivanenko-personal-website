@@ -20,6 +20,12 @@
   .container:focus {
     box-shadow: 0 0 0 2px var(--accent);
   }
+
+  .container::before {
+    content: "";
+    position: absolute;
+    inset: -8px;
+  }
   
   .highlighter {
     position: absolute;

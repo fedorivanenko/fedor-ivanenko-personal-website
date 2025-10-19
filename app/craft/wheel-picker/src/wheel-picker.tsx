@@ -404,7 +404,7 @@ function WheelPicker({
         aria-describedby={`${id}-hint`}
         role="listbox"
         className={cn(
-          "select-none touch-none text-[inherit] aria-[disabled]:opacity-75 aria-[disabled]:bg-foreground/5 cursor-grab rounded relative flex-1 overflow-hidden outline-none focus:ring-2 focus:ring-accent",
+          "select-none touch-none text-[inherit] aria-[disabled]:opacity-75 aria-[disabled]:bg-foreground/5 cursor-grab rounded relative flex-1 overflow-hidden outline-none focus:ring-2 focus:ring-accent before:content-[''] before:absolute before:-inset-4",
           containerClassName
         )}
         style={{
