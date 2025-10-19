@@ -20,7 +20,7 @@ export default function Page() {
       </h1>
       <Section>
         <p>
-          Wheel Picker component made with{" "}
+          React component made with{" "}
           <span data-no-brakes>
             <InlineLinkButton href="https://react-spring.dev/docs">
               @react-springs
@@ -35,7 +35,7 @@ export default function Page() {
         <ul className="space-y-0.5">
           <li>Validation, a11y, and keyboard control are included.</li>
           <li>
-            Compatible&nbsp;with&nbsp;
+            Compatitable&nbsp;with&nbsp;
             <InlineLinkButton href="https://ui.shadcn.com/docs">
               shadcn-ui
             </InlineLinkButton>{" "}
