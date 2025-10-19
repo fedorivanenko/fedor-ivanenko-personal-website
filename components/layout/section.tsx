@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const sectionVariants = cva(
-  "flex flex-col prose-short leading-relaxed scroll-m-20",
+  "flex flex-col prose-short px-2.5 leading-relaxed scroll-m-20",
   {
     variants: {
       animated: {
@@ -11,8 +11,8 @@ const sectionVariants = cva(
         false: "",
       },
       card: {
-        true: "bg-card px-8 py-7.5 md:py-7.5 mx-2.5 rounded-2xl md:border border-card-border",
-        false: "px-7.5 mx-auto",
+        true: "bg-card py-7.5 -mx-2.5 md:py-7.5 rounded-2xl border border-card-border",
+        false: "mx-auto",
       },
     },
     defaultVariants: {

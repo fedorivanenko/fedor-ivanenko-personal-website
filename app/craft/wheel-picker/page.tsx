@@ -12,7 +12,7 @@ import { ReactHookForm } from "./src/implementations/react-hook-form";
 
 export default function Page() {
   return (
-    <>
+    <article>
       <h1
         className={cn(sectionVariants({ animated: true }), "!space-y-0 mb-12")}
       >
@@ -21,6 +21,7 @@ export default function Page() {
       <Section className="mb-9">
         <p>
           Wheel Picker component made with{" "}
+          <span data-no-brakes>
           <InlineLinkButton href="https://react-spring.dev/docs">
             @react-springs
           </InlineLinkButton>{" "}
@@ -28,12 +29,13 @@ export default function Page() {
           <InlineLinkButton href="https://use-gesture.netlify.app/docs/">
             @use-gesture
           </InlineLinkButton>
+          </span>
           .
         </p>
         <p>
-          Inertia scrolling, validation, a11y, and keyboard control are included.
+          Inertia scrolling, validation, a11y, and keyboard control are included.{" "}
           <br />
-          Compatible with{" "}
+          Compatible&nbsp;with&nbsp;
           <InlineLinkButton href="https://ui.shadcn.com/docs">
             shadcn-ui
           </InlineLinkButton>{" "}
@@ -51,7 +53,7 @@ export default function Page() {
             GitHub
           </InlineLinkButton>
           .{" "}<br />
-          npm and CLI installations are coming.
+          <span data-no-brakes>npm and CLI installations are coming</span>.
         </p>
       </Section>
       <Section className="flex flex-row mb-9" card>
@@ -182,6 +184,6 @@ export default function Page() {
         </CodeBlock>
       </Section>
        */}
-    </>
+    </article>
   );
 }

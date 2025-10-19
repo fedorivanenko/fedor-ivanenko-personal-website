@@ -18,15 +18,15 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geist.variable} ${geistMono.variable}`}>
       {/* <script src="https://unpkg.com/react-scan/dist/auto.global.js" async /> */}
-      <body className="min-h-screen flex flex-col mx-auto max-w-screen-md my-5 mt-0 md:mt-0 text-foreground antialiased">
+      <body>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
+          <Toaster/>
           <main>
-            <Toaster />
             {children}
           </main>
           <Footer />

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 export default function Page() {
 
     return (
-      <article>
+      <article className="animation-container">
         <h1
           className={cn(sectionVariants(), "animate-blur-fade stagger mb-12")}
         >

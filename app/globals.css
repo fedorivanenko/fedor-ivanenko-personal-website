@@ -136,6 +136,8 @@
   --breakpoint-sm: 32rem;
   --breakpoint-xs: 27rem;
 
+  --content-width: 42rem;
+
   --default-mono-font-family: var(--font-geist-mono);
   --default-font-family: var(--font-geist-sans);
 }
@@ -145,13 +147,16 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground font-[450] dark:font-[400] text-[0.96em] xs:text-[1em];
+    @apply bg-background text-foreground min-h-screen antialiased font-[450] dark:font-[400] text-[0.96em] xs:text-[1em];
   }
   main {
-    @apply animation-container w-full space-y-12.5 sm:space-y-20
+    @apply w-full mt-16 lg:mt-32 flex flex-col max-w-screen-lg lg:grid lg:grid-cols-[auto_var(--content-width)_auto] gap-x-1 mx-auto px-5 
   }
   article {
-    @apply space-y-7.5 sm:space-y-12.5
+    @apply space-y-7.5 sm:space-y-12.5 animation-container col-start-2 max-w-[var(--content-width)] w-full mx-auto lg:mx-0 
+  }
+  header {
+    @apply animate-blur-fade stagger-0 max-w-(--content-width) w-full lg:mx-0 mx-auto px-7.5 lg:px-0 mb-10
   }
 }
 
@@ -178,22 +183,8 @@
     @apply whitespace-nowrap
   }
   br {
-    @apply hidden xs:block
+    @apply hidden md:block
   }
-  /*
-  tbody code {
-    @apply text-sm text-foreground
-  }
-  tbody {
-    @apply whitespace-nowrap text-base divide-y divide-card-border
-  }
-  td {
-    @apply py-1.5 pr-4
-  }
-  td:first-child {
-    @apply pl-4
-  }
-  */
 }
 
 @keyframes fadeInUp {
