@@ -138,6 +138,9 @@
 
   --content-width: 36rem;
 
+  --text-sm: 0.9375rem;
+  --text-xs: 0.8125rem;
+
   --default-mono-font-family: var(--font-geist-mono);
   --default-font-family: var(--font-geist-sans);
 }
