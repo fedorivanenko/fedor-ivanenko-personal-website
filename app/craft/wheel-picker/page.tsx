@@ -12,7 +12,7 @@ import { ReactHookForm } from "./src/implementations/react-hook-form";
 
 export default function Page() {
   return (
-    <main>
+    <>
       <h1
         className={cn(sectionVariants({ animated: true }), "!space-y-0 mb-12")}
       >
@@ -182,6 +182,6 @@ export default function Page() {
         </CodeBlock>
       </Section>
        */}
-    </main>
+    </>
   );
 }
