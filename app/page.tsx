@@ -77,7 +77,7 @@ const projectsData: ProjectData[] = [
     href: "https://www.hellojadey.com/",
     description: (
       <p>
-        Development via{" "}
+        E-commerce website. Development via{" "}
         <InlineLinkButton href="https://www.hyuman.tech/">
           hyuman.tech
         </InlineLinkButton>
@@ -89,7 +89,7 @@ const projectsData: ProjectData[] = [
     name: "TBA",
     description: (
       <p>
-        Development via{" "}
+        Editorial website. Development via{" "}
         <InlineLinkButton href="https://midnight.agency/">
           midnight.agency
         </InlineLinkButton>
@@ -100,13 +100,13 @@ const projectsData: ProjectData[] = [
     year: 2024,
     name: "ivpay.io",
     href: "https://ivpay.io/",
-    description: <p>Development</p>,
+    description: <p>Marketing website. Development</p>,
   },
   {
     year: 2024,
     name: "pzk.design",
     href: "https://www.pzk.design/",
-    description: <p>Design and development</p>,
+    description: <p>Pesonal website. Design and development</p>,
   },
 ];
 
@@ -159,11 +159,11 @@ function ProjectRow({ year, href, name, description }: ProjectData) {
 
 function ProjectsPanel() {
   return (
-    <Section className="overflow-x-scroll pl-7.5 py-5" id="projects" card>
+    <Section className="overflow-x-scroll pl-7.5 pt-5 pb-0" id="projects" card>
       <h2 className="!mb-1.5">Patricipations</h2>
       <p>I made several websites and you can hire me to build one.</p>
-      <ul className="grid grid-cols-[max-content_max-content_max-content] overflow-x-scroll pr-20 gap-x-7.5 gap-y-1 mb-2">
-        <div className="absolute w-20 h-full pointer-events-none bg-gradient-to-r from-transparent to-background/50 -translate-x-[1px] top-0 right-0" />
+      <ul className="grid grid-cols-[max-content_max-content_max-content] overflow-x-scroll pr-20 gap-x-7.5 gap-y-1 pb-7.5">
+        <div className="absolute w-40 h-full pointer-events-none bg-gradient-to-r from-transparent to-background/50 -translate-x-[1px] top-0 right-0" />
         {projectsData.map((project) => (
           <ProjectRow key={`${project.year}-${project.name}`} {...project} />
         ))}
