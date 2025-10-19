@@ -53,7 +53,7 @@ function CarftPanel() {
         <InlineLinkButton href={"/craft/wheel-picker"} target="_self">
           Wheel Picker
         </InlineLinkButton>
-        <span className="block text-muted-foreground text-sm">
+        <span className="block text-muted-foreground text-sm mt-0.5">
           React component. Validation, a11y, and keyboard control are included.
         </span>
       </p>
