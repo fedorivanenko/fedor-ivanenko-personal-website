@@ -54,7 +54,7 @@ function CarftPanel() {
           Wheel Picker
         </InlineLinkButton>
         <span className="block text-muted-foreground text-sm mt-0.5">
-          React component. Validation, a11y, and keyboard control are included.
+          React component. Validation, a11y, and keyboard controls are included.
         </span>
       </p>
     </Section>
