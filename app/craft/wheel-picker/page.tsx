@@ -18,7 +18,7 @@ export default function Page() {
       >
         Wheel Picker
       </h1>
-      <Section className="mb-9">
+      <Section>
         <p>
           Wheel Picker component made with{" "}
           <span data-no-brakes>
@@ -56,7 +56,7 @@ export default function Page() {
           <span data-no-brakes>npm and CLI installations are coming</span>.
         </p>
       </Section>
-      <Section className="flex flex-row mb-9" card>
+      <Section card>
         <Example />
         <KbdGroup className="absolute bottom-2.5 left-2.5">
           <Kbd>↑</Kbd>

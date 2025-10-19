@@ -213,11 +213,11 @@ function ContactPanel() {
 
 export default function Home() {
   return (
-    <div className="animation-container">
+    <article className="animation-container">
       <BioPanel />
       <ProjectsPanel />
       <PersonalityPanel />
       <ContactPanel />
-    </div>
+    </article>
   );
 }

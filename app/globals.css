@@ -156,7 +156,7 @@
     @apply space-y-7.5 sm:space-y-12.5 animation-container col-start-2 max-w-[var(--content-width)] w-full mx-auto lg:mx-0 
   }
   header {
-    @apply animate-blur-fade stagger-0 max-w-(--content-width) w-full lg:mx-0 mx-auto px-2.5 lg:px-0 mb-10
+    @apply animate-blur-fade stagger-0 max-w-(--content-width) w-full lg:mx-0 mx-auto px-2.5 lg:px-0 mb-10 translate-y-0.5
   }
 }
 
@@ -204,8 +204,8 @@
   opacity: 0;
   transform: translateY(40px);
   filter: blur(20px);
-  animation: fadeInUp 1s ease-out 1s forwards;
-  animation-delay: calc(var(--stagger, 0) * 0.125s);
+  animation: fadeInUp 500ms ease-out 500ms forwards;
+  animation-delay: calc(var(--stagger, 0) * 75ms);
 }
 
 @utility stagger-* {
