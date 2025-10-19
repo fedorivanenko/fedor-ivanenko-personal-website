@@ -9,7 +9,7 @@ function BioPanel() {
         className={cn(sectionVariants({ animated: true }), "!space-y-0 mb-12")}
       >
         <h1>Fedor Ivanenko</h1>
-        <p className="!text-muted-foreground text-sm">
+        <p className="text-muted-foreground bg-muted rounded-md px-2 py-0.25 -mx-0.75 mt-1.5 text-xs whitespace-nowrap max-w-min">
           designer + engineer
         </p>
       </div>
@@ -50,13 +50,15 @@ function CarftPanel() {
     <Section>
       <h2>Craft</h2>
       <p>
-        <InlineLinkButton href={"/craft/wheel-picker"} target="_self">Wheel Picker</InlineLinkButton>
+        <InlineLinkButton href={"/craft/wheel-picker"} target="_self">
+          Wheel Picker
+        </InlineLinkButton>
         <span className="block text-muted-foreground text-sm">
-        React component. Validation, a11y, and keyboard control are included.
+          React component. Validation, a11y, and keyboard control are included.
         </span>
       </p>
     </Section>
-  )
+  );
 }
 
 import { cloneElement, isValidElement, ReactElement } from "react";
@@ -147,7 +149,7 @@ function ProjectRow({ year, href, name, description }: ProjectData) {
   };
 
   return (
-    <li className="contents text-muted-foreground">
+    <li className="contents text-muted-foreground text-sm">
       <p>{year}</p>
       {renderName()}
       {renderDescription()}
@@ -157,9 +159,10 @@ function ProjectRow({ year, href, name, description }: ProjectData) {
 
 function ProjectsPanel() {
   return (
-    <Section className="overflow-x-scroll" id="projects">
-      <h2>Patricipations</h2>
-      <ul className="grid grid-cols-[max-content_max-content_max-content] overflow-x-scroll pr-20 gap-x-7.5 gap-y-0.5 mb-2">
+    <Section className="overflow-x-scroll pl-7.5 py-5" id="projects" card>
+      <h2 className="!mb-1.5">Patricipations</h2>
+      <p>I made several websites and you can hire me to build one.</p>
+      <ul className="grid grid-cols-[max-content_max-content_max-content] overflow-x-scroll pr-20 gap-x-7.5 gap-y-1 mb-2">
         <div className="absolute w-20 h-full pointer-events-none bg-gradient-to-r from-transparent to-background/50 -translate-x-[1px] top-0 right-0" />
         {projectsData.map((project) => (
           <ProjectRow key={`${project.year}-${project.name}`} {...project} />

@@ -81,7 +81,7 @@ export default function Page() {
        */}
       <Section>
           <p className="mb-1">See the implementations for: </p>
-          <ul className="list-decimal list-inside">
+          <ul className="list-['—'] list-inside">
             <li>
               <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/blob/main/app/craft/wheel-picker/src/implementations/react-hook-form.tsx">
                 react-hook-form

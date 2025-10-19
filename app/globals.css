@@ -188,6 +188,9 @@
   br {
     @apply hidden md:block
   }
+  li::marker {
+    @apply text-muted-foreground/50
+  }
 }
 
 @keyframes fadeInUp {
