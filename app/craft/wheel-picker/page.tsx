@@ -31,7 +31,7 @@ export default function Page() {
           .
         </p>
         <p>
-          Validation, a11y, and keyboard control are included.
+          Inertia scrolling, validation, a11y, and keyboard control are included.
           <br />
           Compatible with{" "}
           <InlineLinkButton href="https://ui.shadcn.com/docs">
