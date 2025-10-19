@@ -159,7 +159,7 @@ function ProjectRow({ year, href, name, description }: ProjectData) {
 
 function ProjectsPanel() {
   return (
-    <Section className="overflow-x-scroll pl-7.5 pt-5 pb-0" id="projects" card>
+    <Section className="overflow-x-scroll pl-7.5 pt-5 pb-0 pr-0" id="projects" card>
       <h2 className="!mb-1.5">Patricipations</h2>
       <p>I made several websites and you can hire me to build one.</p>
       <ul className="grid grid-cols-[max-content_max-content_max-content] overflow-x-scroll pr-20 gap-x-7.5 gap-y-1 pb-7.5">
