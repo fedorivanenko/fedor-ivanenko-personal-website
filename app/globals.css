@@ -204,8 +204,8 @@
   opacity: 0;
   transform: translateY(40px);
   filter: blur(20px);
-  animation: fadeInUp 500ms ease-out 500ms forwards;
-  animation-delay: calc(var(--stagger, 0) * 75ms);
+  animation: fadeInUp 600ms ease-out 600ms forwards;
+  animation-delay: calc(var(--stagger, 0) * 120ms);
 }
 
 @utility stagger-* {
