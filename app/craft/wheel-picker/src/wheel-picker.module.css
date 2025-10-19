@@ -1,3 +1,8 @@
+/*
+  shadcn-ui variables naming convention is used 
+  https://ui.shadcn.com/docs/theming#list-of-variables
+*/
+
 .container {
     user-select: none;
     touch-action: none;
