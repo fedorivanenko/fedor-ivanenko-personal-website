@@ -33,7 +33,7 @@ export default function Page() {
           .
         </p>
         <ul className="space-y-0.5">
-          <li>Validation, a11y, and keyboard control are included.</li>
+          <li>Validation, a11y, and keyboard controls are included.</li>
           <li>
             Compatitable&nbsp;with&nbsp;
             <InlineLinkButton href="https://ui.shadcn.com/docs">
