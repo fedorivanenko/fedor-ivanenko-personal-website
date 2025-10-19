@@ -5,7 +5,7 @@ const baseUrl = process.env.VERCEL_URL
 export const siteConfig = {
   name: "Fedor Ivanenko",
   url: baseUrl,
-  description: "React / Next.js developer and UX designer",
+  description: "designer + engineer",
   author: {
     name: "Fedor Ivanenko",
     twitter: "@fedorivanenko_",
