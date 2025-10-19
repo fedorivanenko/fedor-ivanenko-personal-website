@@ -26,8 +26,8 @@ export interface WheelPickerOption {
 // Props for the WheelPicker component
 export interface WheelPickerProps {
   //
-  id: string
-  
+  id: string;
+
   // Ref exposing the WheelPickerHandle API
   forwardedRef?: React.Ref<WheelPickerHandle>;
 
@@ -75,7 +75,6 @@ export interface WheelPickerProps {
   // Optional custom class for the highlighter element
   highliterClassName?: string;
 }
-
 
 const shift = (prev: number[], loop: boolean, dir: number) => {
   const next = [...prev];
@@ -133,7 +132,7 @@ function WheelPicker({
   highliterClassName,
 }: WheelPickerProps) {
   // minimum interval (ms) between wheel updates to prevent animation jamming
-  const throttle = 72; 
+  const throttle = 72;
 
   const [wheelState, setWheelState] = React.useState(() => ({
     pos: createPositions(options.length, loop),
@@ -290,7 +289,7 @@ function WheelPicker({
           const decay = Math.exp(-i / 6);
           const vel = vY * 4 * decay;
           const delay = throttle + i * i * 6;
-          
+
           setTimeout(() => {
             wheelStateUpdate({ dir: -dirY, vel });
           }, delay);
@@ -353,6 +352,22 @@ function WheelPicker({
       case "Escape":
         e.preventDefault();
         wheelPickerRef.current?.blur();
+      case "Enter":
+        e.preventDefault();
+        // Move focus to next focusable element
+        const current = e.currentTarget as HTMLElement;
+        const form = current.closest("form");
+        if (form) {
+          const elements = Array.from(
+            form.querySelectorAll<HTMLElement>(
+              "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])"
+            )
+          );
+          const index = elements.indexOf(current);
+          const next = elements[index + 1];
+          next?.focus();
+        }
+        break;
     }
   };
 
@@ -370,59 +385,65 @@ function WheelPicker({
   const selectedValue = options[selectedIndex]?.value;
 
   return (
-    <div
-      id={id}
-      ref={setRefs}
-      tabIndex={0}
-      onFocus={onFocus}
-      onBlur={onBlur}
-      onClick={() => handleClick()}
-      onWheel={() => handleWheel()}
-      onKeyDown={(e) => handleKeyDown(e)}
-      aria-required={required ? true : undefined}
-      aria-disabled={disabled ? true : undefined}
-      role="listbox"
-      aria-live="polite"
-      className={cn(
-        "select-none touch-none text-[inherit] aria-[disabled]:opacity-75 aria-[disabled]:bg-foreground/5 cursor-grab rounded relative flex-1 overflow-hidden outline-none focus:ring-2 focus:ring-accent",
-        containerClassName
-      )}
-      style={{
-        perspective: "64rem",
-        ["--rad" as string]: (angleStep * 3.14159) / 180,
-        ["--wheel-picker-height" as string]: height,
-      }}
-    >
+    <>
+      <span id={`${id}-hint`} className="sr-only">
+        Use ↑/↓ to navigate. Enter to select an move to next field. Esc to clear.
+      </span>
       <div
+        id={id}
+        ref={setRefs}
+        tabIndex={0}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        onClick={() => handleClick()}
+        onWheel={() => handleWheel()}
+        onKeyDown={(e) => handleKeyDown(e)}
+        aria-required={required ? true : undefined}
+        aria-disabled={disabled ? true : undefined}
+        aria-labelledby={`${id}-label`}
+        aria-describedby={`${id}-hint`}
+        role="listbox"
         className={cn(
-          "absolute -translate-y-1/2 inset-x-2 top-1/2 rounded bg-foreground/5 h-[var(--wheel-picker-height)]",
-          highliterClassName
+          "select-none touch-none text-[inherit] aria-[disabled]:opacity-75 aria-[disabled]:bg-foreground/5 cursor-grab rounded relative flex-1 overflow-hidden outline-none focus:ring-2 focus:ring-accent",
+          containerClassName
         )}
-      />
-      {options.map((option, index) => (
-        <animated.div
-          tabIndex={-1}
-          key={option.value}
-          role="option"
-          aria-selected={option.value === selectedValue}
-          style={{
-            scale: springs[index].scale,
-            rotateX: springs[index].rotateX,
-            opacity: springs[index].opacity,
-            transformOrigin:
-              "center center calc(-1 * calc(var(--wheel-picker-height) / var(--rad)))",
-            backfaceVisibility: "hidden",
-          }}
+        style={{
+          perspective: "64rem",
+          ["--rad" as string]: (angleStep * 3.14159) / 180,
+          ["--wheel-picker-height" as string]: height,
+        }}
+      >
+        <div
           className={cn(
-            "absolute -translate-y-1/2 flex flex-col items-center justify-center top-1/2 w-full h-[var(--wheel-picker-height)]",
-            optionClassName
+            "absolute -translate-y-1/2 inset-x-2 top-1/2 rounded bg-foreground/5 h-[var(--wheel-picker-height)]",
+            highliterClassName
           )}
-          onClick={() => rotateTo(option)}
-        >
-          {option.label}
-        </animated.div>
-      ))}
-    </div>
+        />
+        {options.map((option, index) => (
+          <animated.div
+            id={`${id}-opt-${index}`}
+            key={option.value}
+            role="option"
+            aria-selected={option.value === selectedValue}
+            style={{
+              scale: springs[index].scale,
+              rotateX: springs[index].rotateX,
+              opacity: springs[index].opacity,
+              transformOrigin:
+                "center center calc(-1 * calc(var(--wheel-picker-height) / var(--rad)))",
+              backfaceVisibility: "hidden",
+            }}
+            className={cn(
+              "absolute -translate-y-1/2 flex flex-col items-center justify-center top-1/2 w-full h-[var(--wheel-picker-height)]",
+              optionClassName
+            )}
+            onClick={() => rotateTo(option)}
+          >
+            {option.label}
+          </animated.div>
+        ))}
+      </div>
+    </>
   );
 }
 
