@@ -147,7 +147,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground min-h-screen antialiased font-[450] dark:font-[400] text-[0.96em] xs:text-[1em];
+    @apply bg-background text-secondary-foreground min-h-screen antialiased font-[450] dark:font-[400] text-[0.96em] xs:text-[1em];
   }
   main {
     @apply w-full mt-16 lg:mt-32 flex flex-col max-w-screen-lg lg:grid lg:grid-cols-[auto_var(--content-width)_auto] gap-x-1 mx-auto px-5 
@@ -162,14 +162,16 @@
 
 @layer typography {
   h1, h2, h3, h4 {
-    @apply font-[550];
+    @apply font-[550] text-foreground
   }
   h1 {
     @apply text-lg
   }
+  /*
   p, ul, tbody {
-    @apply text-secondary-foreground
+    @apply 
   }
+  */
   .prose-short {
     @apply space-y-3 dark:space-y-3.5;
   }
