@@ -1,18 +1,12 @@
 import { Section, sectionVariants } from "@/components/layout/section";
-import {
-  buttonVariants,
-  InlineLinkButton,
-} from "@/components/ui/button";
+import { buttonVariants, InlineLinkButton } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 function BioPanel() {
   return (
     <>
       <div
-        className={cn(
-          sectionVariants({animated:true}),
-          "!space-y-0 mb-12"
-        )}
+        className={cn(sectionVariants({ animated: true }), "!space-y-0 mb-12")}
       >
         <h1>Fedor Ivanenko</h1>
         <p>designer + engineer</p>
@@ -39,11 +33,9 @@ function BioPanel() {
             .
           </p>
           <p>
-            I build clear and practical websites and craft UX that is
-            simple and obvious.{" "}
-            <br className="hidden md:block" />
-            Using mostly TypeSscript, CSS, React, Next.js, and
-            Sanity.
+            I build clear and practical websites and craft UX that is simple and
+            obvious. <br className="hidden md:block" />
+            Using mostly TypeSscript, CSS, React, Next.js, and Sanity.
           </p>
         </div>
       </Section>
@@ -51,17 +43,58 @@ function BioPanel() {
   );
 }
 
-import { cloneElement, isValidElement, ReactElement } from 'react';
+
+
+import { cloneElement, isValidElement, ReactElement } from "react";
 
 interface ProjectData extends React.HTMLAttributes<HTMLLIElement> {
-  year: number
-  name: string
-  href?: string
-  description: React.ReactNode
+  year: number;
+  name: string;
+  href?: string;
+  description: React.ReactNode;
 }
 
-function ProjectRow({ year, href, name, description }: ProjectData) {
+const projectsData: ProjectData[] = [
+  {
+    year: 2025,
+    name: "hellojadey.com",
+    href: "https://www.hellojadey.com/",
+    description: (
+      <p>
+        Development via{" "}
+        <InlineLinkButton href="https://www.hyuman.tech/">
+          hyuman.tech
+        </InlineLinkButton>
+      </p>
+    ),
+  },
+  {
+    year: 2025,
+    name: "TBA",
+    description: (
+      <p>
+        Development via{" "}
+        <InlineLinkButton href="https://midnight.agency/">
+          midnight.agency
+        </InlineLinkButton>
+      </p>
+    ),
+  },
+  {
+    year: 2024,
+    name: "ivpay.io",
+    href: "https://ivpay.io/",
+    description: <p>Development</p>,
+  },
+  {
+    year: 2024,
+    name: "pzk.design",
+    href: "https://www.pzk.design/",
+    description: <p>Design and development</p>,
+  },
+];
 
+function ProjectRow({ year, href, name, description }: ProjectData) {
   const isDescriptionElement = isValidElement(description);
   const descriptionElement = isDescriptionElement
     ? (description as ReactElement<{ className?: string }>)
@@ -70,13 +103,18 @@ function ProjectRow({ year, href, name, description }: ProjectData) {
   const renderName = () => {
     const nameClassName = "-translate-y-[1px] justify-start mr-1";
     if (href) {
-      return <InlineLinkButton href={href} className={nameClassName}>{name}</InlineLinkButton>;
+      return (
+        <InlineLinkButton href={href} className={nameClassName}>
+          {name}
+        </InlineLinkButton>
+      );
     }
     return (
       <p
         className={cn(
           buttonVariants({ variant: "link", size: "inline" }),
-          "px-0", nameClassName
+          "px-0",
+          nameClassName
         )}
       >
         {name}
@@ -95,7 +133,7 @@ function ProjectRow({ year, href, name, description }: ProjectData) {
   };
 
   return (
-    <li className="contents overflow-x-scroll">
+    <li className="contents">
       <p>{year}</p>
       {renderName()}
       {renderDescription()}
@@ -103,56 +141,14 @@ function ProjectRow({ year, href, name, description }: ProjectData) {
   );
 }
 
-const projectsData:ProjectData[] = [
-  {
-    year: 2025,
-    name: "hellojadey.com",
-    href: "https://www.hellojadey.com/",
-    description: (
-      <p>
-        Development via{" "}
-        <InlineLinkButton href="https://www.hyuman.tech/">
-          hyuman.tech
-        </InlineLinkButton>
-      </p>
-    )
-  },
-  {
-    year: 2025,
-    name: "TBA",
-    description: (
-      <p>
-        Development via{" "}
-        <InlineLinkButton href="https://midnight.agency/">
-          midnight.agency
-        </InlineLinkButton>
-      </p>
-    )
-  },
-  {
-    year: 2024,
-    name: "ivpay.io",
-    href: "https://ivpay.io/",
-    description: <p>Development</p>
-  },
-  {
-    year: 2024,
-    name: "pzk.design",
-    href: "https://www.pzk.design/",
-    description: <p>Design and development</p>
-  }
-];
-
 function ProjectsPanel() {
   return (
-    <Section className="overflow-x-scroll mb-7.5 pb-7.5" id="projects">
-      <h2>Projects</h2>
-      <ul className="grid grid-cols-[auto_auto_auto] gap-x-3 md:gap-x-5 gap-y-1 mr-auto">
+    <Section className="overflow-x-scroll px-7.5 py-5 pr-0" id="projects" card>
+      <h2>Patricipations</h2>
+      <ul className="grid grid-cols-[max-content_max-content_max-content] overflow-x-scroll pr-20 gap-x-7.5 gap-y-0.5 mb-2">
+        <div className="absolute w-20 h-full pointer-events-none bg-gradient-to-r from-transparent to-card/50 -translate-x-[1px] top-0 right-0" />
         {projectsData.map((project) => (
-          <ProjectRow
-            key={`${project.year}-${project.name}`}
-            {...project}
-          />
+          <ProjectRow key={`${project.year}-${project.name}`} {...project} />
         ))}
       </ul>
     </Section>
@@ -164,7 +160,6 @@ function PersonalityPanel() {
     <Section id="personality">
       <h2>Personality</h2>
       <div className="prose-long max-w-sm sm:max-w-xl">
-
         <p>
           My favorite brand is Asics, my favorite car is&nbsp;Dodge Viper,
           and&nbsp;my&nbsp;favorite music is&nbsp;
@@ -179,8 +174,8 @@ function PersonalityPanel() {
         </p>
         <p>
           I choose CSS over JS, a custom hook over a&nbsp;dependency,
-          a&nbsp;global store over&nbsp;contex providers, and a&nbsp;quickly coded
-          prototype over&nbsp;Figma.
+          a&nbsp;global store over&nbsp;contex providers, and a&nbsp;quickly
+          coded prototype over&nbsp;Figma.
         </p>
         <p>
           I love clean interfaces, having client state derived from
@@ -201,10 +196,11 @@ function ContactPanel() {
         <InlineLinkButton href="https://x.com/fedorivanenko_">
           @fedorivanenko_
         </InlineLinkButton>{" "}
-        <span className="whitespace-nowrap">or{" "}
-        <InlineLinkButton href="mailto:f@fedor.studio">
-          f@fedor.studio
-        </InlineLinkButton>
+        <span className="whitespace-nowrap">
+          or{" "}
+          <InlineLinkButton href="mailto:f@fedor.studio">
+            f@fedor.studio
+          </InlineLinkButton>
         </span>
       </p>
     </Section>

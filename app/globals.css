@@ -136,7 +136,7 @@
   --breakpoint-sm: 32rem;
   --breakpoint-xs: 27rem;
 
-  --content-width: 42rem;
+  --content-width: 36rem;
 
   --default-mono-font-family: var(--font-geist-mono);
   --default-font-family: var(--font-geist-sans);
@@ -156,7 +156,7 @@
     @apply space-y-7.5 sm:space-y-12.5 animation-container col-start-2 max-w-[var(--content-width)] w-full mx-auto lg:mx-0 
   }
   header {
-    @apply animate-blur-fade stagger-0 max-w-(--content-width) w-full lg:mx-0 mx-auto px-2.5 lg:px-0 mb-10 translate-y-0.5
+    @apply animate-blur-fade stagger-0 max-w-(--content-width) w-full lg:w-auto mx-auto lg:mx-0  px-2.5 lg:px-0 mb-16 translate-y-0.5
   }
 }
 
@@ -176,8 +176,8 @@
   .prose-long {
     @apply space-y-3 dark:space-y-4 md:space-y-4 dark:md:space-y-5;
   }
-  p code {
-    @apply text-sm text-foreground rounded-sm bg-card px-1.5 py-1 break-words whitespace-pre-wrap border border-card-border
+  p code, li code {
+    @apply text-[0.8rem] text-foreground rounded-sm bg-card px-1.5 py-1 break-words whitespace-pre-wrap border border-card-border
   }
   span[data-no-brakes] {
     @apply whitespace-nowrap

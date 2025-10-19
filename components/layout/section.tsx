@@ -11,7 +11,7 @@ const sectionVariants = cva(
         false: "",
       },
       card: {
-        true: "bg-card py-7.5 -mx-2.5 md:py-7.5 rounded-2xl border border-card-border",
+        true: "bg-card py-7.5 -mx-2.5 rounded-2xl border border-card-border",
         false: "mx-auto",
       },
     },

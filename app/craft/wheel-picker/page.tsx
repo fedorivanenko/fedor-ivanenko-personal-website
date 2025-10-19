@@ -22,37 +22,38 @@ export default function Page() {
         <p>
           Wheel Picker component made with{" "}
           <span data-no-brakes>
-          <InlineLinkButton href="https://react-spring.dev/docs">
-            @react-springs
-          </InlineLinkButton>{" "}
-          and{" "}
-          <InlineLinkButton href="https://use-gesture.netlify.app/docs/">
-            @use-gesture
-          </InlineLinkButton>
+            <InlineLinkButton href="https://react-spring.dev/docs">
+              @react-springs
+            </InlineLinkButton>{" "}
+            and{" "}
+            <InlineLinkButton href="https://use-gesture.netlify.app/docs/">
+              @use-gesture
+            </InlineLinkButton>
           </span>
           .
         </p>
-        <p>
-          Inertia scrolling, validation, a11y, and keyboard control are included.{" "}
-          <br />
-          Compatible&nbsp;with&nbsp;
-          <InlineLinkButton href="https://ui.shadcn.com/docs">
-            shadcn-ui
-          </InlineLinkButton>{" "}
-          and{" "}
-          <InlineLinkButton
-            href={"https://base-ui.com/react/overview/quick-start"}
-          >
-            base-ui
-          </InlineLinkButton>
-          .
-        </p>
+        <ul className="space-y-0.5">
+          <li>Validation, a11y, and keyboard control are included.</li>
+          <li>
+            Compatible&nbsp;with&nbsp;
+            <InlineLinkButton href="https://ui.shadcn.com/docs">
+              shadcn-ui
+            </InlineLinkButton>{" "}
+            and{" "}
+            <InlineLinkButton
+              href={"https://base-ui.com/react/overview/quick-start"}
+            >
+              base-ui
+            </InlineLinkButton>
+            .
+          </li>
+        </ul>
         <p>
           Get the source code from{" "}
           <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/tree/main/app/craft/wheel-picker/src">
             GitHub
           </InlineLinkButton>
-          .{" "}<br />
+          . <br />
           <span data-no-brakes>npm and CLI installations are coming</span>.
         </p>
       </Section>
@@ -79,36 +80,24 @@ export default function Page() {
         </Section>
        */}
       <Section>
-        <p>
-          See the implementations for{" "}
-          <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/blob/main/app/craft/wheel-picker/src/implementations/react-hook-form.tsx">
-            react-hook-form
-          </InlineLinkButton>
-          ,{" "}
-          <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/blob/main/app/craft/wheel-picker/src/implementations/tanstack-form.tsx">
-            tanstack-form
-          </InlineLinkButton>
-          , and{" "}
-          <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/blob/main/app/craft/wheel-picker/src/implementations/base-ui-form.tsx">
-            base-ui
-          </InlineLinkButton>
-        </p>
-        <p>
-          Styling includes both tailwind v4 and css.module versions{' '}<br/>with shadcn/ui{" "}
-          <InlineLinkButton href="https://ui.shadcn.com/docs/theming#list-of-variables">
-            variables convention.
-          </InlineLinkButton>
-        </p>
-        <p>
-          For more details, check the{" "}
-          <InlineLinkButton
-            href={
-              "https://github.com/fedorivanenko/fedor-ivanenko-personal-website/tree/main/app/craft/wheel-picker/src"
-            }
-          >
-            source code
-          </InlineLinkButton>.
-        </p>
+          <p className="mb-1">See the implementations for: </p>
+          <ul className="list-decimal list-inside">
+            <li>
+              <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/blob/main/app/craft/wheel-picker/src/implementations/react-hook-form.tsx">
+                react-hook-form
+              </InlineLinkButton>
+            </li>
+            <li>
+              <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/blob/main/app/craft/wheel-picker/src/implementations/tanstack-form.tsx">
+                tanstack-form
+              </InlineLinkButton>
+            </li>
+            <li>
+              <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/blob/main/app/craft/wheel-picker/src/implementations/base-ui-form.tsx">
+                base-ui
+              </InlineLinkButton>
+            </li>
+          </ul>
       </Section>
 
       {/*
