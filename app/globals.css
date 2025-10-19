@@ -53,7 +53,7 @@
   --primary: oklch(0.985 0 0);
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.850 0 0);
+  --secondary-foreground: oklch(0.870 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
   --accent: oklch(0.269 0 0);
@@ -139,7 +139,7 @@
   --content-width: 36rem;
 
   --text-sm: 0.9375rem;
-  --text-xs: 0.8125rem;
+  --text-xs: 0.875rem;
 
   --default-mono-font-family: var(--font-geist-mono);
   --default-font-family: var(--font-geist-sans);
@@ -170,11 +170,9 @@
   h1 {
     @apply text-lg
   }
-  /*
-  p, ul, tbody {
-    @apply 
+  p {
+    @apply leading-relaxed
   }
-  */
   .prose-short {
     @apply space-y-3 dark:space-y-3.5;
   }
