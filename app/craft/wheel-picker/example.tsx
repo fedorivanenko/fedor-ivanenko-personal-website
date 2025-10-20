@@ -46,7 +46,7 @@ function Example() {
             invalid={fieldState.invalid}
             className="w-40 h-48 ring-offset-card text-base"
           >
-            <label id="label-month" htmlFor="month" className="sr-only">
+            <label id="month-label" htmlFor="month" className="sr-only">
               Month
             </label>
             <WheelPicker
