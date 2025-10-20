@@ -151,10 +151,10 @@
     scrollbar-color: var(--color-border) transparent;
   }
   body {
-    @apply bg-background text-secondary-foreground min-h-screen antialiased font-[450] dark:font-[400] text-[0.96em] xs:text-[1em];
+    @apply flex flex-col bg-background text-secondary-foreground min-h-[100svh] antialiased font-[450] dark:font-[400] text-[0.96em] xs:text-[1em];
   }
   main {
-    @apply w-full mt-16 lg:mt-32 flex flex-col max-w-screen-lg lg:grid lg:grid-cols-[auto_var(--content-width)_auto] gap-x-1 mx-auto px-5 
+    @apply w-full pt-16 lg:pt-32 flex flex-col max-w-screen-lg lg:grid lg:grid-cols-[auto_var(--content-width)_auto] gap-x-1 mx-auto px-5 
   }
   article {
     @apply space-y-7.5 sm:space-y-12.5 animation-container col-start-2 max-w-[var(--content-width)] w-full mx-auto lg:mx-0 
