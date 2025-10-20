@@ -228,7 +228,7 @@
 
 @layer code {
   pre {
-    @apply px-5 md:px-7.5 py-2.5 pt-7.5 md:py-5 md:pt-10 rounded-2xl text-sm leading-snug -mx-2.5 md:-mx-5 overflow-x-scroll;
+    @apply pl-5 py-2.5 pt-7.5 rounded-2xl text-[13px] -mx-5 overflow-x-scroll;
   }
 
   .shiki {
@@ -242,11 +242,11 @@
   pre code .line[data-line]::before {
     counter-increment: line;
     content: counter(line);
-    @apply w-4 lg:inline-block text-left mr-5 text-xs select-none text-foreground/50;
+    @apply w-2 hidden md:inline-block text-left mr-5 text-[11px] select-none text-muted-foreground;
   }
 
   pre code [data-line] {
-    @apply relative py-0.5 inline-block;
+    @apply relative inline-block;
   }
 }
 
