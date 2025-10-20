@@ -181,7 +181,7 @@
     @apply space-y-3 dark:space-y-4 md:space-y-4 dark:md:space-y-5;
   }
   p code, li code {
-    @apply text-[0.8rem] text-foreground rounded-sm bg-card px-1.5 py-1 break-words whitespace-pre-wrap border border-card-border
+    @apply text-xs text-foreground rounded-sm bg-card px-1 py-0.5 break-words whitespace-pre-wrap border border-card-border
   }
   span[data-no-brakes] {
     @apply whitespace-nowrap
