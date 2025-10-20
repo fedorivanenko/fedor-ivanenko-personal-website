@@ -38,7 +38,7 @@ async function CodeBlock({children, lang ='tsx'}: CodeBlockProps) {
       <div className="absolute left-0 top-2.5 z-10 text-[11px] font-mono text-muted-foreground">
         {lang}
       </div>
-      <div dangerouslySetInnerHTML={{ __html: out }} />
+      <div dangerouslySetInnerHTML={{ __html: out }}/>
     </div>
   )
 }

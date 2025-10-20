@@ -228,7 +228,7 @@
 
 @layer code {
   pre {
-    @apply pl-5 py-2.5 pt-7.5 rounded-2xl text-[13px] -mx-5 overflow-x-scroll;
+    @apply pl-5 py-2.5 pt-7.5 rounded-2xl text-[13px] -mx-2.5 overflow-x-scroll;
   }
 
   .shiki {
