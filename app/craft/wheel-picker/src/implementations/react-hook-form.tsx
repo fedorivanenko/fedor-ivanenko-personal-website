@@ -46,6 +46,13 @@ function ReactHookForm() {
             invalid={fieldState.invalid}
             className="w-40 h-48 ring-offset-card"
           >
+            <label 
+              // Note that no htmlFor is used
+              // WheelPicker handle label via aria-labelledby
+              id="month-label" className="sr-only"
+            >
+              Month
+            </label>
             <WheelPicker
               id={field.name}
               // Note that WheelPicker is intentionally uncontrolled

@@ -73,8 +73,16 @@ function BaseUIForm() {
 
             return (
               <>
+                <label
+                  // Note that no htmlFor is used
+                  // WheelPicker handle label via aria-labelledby
+                  id="month-label"
+                  className="sr-only"
+                >
+                  Month
+                </label>
                 <WheelPicker
-                  id={'month'}
+                  id={"month"}
                   // Note that WheelPicker is intentionally uncontrolled
                   // and exposes an imperative API for external control
                   //

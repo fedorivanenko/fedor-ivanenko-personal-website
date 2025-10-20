@@ -11,7 +11,12 @@ import { formSchema } from "./data";
 import { monthOptions } from "./data";
 
 export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  return <button className="border text-sm w-full py-1 cursor-pointer border-border rounded hover:bg-accent/20 transition-colors" {...props} />;
+  return (
+    <button
+      className="border text-sm w-full py-1 cursor-pointer border-border rounded hover:bg-accent/20 transition-colors"
+      {...props}
+    />
+  );
 }
 
 function TanStackForm() {
@@ -44,25 +49,35 @@ function TanStackForm() {
       <form.Field name="month">
         {(field) => {
           return (
-            <WheelPickerWrapper
-              // validation state is not exposed but errors are
-              invalid={field.state.meta.errors.length > 0}
-              className="w-40 h-48 ring-offset-card"
-            >
-              <WheelPicker
-                id={field.name}
-                // Note that WheelPicker is intentionally uncontrolled
-                // and exposes an imperative API for external control
-                //
-                // Looping the value through form.state would trigger 
-                // a form re-render on every update, which can occur
-                // as frequently as every 50 ms
-                forwardedRef={pickerRef}
-                options={monthOptions}
-                onPick={field.handleChange} // updates form state
-                onBlur={field.handleBlur}
-              />
-            </WheelPickerWrapper>
+            <>
+              <label
+                // Note that no htmlFor is used
+                // WheelPicker handle label via aria-labelledby
+                id="month-label"
+                className="sr-only"
+              >
+                Month
+              </label>
+              <WheelPickerWrapper
+                // validation state is not exposed but errors are
+                invalid={field.state.meta.errors.length > 0}
+                className="w-40 h-48 ring-offset-card"
+              >
+                <WheelPicker
+                  id={field.name}
+                  // Note that WheelPicker is intentionally uncontrolled
+                  // and exposes an imperative API for external control
+                  //
+                  // Looping the value through form.state would trigger
+                  // a form re-render on every update, which can occur
+                  // as frequently as every 50 ms
+                  forwardedRef={pickerRef}
+                  options={monthOptions}
+                  onPick={field.handleChange} // updates form state
+                  onBlur={field.handleBlur}
+                />
+              </WheelPickerWrapper>
+            </>
           );
         }}
       </form.Field>
