@@ -161,7 +161,7 @@ function ProjectsPanel() {
   return (
     <Section className="pt-5 pb-0 px-0 relative overflow-hidden" id="projects" card>
       <div className="absolute w-20 h-full pointer-events-none bg-gradient-to-r from-transparent to-card/50 top-0 right-0" />
-      <div className="pl-7.5 pb-5 overflow-x-scroll space-y-3">
+      <div className="pl-7.5 pb-7.5 overflow-x-scroll space-y-3">
         <h2 className="!mb-1.5">Patricipations</h2>
         <p>I made several websites and you can hire me to build one.</p>
         <ul className="w-fit grid grid-cols-[max-content_max-content_max-content] gap-x-7.5 gap-y-1 pr-20">
