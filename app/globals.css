@@ -198,6 +198,10 @@ details span {
   opacity: 0;
   display: inline-block;
 }
+details summary {
+  @apply underline-offset-4 underline decoration-[1px] decoration-secondary-foreground/25 hover:text-primary hover:decoration-secondary-foreground/50 transition-all
+}
+
 details span::after {
   content: "\00A0";
 }
