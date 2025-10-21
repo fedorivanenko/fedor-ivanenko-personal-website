@@ -194,6 +194,27 @@
   }
 }
 
+details span {
+  opacity: 0;
+  display: inline-block;
+}
+details span::after {
+  content: "\00A0";
+}
+
+details[open] span {
+  animation: fadeIn 0.4s forwards;
+}
+
+details[open] span:nth-child(n) {
+  animation-delay: calc((var(--i, 1) - 1) * 0.05s);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1;}
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;

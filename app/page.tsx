@@ -34,11 +34,34 @@ function BioPanel() {
             </InlineLinkButton>
             .
           </p>
-          <p>
-            I build clear and practical websites and craft UX that is simple and
+          <div>
+            <p className="inline">I build clear and practical websites and craft UX that is simple and
             obvious. <br className="hidden md:block" />
-            Using mostly TypeSscript, CSS, React, Next.js, and Sanity.
-          </p>
+            Using TS, CSS, React, Next.js, Sanity, Shopify,</p>{" "}
+            <details className="group inline-block open:contents">
+              <summary className="inline group-open:hidden">and more.</summary>
+              <span className="[--i:1]">Nest.js,</span>
+              <span className="[--i:2]">Express,</span>
+              <span className="[--i:3]">Astro,</span>
+              <span className="[--i:4]">Prisma,</span>
+              <span className="[--i:5]">Drizzle,</span>
+              <span className="[--i:6]">Postgres,</span>
+              <span className="[--i:7]">Zustand,</span>
+              <span className="[--i:8]">Jotai,</span>
+              <span className="[--i:9]">SWR,</span>
+              <span className="[--i:10]">Zod,</span>
+              <span className="[--i:11]">AI&nbsp;SDK,</span>
+              <span className="[--i:12]">
+                a&nbsp;bit&nbsp;of&nbsp;Python,
+              </span>
+              <span className="[--i:13]">React&nbsp;Springs,</span>
+              <span className="[--i:14]">Motion,</span>
+              <span className="[--i:15]">GSAP,</span>
+              <span className="[--i:16]">
+                and perhaps something more.
+              </span>
+            </details>
+          </div>
         </div>
       </Section>
     </>
