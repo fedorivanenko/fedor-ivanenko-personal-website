@@ -9,7 +9,7 @@ import { monthOptions, formSchema } from "./src/implementations/data";
 import { toast } from "sonner"
 
 export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  return <button className="border text-lg sm:text-sm w-full py-1 cursor-pointer border-border rounded hover:bg-accent/20 transition-colors" {...props} />;
+  return <button className="border text-sm w-full py-1 cursor-pointer border-border rounded hover:bg-accent/20 transition-colors" {...props} />;
 }
 
 function Example() {
@@ -61,7 +61,7 @@ function Example() {
           </WheelPickerWrapper>
         )}
       />
-      <div className="flex flex-col space-y-1 w-60 sm:w-40">
+      <div className="flex flex-col space-y-1 w-40">
         <Button type="submit">Submit</Button>
         <Button type="reset">Reset</Button>
       </div>
