@@ -50,7 +50,7 @@ function CarftPanel() {
     <Section>
       <h2>Craft</h2>
       <ul>
-      <li className="py-2.5 md:py-5 border border-card-border bg-card px-5 md:px-7.5 -mx-2.5 md:-mx-5 rounded-xl">
+      <li className="">
         <InlineLinkButton href={"/craft/wheel-picker"} target="_self">
           Wheel Picker
         </InlineLinkButton>
