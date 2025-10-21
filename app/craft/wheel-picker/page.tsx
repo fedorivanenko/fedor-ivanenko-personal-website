@@ -32,9 +32,9 @@ export default function Page() {
           </span>
           .
         </p>
-        <ul className="space-y-0.5">
-          <li>Validation, a11y, and keyboard controls are included.</li>
-          <li>
+        <ul className="space-y-0.5 content">
+          <li className="inline sm:block">Validation, a11y, and keyboard controls are included.{" "}</li>
+          <li className="inline sm:block">
             Compatitable&nbsp;with&nbsp;
             <InlineLinkButton href="https://ui.shadcn.com/docs">
               shadcn-ui

@@ -182,7 +182,7 @@ function ProjectRow({ year, href, name, description }: ProjectData) {
 
 function ProjectsPanel() {
   return (
-    <Section className="relative mb-5.5 sm:mb-10.5" id="projects">
+    <Section className="relative mb-10 sm:mb-16" id="projects">
       <h2 className="!mb-1.5">Patricipations</h2>
       <p>I made several websites and you can hire me to build one.</p>
       <div className="z-10 absolute w-7.5 h-full pointer-events-none bg-gradient-to-r from-transparent to-background top-0 -right-5" />
