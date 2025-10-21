@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useDrag, useWheel } from "@use-gesture/react";
-import { animated, useSprings } from "@react-spring/web";
+import { animated, useReducedMotion, useSprings } from "@react-spring/web";
 import { cn } from "@/lib/utils";
 
 type CSSSize = `${number}${"px" | "rem" | "em"}`;
@@ -149,6 +149,8 @@ function WheelPicker({
     [callbackRef]
   );
 
+  const reducedMotion = useReducedMotion()
+
   const [springs] = useSprings(
     options.length,
     (i) => {
@@ -156,12 +158,13 @@ function WheelPicker({
       const vel = Math.abs(velocity);
       const pos = positions[i];
       const dist = Math.abs(pos);
+      const immediate = dist > 4 || !!reducedMotion
 
       return {
         scale: pos ? 0.9 : 1,
         rotateX: pos * angleStep,
         opacity: [1, 0.75, 0.5, 0.25][dist] ?? 0,
-        immediate: dist > 4,
+        immediate: immediate,
         config: {
           tension: Math.min(500, 250 + vel * 250),
           friction: Math.min(100, 20 + vel * 10),
