@@ -9,7 +9,7 @@ function BioPanel() {
         className={cn(sectionVariants({ animated: true }), "!space-y-0 mb-12")}
       >
         <h1>Fedor Ivanenko</h1>
-        <p className="text-muted-foreground bg-muted rounded-md px-2 py-0.25 -mx-0.75 mt-1.5 text-xs whitespace-nowrap max-w-min">
+        <p className="text-muted-foreground bg-muted rounded-md px-2 py-0.25 -mx-0.75 mt-1.5 text-[13px] whitespace-nowrap max-w-min">
           designer + engineer
         </p>
       </div>
@@ -49,14 +49,16 @@ function CarftPanel() {
   return (
     <Section>
       <h2>Craft</h2>
-      <p>
+      <ul>
+      <li className="py-2.5 md:py-5 border border-card-border bg-card px-5 md:px-7.5 -mx-2.5 md:-mx-5 rounded-xl">
         <InlineLinkButton href={"/craft/wheel-picker"} target="_self">
           Wheel Picker
         </InlineLinkButton>
         <span className="block text-muted-foreground text-sm mt-0.5">
           React component. Validation, a11y, and keyboard controls are included.
         </span>
-      </p>
+      </li>
+      </ul>
     </Section>
   );
 }
@@ -159,12 +161,13 @@ function ProjectRow({ year, href, name, description }: ProjectData) {
 
 function ProjectsPanel() {
   return (
-    <Section className="pt-5 pb-0 px-0 relative overflow-hidden" id="projects" card>
-      <div className="absolute w-20 h-full pointer-events-none bg-gradient-to-r from-transparent to-card/50 top-0 right-0" />
-      <div className="pl-7.5 pb-7.5 overflow-x-scroll space-y-3">
-        <h2 className="!mb-1.5">Patricipations</h2>
-        <p>I made several websites and you can hire me to build one.</p>
-        <ul className="w-fit grid grid-cols-[max-content_max-content_max-content] gap-x-7.5 gap-y-1 pr-20">
+    <Section className="relative mb-5.5 sm:mb-10.5" id="projects">
+      <h2 className="!mb-1.5">Patricipations</h2>
+      <p>I made several websites and you can hire me to build one.</p>
+      <div className="z-10 absolute w-7.5 h-full pointer-events-none bg-gradient-to-r from-transparent to-background top-0 -right-5" />
+      <div className="z-10 absolute w-7.5 h-full pointer-events-none bg-gradient-to-l from-transparent to-background top-0 -left-5" />
+      <div className="overflow-x-scroll min-h-12 space-y-3 -mx-5 px-5 pb-2">
+        <ul className="w-fit grid grid-cols-[max-content_max-content_max-content] gap-x-7.5 gap-y-1 pr-2.5">
           {projectsData.map((project) => (
             <ProjectRow key={`${project.year}-${project.name}`} {...project} />
           ))}
@@ -206,6 +209,42 @@ function PersonalityPanel() {
   );
 }
 
+function CuriculumPanel() {
+  return (
+    <Section>
+      <h2>Curiculum</h2>
+      <div className="prose-long">
+        <p>Born in Siberia in 1988, I began my design journey in 2012.</p>
+        <p>
+          In 2017, I earned a degree in Graphic Design and began working as an
+          <InlineLinkButton
+            href={"https://segd.org/about/what-is-experience-design/"}
+          >
+            Environmental Experience Designer
+          </InlineLinkButton>
+          , working with large-scale public spaces such as stadiums and
+          hospitals. During this time, I also began coding and studying computer
+          science.
+        </p>
+        <p>
+          In 2020, driven by a growing interest in user experience, I
+          transitioned into digital UX design and user research, working
+          independently on projects such as AR navigation.
+        </p>
+        <p>
+          After emigrating in 2021, I gradually shifted toward engineering and
+          became a&nbsp;full-time React / Next.js developer by 2024.
+        </p>
+        <p>
+          Today, I work independently as a designer and developer, pursuing my
+          inerest in generative user interfaces and human{"–"}machine
+          interaction.
+        </p>
+      </div>
+    </Section>
+  );
+}
+
 function ContactPanel() {
   return (
     <Section id="contacts">
@@ -230,8 +269,9 @@ export default function Home() {
   return (
     <article className="animation-container">
       <BioPanel />
-      <CarftPanel/>
+      <CarftPanel />
       <ProjectsPanel />
+      <CuriculumPanel />
       <PersonalityPanel />
       <ContactPanel />
     </article>
