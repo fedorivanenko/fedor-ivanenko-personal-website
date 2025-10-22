@@ -54,10 +54,12 @@ function BioPanel() {
               <span className="[--i:10]">Zod,</span>
               <span className="[--i:11]">AI&nbsp;SDK,</span>
               <span className="[--i:12]">a&nbsp;bit&nbsp;of&nbsp;Python,</span>
-              <span className="[--i:13]">React&nbsp;Springs,</span>
-              <span className="[--i:14]">Motion,</span>
-              <span className="[--i:15]">GSAP,</span>
-              <span className="[--i:16]">and perhaps something more.</span>
+              <span className="[--i:13]">Three.js,</span>
+              <span className="[--i:14]">R3F+drei,</span>
+              <span className="[--i:15]">React&nbsp;Springs,</span>
+              <span className="[--i:16]">Motion,</span>
+              <span className="[--i:16]">GSAP,</span>
+              <span className="[--i:17]">and perhaps something more.</span>
             </details>
           </div>
         </div>
@@ -235,7 +237,7 @@ function CuriculumPanel() {
     <Section>
       <h2>Curiculum</h2>
       <div className="prose-long">
-        <p>Born in Siberia in 1988, I began my design journey in 2012.</p>
+        <p>Born in Siberia in 1988, I began my design journey in 2012 as a 3D visualizer.</p>
         <p>
           In 2017, I earned a degree in Graphic Design and began working as an
           <InlineLinkButton
