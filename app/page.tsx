@@ -10,7 +10,7 @@ function BioPanel() {
       >
         <h1>Fedor Ivanenko</h1>
         <p className="text-muted-foreground bg-muted rounded-md px-2 py-0.25 -mx-0.75 mt-1.5 text-[13px] whitespace-nowrap max-w-min">
-          designer + engineer
+          SWE + UX
         </p>
       </div>
       <Section>
