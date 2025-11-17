@@ -72,7 +72,6 @@
   --l-anim: 0;
   --c-anim: 0;
   --h-anim: 0;
-  --t-anim: 0;
 
   --border-color: oklch(
     calc(var(--border-l-base) + var(--l-anim))
