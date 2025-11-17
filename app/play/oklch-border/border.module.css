@@ -23,6 +23,7 @@
   --h-shift-base:  120;
 }
 
+
 @keyframes forward {
   0% {
     --h-anim: 0;
@@ -54,6 +55,7 @@
   }
 }
 
+
 .oklch {
   --border-l-base: 0.95;
   --border-c-base: 0.1;
@@ -74,27 +76,26 @@
   --l-anim: 0;
   --c-anim: 0;
   --h-anim: 0;
-  --t-anim: 0;
 
-  --border-color: oklab(
+  --border-color: oklch(
     calc(var(--border-l-base) + var(--l-anim))
     calc(var(--border-c-base) + var(--c-anim))
     calc(var(--border-h-base) + var(--h-anim))
   );
 
-  --bg-color: oklab(
+  --bg-color: oklch(
     calc(var(--bg-l-base) + var(--l-anim))
     calc(var(--bg-c-base) + var(--c-anim))
     calc(var(--bg-h-base) + var(--h-anim))
   );
 
-  --text-color: oklab(
+  --text-color: oklch(
     calc(var(--text-l-base) + var(--l-anim))
     calc(var(--text-c-base) + var(--c-anim))
     calc(var(--text-h-base) + var(--h-anim))
   );
 
-  --shadow-color: oklab(
+  --shadow-color: oklch(
     calc(var(--shadow-l-base) + var(--l-anim))
     calc(var(--shadow-c-base) + var(--c-anim))
     calc(var(--shadow-h-base) + var(--h-anim))
