@@ -1,0 +1,115 @@
+@property --h-anim {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --c-anim {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --l-anim {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+
+:root {
+  --l-shift-base: -0.07;
+  --c-shift-base:  0;
+  --h-shift-base:  120;
+}
+
+@keyframes forward {
+  0% {
+    --h-anim: 0;
+    --l-anim: 0;
+    --c-anim: 0;
+  }
+  100% {
+    --h-anim: var(--h-shift-base);
+    --l-anim: var(--l-shift-base);
+    --c-anim: var(--c-shift-base);
+  }
+}
+
+@keyframes backward {
+  0% {
+    --h-anim: var(--h-shift-base);
+    --l-anim: var(--l-shift-base);
+    --c-anim: var(--c-shift-base);
+  }
+  99% {
+    --h-anim: 0;
+    --l-anim: 0;
+    --c-anim: 0;
+  }
+  100% {
+    --h-anim: 0;
+    --l-anim: 0;
+    --c-anim: 0;
+  }
+}
+
+.oklch {
+  --border-l-base: 0.95;
+  --border-c-base: 0.1;
+  --border-h-base: 20;
+
+  --text-l-base: 0.35;
+  --text-c-base: 0.1;
+  --text-h-base: 20;
+
+  --shadow-l-base: 0.75;
+  --shadow-c-base: 0.1;
+  --shadow-h-base: 20;
+
+  --bg-l-base: 1;
+  --bg-c-base: 0.1;
+  --bg-h-base: 20;
+
+  --l-anim: 0;
+  --c-anim: 0;
+  --h-anim: 0;
+  --t-anim: 0;
+
+  --border-color: oklab(
+    calc(var(--border-l-base) + var(--l-anim))
+    calc(var(--border-c-base) + var(--c-anim))
+    calc(var(--border-h-base) + var(--h-anim))
+  );
+
+  --bg-color: oklab(
+    calc(var(--bg-l-base) + var(--l-anim))
+    calc(var(--bg-c-base) + var(--c-anim))
+    calc(var(--bg-h-base) + var(--h-anim))
+  );
+
+  --text-color: oklab(
+    calc(var(--text-l-base) + var(--l-anim))
+    calc(var(--text-c-base) + var(--c-anim))
+    calc(var(--text-h-base) + var(--h-anim))
+  );
+
+  --shadow-color: oklab(
+    calc(var(--shadow-l-base) + var(--l-anim))
+    calc(var(--shadow-c-base) + var(--c-anim))
+    calc(var(--shadow-h-base) + var(--h-anim))
+  );
+  
+  cursor: pointer;
+  padding: 8px 16px 8px 16px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  box-shadow: 0 4px 12px var(--shadow-color);
+
+  animation: backward 0.6s ease forwards;
+}
+
+.oklch:hover {
+  animation: forward 0.6s ease forwards;
+}
