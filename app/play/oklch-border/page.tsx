@@ -6,7 +6,7 @@ export default function PLatOKLCHBordersPage() {
   return (
     <article>
       <Section>
-        <div className={s.oklch}>OKLCH Color</div>
+        <div className={s.oklch}>OKLAB Color</div>
       </Section>
     </article>
   );

@@ -1,112 +1,88 @@
-@property --h-anim {
-  syntax: "<number>";
-  inherits: false;
-  initial-value: 0;
-}
-
-@property --c-anim {
-  syntax: "<number>";
-  inherits: false;
-  initial-value: 0;
-}
-
-@property --l-anim {
-  syntax: "<number>";
-  inherits: false;
-  initial-value: 0;
-}
-
-@keyframes forward {
-  0% {
-    --h-anim: var(--h-shift-base);
-    --l-anim: 0;
-    --c-anim: 0;
-  }
-  100% {
-    --h-anim: var(--h-shift-base);
-    --l-anim: var(--l-shift-base);
-    --c-anim: var(--c-shift-base);
-  }
-}
-
-@keyframes backward {
-  0% {
-    --h-anim: var(--h-shift-base);
-    --l-anim: var(--l-shift-base);
-    --c-anim: var(--c-shift-base);
-  }
-  99% {
-    --h-anim: var(--h-shift-base);
-    --l-anim: 0;
-    --c-anim: 0;
-  }
-  100% {
-    --h-anim: 0;
-    --l-anim: 0;
-    --c-anim: 0;
-  }
-}
-
-
 .oklch {
-  --l-shift-base: -0.07;
-  --c-shift-base:  0.16;
-  --h-shift-base:  68;
+  --shift-base-l: -0.07;
+  --shift-base-c:  0.025;
+  --shift-base-h:  180deg;
 
-  --border-l-base: 0.95;
-  --border-c-base: 0;
-  --border-h-base: 0;
+  /* Background colors */
+  --bg-base-l: 0.98;
+  --bg-base-c: 0.075;
+  --bg-base-h: 68deg;
 
-  --text-l-base: 0.35;
-  --text-c-base: 0;
-  --text-h-base: 0;
+  --bg-target-l: calc(var(--bg-base-l) + var(--shift-base-l));
+  --bg-target-c: calc(var(--bg-base-c) + var(--shift-base-c));
+  --bg-target-h: calc(var(--bg-base-h) + var(--shift-base-h));
 
-  --shadow-l-base: 0.75;
-  --shadow-c-base: 0;
-  --shadow-h-base: 0;
+  --bg-base-a: calc(var(--bg-base-c) * cos(var(--bg-base-h)));
+  --bg-base-b: calc(var(--bg-base-c) * sin(var(--bg-base-h)));
+  --bg-target-a: calc(var(--bg-target-c) * cos(var(--bg-target-h)));
+  --bg-target-b: calc(var(--bg-target-c) * sin(var(--bg-target-h)));
 
-  --bg-l-base: 1;
-  --bg-c-base: 0;
-  --bg-h-base: 0;
+  --bg-color: oklab(var(--bg-base-l) var(--bg-base-a) var(--bg-base-b));
+  --bg-color-target: oklab(var(--bg-target-l) var(--bg-target-a) var(--bg-target-b));
 
-  --l-anim: 0;
-  --c-anim: 0;
-  --h-anim: 0;
+  /* Border colors */
+  --border-base-l: 0.66;
+  --border-base-c: 0.075;
+  --border-base-h: 68deg;
 
-  --border-color: oklch(
-    calc(var(--border-l-base) + var(--l-anim))
-    calc(var(--border-c-base) + var(--c-anim))
-    calc(var(--border-h-base) + var(--h-anim))
-  );
+  --border-target-l: calc(var(--border-base-l) + var(--shift-base-l));
+  --border-target-c: calc(var(--border-base-c) + var(--shift-base-c));
+  --border-target-h: calc(var(--border-base-h) + var(--shift-base-h));
 
-  --bg-color: oklch(
-    calc(var(--bg-l-base) + var(--l-anim))
-    calc(var(--bg-c-base) + var(--c-anim))
-    calc(var(--bg-h-base) + var(--h-anim))
-  );
+  --border-base-a: calc(var(--border-base-c) * cos(var(--border-base-h)));
+  --border-base-b: calc(var(--border-base-c) * sin(var(--border-base-h)));
+  --border-target-a: calc(var(--border-target-c) * cos(var(--border-target-h)));
+  --border-target-b: calc(var(--border-target-c) * sin(var(--border-target-h)));
 
-  --text-color: oklch(
-    calc(var(--text-l-base) + var(--l-anim))
-    calc(var(--text-c-base) + var(--c-anim))
-    calc(var(--text-h-base) + var(--h-anim))
-  );
+  --border-color: oklab(var(--border-base-l) var(--border-base-a) var(--border-base-b));
+  --border-color-target: oklab(var(--border-target-l) var(--border-target-a) var(--border-target-b));
 
-  --shadow-color: oklch(
-    calc(var(--shadow-l-base) + var(--l-anim))
-    calc(var(--shadow-c-base) + var(--c-anim))
-    calc(var(--shadow-h-base) + var(--h-anim))
-  );
-  
+  /* Text colors */
+  --text-base-l: 0.3;
+  --text-base-c: 0.075;
+  --text-base-h: 68deg;
+
+  --text-target-l: calc(var(--text-base-l) + var(--shift-base-l));
+  --text-target-c: calc(var(--text-base-c) + var(--shift-base-c));
+  --text-target-h: calc(var(--text-base-h) + var(--shift-base-h));
+
+  --text-base-a: calc(var(--text-base-c) * cos(var(--text-base-h)));
+  --text-base-b: calc(var(--text-base-c) * sin(var(--text-base-h)));
+  --text-target-a: calc(var(--text-target-c) * cos(var(--text-target-h)));
+  --text-target-b: calc(var(--text-target-c) * sin(var(--text-target-h)));
+
+  --text-color: oklab(var(--text-base-l) var(--text-base-a) var(--text-base-b));
+  --text-color-target: oklab(var(--text-target-l) var(--text-target-a) var(--text-target-b));
+
+  /* Shadow colors */
+  --shadow-base-l: 0.5;
+  --shadow-base-c: 0.075;
+  --shadow-base-h: 68deg;
+
+  --shadow-target-l: calc(var(--shadow-base-l) + var(--shift-base-l));
+  --shadow-target-c: calc(var(--shadow-base-c) + var(--shift-base-c));
+  --shadow-target-h: calc(var(--shadow-base-h) + var(--shift-base-h));
+
+  --shadow-base-a: calc(var(--shadow-base-c) * cos(var(--shadow-base-h)));
+  --shadow-base-b: calc(var(--shadow-base-c) * sin(var(--shadow-base-h)));
+  --shadow-target-a: calc(var(--shadow-target-c) * cos(var(--shadow-target-h)));
+  --shadow-target-b: calc(var(--shadow-target-c) * sin(var(--shadow-target-h)));
+
+  --shadow-color: oklab(var(--shadow-base-l) var(--shadow-base-a) var(--shadow-base-b));
+  --shadow-color-target: oklab(var(--shadow-target-l) var(--shadow-target-a) var(--shadow-target-b));
+
   cursor: pointer;
   padding: 8px 16px 8px 16px;
   border: 1px solid var(--border-color);
   background-color: var(--bg-color);
   color: var(--text-color);
   box-shadow: 0 4px 12px var(--shadow-color);
-
-  animation: backward 0.6s ease forwards;
+  transition: background-color 1s ease, border-color 1s ease, color 1s ease, box-shadow 1s ease;
 }
 
 .oklch:hover {
-  animation: forward 0.6s ease forwards;
+  background-color: var(--bg-color-target);
+  border-color: var(--border-color-target);
+  color: var(--text-color-target);
+  box-shadow: 0 4px 12px var(--shadow-color-target);
 }
