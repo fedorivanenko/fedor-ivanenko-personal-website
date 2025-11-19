@@ -408,7 +408,7 @@ function WheelPicker({
         aria-describedby={`${id}-hint`}
         role="listbox"
         className={cn(
-          "select-none touch-none text-[inherit] aria-[disabled]:opacity-75 aria-[disabled]:bg-foreground/5 cursor-grab  relative flex-1 overflow-hidden outline-none focus:ring-2 focus:ring-accent before:content-[''] before:absolute before:-inset-4",
+          "select-none touch-none text-[inherit] aria-[disabled]:opacity-75 aria-[disabled]:bg-foreground/5 cursor-grab  relative flex-1 overflow-hidden outline-none focus:ring-1 focus:ring-accent before:content-[''] before:absolute before:-inset-4",
           containerClassName
         )}
         style={{
@@ -460,7 +460,7 @@ interface WheelPickerWrapperProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const wheelPickerWrapperStyle =
-  "border border-border flex data-[invalid]:ring-destructive ring-2 ring-offset-2 ring-offset-background ring-transparent transition-all duration-250";
+  "border border-border flex data-[invalid]:ring-destructive ring-1 ring-offset-2 ring-offset-background ring-transparent transition-all duration-250";
 /*
   shadcn-ui variables naming convention is used 
   https://ui.shadcn.com/docs/theming#list-of-variables
