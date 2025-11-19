@@ -7,8 +7,9 @@ import Footer from "@/components/layout/footer";
 import { geist, geistMono } from "@/lib/fonts";
 import { generateMetadata } from "@/lib/metadata";
 import { Toaster } from "@/components/ui/sonner";
+import { Metadata } from "next";
 
-export const metadata = generateMetadata();
+export const metadata : Metadata = generateMetadata();
 
 export default function RootLayout({
   children,
