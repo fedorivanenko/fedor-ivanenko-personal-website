@@ -9,8 +9,8 @@ function BioPanel() {
         className={cn(sectionVariants({ animated: true }), "!space-y-0 mb-12")}
       >
         <h1>Fedor Ivanenko</h1>
-        <p className="text-muted-foreground text-[13px] whitespace-nowrap max-w-min">
-          SWE + UX
+        <p className="text-muted-foreground text-[14px] whitespace-nowrap max-w-min">
+          Design Engineer
         </p>
       </div>
       <Section>
