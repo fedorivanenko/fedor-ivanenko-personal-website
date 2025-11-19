@@ -1,12 +1,16 @@
 .oklch {
+
+  --base-c: 0.175;
+  --base-h: 68deg;
+
   --shift-base-l: -0.07;
   --shift-base-c:  0.025;
-  --shift-base-h:  180deg;
+  --shift-base-h:  120deg;
 
   /* Background colors */
-  --bg-base-l: 0.98;
-  --bg-base-c: 0.075;
-  --bg-base-h: 68deg;
+  --bg-base-l: 0.92;
+  --bg-base-c: var(--base-c);
+  --bg-base-h: var(--base-h);
 
   --bg-target-l: calc(var(--bg-base-l) + var(--shift-base-l));
   --bg-target-c: calc(var(--bg-base-c) + var(--shift-base-c));
@@ -21,9 +25,9 @@
   --bg-color-target: oklab(var(--bg-target-l) var(--bg-target-a) var(--bg-target-b));
 
   /* Border colors */
-  --border-base-l: 0.66;
-  --border-base-c: 0.075;
-  --border-base-h: 68deg;
+  --border-base-l: 0.95;
+  --border-base-c: calc(var(--base-c) - 0.025);
+  --border-base-h: var(--base-h);
 
   --border-target-l: calc(var(--border-base-l) + var(--shift-base-l));
   --border-target-c: calc(var(--border-base-c) + var(--shift-base-c));
@@ -38,9 +42,9 @@
   --border-color-target: oklab(var(--border-target-l) var(--border-target-a) var(--border-target-b));
 
   /* Text colors */
-  --text-base-l: 0.3;
-  --text-base-c: 0.075;
-  --text-base-h: 68deg;
+  --text-base-l: 0.25;
+  --text-base-c: var(--base-c);
+  --text-base-h: var(--base-h);
 
   --text-target-l: calc(var(--text-base-l) + var(--shift-base-l));
   --text-target-c: calc(var(--text-base-c) + var(--shift-base-c));
@@ -55,9 +59,9 @@
   --text-color-target: oklab(var(--text-target-l) var(--text-target-a) var(--text-target-b));
 
   /* Shadow colors */
-  --shadow-base-l: 0.5;
-  --shadow-base-c: 0.075;
-  --shadow-base-h: 68deg;
+  --shadow-base-l: 0.68;
+  --shadow-base-c: calc(var(--base-c) - 0.05);
+  --shadow-base-h: var(--base-h);
 
   --shadow-target-l: calc(var(--shadow-base-l) + var(--shift-base-l));
   --shadow-target-c: calc(var(--shadow-base-c) + var(--shift-base-c));
@@ -68,15 +72,15 @@
   --shadow-target-a: calc(var(--shadow-target-c) * cos(var(--shadow-target-h)));
   --shadow-target-b: calc(var(--shadow-target-c) * sin(var(--shadow-target-h)));
 
-  --shadow-color: oklab(var(--shadow-base-l) var(--shadow-base-a) var(--shadow-base-b));
-  --shadow-color-target: oklab(var(--shadow-target-l) var(--shadow-target-a) var(--shadow-target-b));
+  --shadow-color: oklab(var(--shadow-base-l) var(--shadow-base-a) var(--shadow-base-b) / 0.5);
+  --shadow-color-target: oklab(var(--shadow-target-l) var(--shadow-target-a) var(--shadow-target-b) / 0.5);
 
   cursor: pointer;
   padding: 8px 16px 8px 16px;
   border: 1px solid var(--border-color);
   background-color: var(--bg-color);
   color: var(--text-color);
-  box-shadow: 0 4px 12px var(--shadow-color);
+  box-shadow: 0 8px 16px var(--shadow-color);
   transition: background-color 1s ease, border-color 1s ease, color 1s ease, box-shadow 1s ease;
 }
 
@@ -84,5 +88,5 @@
   background-color: var(--bg-color-target);
   border-color: var(--border-color-target);
   color: var(--text-color-target);
-  box-shadow: 0 4px 12px var(--shadow-color-target);
+  box-shadow: 0 8px 16px var(--shadow-color-target);
 }

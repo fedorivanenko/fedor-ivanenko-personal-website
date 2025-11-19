@@ -2,7 +2,7 @@ import { Section } from "@/components/layout/section";
 
 import s from "./border.module.css";
 
-export default function PLatOKLCHBordersPage() {
+export default function PLayOKLCHBordersPage() {
   return (
     <article>
       <Section>
