@@ -8,7 +8,6 @@
     touch-action: none;
     font-size: inherit;
     cursor: grab;
-    border-radius: 0.5rem;
     position: relative;
     flex: 1;
     overflow: hidden;
@@ -37,7 +36,6 @@
     inset-inline: 0.5rem;
     top: 50%;
     transform: translateY(-50%);
-    border-radius: 0.5rem;
     background-color: color-mix(in srgb, var(--foreground) 5%, transparent);
     height: var(--wheel-picker-height);
   }
@@ -59,7 +57,6 @@
   .wrapper {
     border: 1px solid var(--border);
     display: flex;
-    border-radius: 0.5rem;
     box-shadow:
         0 0 0 4px var(--background),   /* ring-offset */
         0 0 0 6px transparent;         /* ring (2px + offset) */

@@ -149,7 +149,7 @@ function WheelPicker({
     [callbackRef]
   );
 
-  const reducedMotion = useReducedMotion()
+  const reducedMotion = useReducedMotion();
 
   const [springs] = useSprings(
     options.length,
@@ -158,7 +158,7 @@ function WheelPicker({
       const vel = Math.abs(velocity);
       const pos = positions[i];
       const dist = Math.abs(pos);
-      const immediate = dist > 4 || !!reducedMotion
+      const immediate = dist > 4 || !!reducedMotion;
 
       return {
         scale: pos ? 0.9 : 1,
@@ -408,7 +408,7 @@ function WheelPicker({
         aria-describedby={`${id}-hint`}
         role="listbox"
         className={cn(
-          "select-none touch-none text-[inherit] aria-[disabled]:opacity-75 aria-[disabled]:bg-foreground/5 cursor-grab rounded relative flex-1 overflow-hidden outline-none focus:ring-2 focus:ring-accent before:content-[''] before:absolute before:-inset-4",
+          "select-none touch-none text-[inherit] aria-[disabled]:opacity-75 aria-[disabled]:bg-foreground/5 cursor-grab  relative flex-1 overflow-hidden outline-none focus:ring-2 focus:ring-accent before:content-[''] before:absolute before:-inset-4",
           containerClassName
         )}
         style={{
@@ -423,7 +423,7 @@ function WheelPicker({
       >
         <div
           className={cn(
-            "absolute -translate-y-1/2 inset-x-2 top-1/2 rounded bg-foreground/5 h-[var(--wheel-picker-height)]",
+            "absolute -translate-y-1/2 inset-x-2 top-1/2  bg-foreground/5 h-[var(--wheel-picker-height)]",
             highliterClassName
           )}
         />
@@ -460,7 +460,7 @@ interface WheelPickerWrapperProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const wheelPickerWrapperStyle =
-  "border border-border flex data-[invalid]:ring-destructive ring-2 ring-offset-2 ring-offset-background ring-transparent transition-all duration-250 rounded";
+  "border border-border flex data-[invalid]:ring-destructive ring-2 ring-offset-2 ring-offset-background ring-transparent transition-all duration-250";
 /*
   shadcn-ui variables naming convention is used 
   https://ui.shadcn.com/docs/theming#list-of-variables

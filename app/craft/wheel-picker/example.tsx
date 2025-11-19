@@ -9,7 +9,7 @@ import { monthOptions, formSchema } from "./src/implementations/data";
 import { toast } from "sonner"
 
 export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  return <button className="border text-sm w-full py-1 cursor-pointer border-border rounded hover:bg-accent/20 transition-colors" {...props} />;
+  return <button className="border text-sm w-full py-1 cursor-pointer border-border hover:bg-accent/20 transition-colors" {...props} />;
 }
 
 function Example() {
