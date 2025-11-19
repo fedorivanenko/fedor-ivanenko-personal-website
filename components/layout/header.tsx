@@ -1,6 +1,8 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
+import Back from '@/components/icons/back.svg'
+
 export function ReturnButton({ className }: { className?: string }) {
   return (
     <div
@@ -9,8 +11,8 @@ export function ReturnButton({ className }: { className?: string }) {
         className
       )}
     >
-      <Link href={"/"} target="_self" className="flex gap-1">
-        <span className="block translate-y-0.5">{"↩"}</span> Index
+      <Link href={"/"} target="_self" className="flex gap-1 items-center">
+        <Back className="size-3"/> Index
       </Link>
     </div>
   );
