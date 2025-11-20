@@ -1,7 +1,7 @@
 .glass-button {
     --t: 1s;
-    --thickness: 1rem;
-    --r: calc(var(--thickness) * 0.5);
+    --th: 1rem;
+    --r: calc(var(--th) * 0.5);
   
     position: relative;
     width: 12rem;
@@ -14,7 +14,11 @@
   
     font-size: 1.5em;
     border: solid var(--background);
-    border-radius: 0.45rem 0.45rem 0.65rem 0.65rem;
+    border-radius:
+        calc(var(--r) - 0.05rem)
+        calc(var(--r) - 0.05rem)
+        calc(var(--r) + 0.1rem)
+        calc(var(--r) + 0.1rem);
     overflow: hidden;
   
     transform: rotateX(20deg);
@@ -29,7 +33,7 @@
     position: absolute;
     inset: auto 0 0 0;
     width: 100%;
-    height: var(--thickness);
+    height: var(--th);
   
     background: red;
     opacity: 0.75;
@@ -59,7 +63,7 @@
     position: absolute;
     inset: 0 0 auto 0;
     width: 100%;
-    height: var(--thickness);
+    height: var(--th);
   
     background: red;
     opacity: 0.25;
@@ -83,7 +87,7 @@
   /* hover */
   .glass-button:hover {
     transform: rotateX(0deg);
-    border-radius: 0.5rem;
+    border-radius: var(--r);
   }
   
   .glass-button:hover::before {
