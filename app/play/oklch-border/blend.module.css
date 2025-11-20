@@ -1,0 +1,19 @@
+.blend {
+    --bg-color-base: oklch(0.92 0.175 68);
+    --border-color-base: oklch(0.95 0.15 68);
+    --text-color-base: oklch(0.25 0.175 68);
+    --shadow-color-base: oklch(0.68 0.17 68  / .5);
+
+    cursor: pointer;
+    padding: 8px 16px 8px 16px;
+    border: 1px solid var(--border-color-base);
+    background-color: var(--bg-color-base);
+    color: var(--text-color-base);
+    box-shadow: 0 8px 16px var(--shadow-color-base);
+    
+    transition: background-color 1s ease, border-color 1s ease, color 1s ease, box-shadow 1s ease;
+}
+
+.blend:hover {
+    --bg-color-base: oklch(0.92 0.175 248);
+}
