@@ -1,0 +1,119 @@
+.glass-button {
+    --t: 1s;
+    --thickness: 1rem;
+    --r: calc(var(--thickness) * 0.5);
+  
+    position: relative;
+    width: 12rem;
+    height: 4rem;
+    z-index: 0;
+  
+    background: blue;
+    color: var(--background);
+    opacity: 0.75;
+  
+    font-size: 1.5em;
+    border: solid var(--background);
+    border-radius: 0.45rem 0.45rem 0.65rem 0.65rem;
+    overflow: hidden;
+  
+    transform: rotateX(20deg);
+    transition:
+      transform var(--t) ease,
+      border-radius var(--t) ease;
+  }
+  
+  /* bottom piece */
+  .glass-button::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    width: 100%;
+    height: var(--thickness);
+  
+    background: red;
+    opacity: 0.75;
+  
+    mask:
+      radial-gradient(var(--r) at var(--r) 0, transparent 99%, black 100%) left,
+      radial-gradient(var(--r) at calc(100% - var(--r)) 0, transparent 99%, black 100%) right,
+      linear-gradient(to top, black 50%, transparent 50%);
+    mask-size:
+      var(--r) 100%,
+      var(--r) 100%,
+      100% 100%;
+    mask-position:
+      0 0,
+      100% 0,
+      0 0;
+    mask-repeat: no-repeat;
+    mask-composite: add;
+  
+    transform-origin: bottom;
+    transition: transform var(--t) ease;
+  }
+  
+  /* top piece */
+  .glass-button::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    width: 100%;
+    height: var(--thickness);
+  
+    background: red;
+    opacity: 0.25;
+    z-index: -1;
+  
+    mask:
+      radial-gradient(var(--r) at var(--r) 100%, transparent 99%, black 100%) left,
+      radial-gradient(var(--r) at calc(100% - var(--r)) 100%, transparent 99%, black 100%) right,
+      linear-gradient(to bottom, black 50%, transparent 50%);
+    mask-size:
+      var(--r) 100%,
+      var(--r) 100%,
+      100% 100%;
+    mask-repeat: no-repeat;
+    mask-composite: add;
+  
+    transform-origin: top;
+    transition: transform var(--t) ease;
+  }
+  
+  /* hover */
+  .glass-button:hover {
+    transform: rotateX(0deg);
+    border-radius: 0.5rem;
+  }
+  
+  .glass-button:hover::before {
+    transform: translateY(-55%) scale(1.01);
+  }
+  
+  .glass-button:hover::after {
+    transform: translateY(55%) scale(1.01);
+  }
+  
+  /* text reflection */
+  .glass-button span {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+  }
+  
+  .glass-button span::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.075;
+    color: var(--background);
+  
+    transform: translateY(var(--r));
+    transition: transform var(--t) ease;
+  }
+  
+  .glass-button:hover span::after {
+    transform: translateY(0);
+  }
+  
