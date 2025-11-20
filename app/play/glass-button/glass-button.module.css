@@ -1,123 +1,187 @@
+@property --g1a {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0.5;
+}
+
+@property --g2a {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0.075;
+}
+
+@property --g3a {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0.5;
+}
+
 .glass-button {
-    --t: 1s;
-    --th: 1rem;
-    --r: calc(var(--th) * 0.5);
-  
-    position: relative;
-    width: 12rem;
-    height: 4rem;
-    z-index: 0;
-  
-    background: blue;
-    color: var(--background);
-    opacity: 0.75;
-  
-    font-size: 1.5em;
-    border: solid var(--background);
-    border-radius:
-        calc(var(--r) - 0.05rem)
-        calc(var(--r) - 0.05rem)
-        calc(var(--r) + 0.1rem)
-        calc(var(--r) + 0.1rem);
-    overflow: hidden;
-  
-    transform: rotateX(20deg);
-    transition:
-      transform var(--t) ease,
-      border-radius var(--t) ease;
-  }
-  
-  /* bottom piece */
-  .glass-button::after {
-    content: "";
-    position: absolute;
-    inset: auto 0 0 0;
-    width: 100%;
-    height: var(--th);
-  
-    background: red;
-    opacity: 0.75;
-  
-    mask:
-      radial-gradient(var(--r) at var(--r) 0, transparent 99%, black 100%) left,
-      radial-gradient(var(--r) at calc(100% - var(--r)) 0, transparent 99%, black 100%) right,
-      linear-gradient(to top, black 50%, transparent 50%);
-    mask-size:
-      var(--r) 100%,
-      var(--r) 100%,
-      100% 100%;
-    mask-position:
-      0 0,
-      100% 0,
-      0 0;
-    mask-repeat: no-repeat;
-    mask-composite: add;
-  
-    transform-origin: bottom;
-    transition: transform var(--t) ease;
-  }
-  
-  /* top piece */
-  .glass-button::before {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto 0;
-    width: 100%;
-    height: var(--th);
-  
-    background: red;
-    opacity: 0.25;
-    z-index: -1;
-  
-    mask:
-      radial-gradient(var(--r) at var(--r) 100%, transparent 99%, black 100%) left,
-      radial-gradient(var(--r) at calc(100% - var(--r)) 100%, transparent 99%, black 100%) right,
-      linear-gradient(to bottom, black 50%, transparent 50%);
-    mask-size:
-      var(--r) 100%,
-      var(--r) 100%,
-      100% 100%;
-    mask-repeat: no-repeat;
-    mask-composite: add;
-  
-    transform-origin: top;
-    transition: transform var(--t) ease;
-  }
-  
-  /* hover */
-  .glass-button:hover {
-    transform: rotateX(0deg);
-    border-radius: var(--r);
-  }
-  
-  .glass-button:hover::before {
-    transform: translateY(-55%) scale(1.01);
-  }
-  
-  .glass-button:hover::after {
-    transform: translateY(55%) scale(1.01);
-  }
-  
-  /* text reflection */
-  .glass-button span {
-    position: relative;
-    z-index: 1;
-    display: inline-block;
-  }
-  
-  .glass-button span::after {
-    content: attr(data-text);
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    opacity: 0.075;
-    color: var(--background);
-  
-    transform: translateY(var(--r));
-    transition: transform var(--t) ease;
-  }
-  
-  .glass-button:hover span::after {
-    transform: translateY(0);
-  }
-  
+  --t: 1s;
+  --th: 1.25rem;
+  --r: calc(var(--th) * 0.5);
+
+  /* animated gradient opacities */
+  --g1a: 0.5;
+  --g2a: 0.1;
+  --g3a: 0.5;
+
+  position: relative;
+  width: 12rem;
+  height: 4.5rem;
+  z-index: 0;
+
+  outline: 2px solid oklch(0.6 0.18 265 / 0.5);
+  outline-offset: -2px;
+
+  background:
+    linear-gradient(
+      to right bottom,
+      oklch(0.5 0.29 265 / var(--g1a)) 10%,
+      oklch(0.91 0.087 205 / var(--g2a)) 50%,
+      oklch(0.5 0.29 265 / var(--g3a)) 90%
+    ),
+    linear-gradient(
+      to bottom,
+      oklch(0.5 0.35 265),
+      oklch(0.5 0.25 265)
+    );
+
+  color: oklch(1 0 0);
+  opacity: 1;
+
+  font-size: 1.75em;
+
+  border-radius:
+    calc(var(--r) - 0.05rem)
+    calc(var(--r) - 0.05rem)
+    calc(var(--r) + 0.1rem)
+    calc(var(--r) + 0.1rem);
+
+  overflow: hidden;
+
+  transform: rotateX(24deg);
+
+  transition:
+    transform var(--t) ease,
+    border-radius var(--t) ease,
+    background-color var(--t) ease,
+    --g1a var(--t) ease,
+    --g2a var(--t) ease,
+    --g3a var(--t) ease;
+}
+
+/* CLOSER SIDE */
+.glass-button::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  width: 100%;
+  height: var(--th);
+
+  background:
+    linear-gradient(
+      to right,
+      oklch(1 0 0 / 0.15) 0,
+      transparent calc(var(--th)),
+      transparent calc(100% - var(--th)),
+      oklch(1 0 0 / 0.15) 100%
+    ),
+    oklch(0.6 0.18 265);
+  opacity: 1;
+
+  mask:
+    radial-gradient(var(--r) at var(--r) 0, transparent 99%, black 100%) left,
+    radial-gradient(var(--r) at calc(100% - var(--r)) 0, transparent 99%, black 100%) right,
+    linear-gradient(to top, black 50%, transparent 50%);
+  mask-size:
+    var(--r) 100%,
+    var(--r) 100%,
+    100% 100%;
+  mask-position:
+    0 0,
+    100% 0,
+    0 0;
+  mask-repeat: no-repeat;
+  mask-composite: add;
+
+  transform-origin: bottom;
+  transition: transform var(--t) ease;
+}
+
+/* FAR SIDE */
+.glass-button::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  width: 100%;
+  height: var(--th);
+
+  background:
+    linear-gradient(
+      to right,
+      oklch(0 0 0 / 0.1) 0,
+      transparent calc(var(--r)),
+      transparent calc(100% - var(--r)),
+      oklch(0 0 0 / 0.1) 100%
+    ),
+    oklch(0.4 0.165 265);
+  opacity: 0.65;
+  z-index: -1;
+
+  mask:
+    radial-gradient(var(--r) at var(--r) 100%, transparent 99%, black 100%) left,
+    radial-gradient(var(--r) at calc(100% - var(--r)) 100%, transparent 99%, black 100%) right,
+    linear-gradient(to bottom, black 50%, transparent 50%);
+  mask-size:
+    var(--r) 100%,
+    var(--r) 100%,
+    100% 100%;
+  mask-repeat: no-repeat;
+  mask-composite: add;
+
+  transform-origin: top;
+  transition: transform var(--t) ease;
+}
+
+/* HOVER */
+.glass-button:hover {
+  transform: rotateX(0deg) scale(1.05);
+  border-radius: var(--r);
+
+  /* fade out sheen via variable animation */
+  --g1a: 0;
+  --g2a: 0;
+  --g3a: 0;
+}
+
+.glass-button:hover::before {
+  transform: translateY(-55%) scale(1.01);
+}
+
+.glass-button:hover::after {
+  transform: translateY(55%) scale(1.01);
+}
+
+/* TEXT REFLECTION */
+.glass-button span {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+}
+
+.glass-button span::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.075;
+  color: oklch(1 0 0);
+
+  transform: translateY(var(--r));
+  transition: transform var(--t) ease;
+}
+
+.glass-button:hover span::after {
+  transform: translateY(0);
+}
