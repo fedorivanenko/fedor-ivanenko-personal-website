@@ -1,7 +1,7 @@
 import ThemeToggle from "../theme-toggle";
 import { InlineLinkButton } from "../ui/button";
 
-import Scale from '@/components/icons/scale.svg'
+import Scale from "@/components/icons/scale.svg";
 
 export default function Footer() {
   return (
@@ -26,7 +26,8 @@ export default function Footer() {
               "https://github.com/fedorivanenko/fedor-ivanenko-personal-website/blob/main/license.md"
             }
           >
-            <Scale className="size-4"/> MIT
+            <Scale className="size-4" />{" "}
+            MIT
           </InlineLinkButton>
           <ThemeToggle />
         </span>
