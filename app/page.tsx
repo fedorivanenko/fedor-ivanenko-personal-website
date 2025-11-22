@@ -76,7 +76,7 @@ function CarftPanel() {
         <InlineLinkButton href={"/craft/wheel-picker"} target="_self">
           Wheel Picker
         </InlineLinkButton>
-        <span className="block text-muted-foreground text-sm mt-0.5">
+        <span className="block text-muted-foreground text-sm mt-1">
           React component. Validation, a11y, and keyboard controls are included.
         </span>
       </li>
@@ -189,7 +189,7 @@ function ProjectsPanel() {
       <div className="z-10 absolute w-5 h-full pointer-events-none bg-gradient-to-r from-transparent to-background top-0 -right-5" />
       <div className="z-10 absolute w-5 h-full pointer-events-none bg-gradient-to-l from-transparent to-background top-0 -left-5" />
       <div className="overflow-x-scroll min-h-12 space-y-3 -mx-5 px-5 pb-2">
-        <ul className="w-fit grid grid-cols-[max-content_max-content_max-content] gap-x-3 gap-y-1 pr-2.5">
+        <ul className="w-fit grid grid-cols-[max-content_max-content_max-content] gap-x-3 gap-y-0.5 pr-2.5">
           {projectsData.map((project) => (
             <ProjectRow key={`${project.year}-${project.name}`} {...project} />
           ))}
