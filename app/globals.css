@@ -143,8 +143,8 @@
   --text-base: 18px;
   --text-lg: 22px;
 
-  --default-mono-font-family: var(--font-commit-mono);
   --default-font-family: var(--font-barlow-sans);
+  --default-mono-font-family: var(--font-commit-mono);
 }
 
 @layer base {
@@ -198,7 +198,7 @@ details span {
   display: inline-block;
 }
 details summary {
-  @apply underline-offset-4 underline decoration-[1px] decoration-secondary-foreground/25 hover:text-primary hover:decoration-secondary-foreground/50 transition-all
+  @apply cursor-pointer underline-offset-4 underline decoration-[1px] decoration-secondary-foreground/25 hover:text-primary hover:decoration-secondary-foreground/50 transition-all
 }
 
 details span::after {
