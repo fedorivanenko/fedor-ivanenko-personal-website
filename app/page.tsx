@@ -37,8 +37,7 @@ function BioPanel() {
           <div>
             <p className="inline">
               I build clear and practical websites and craft UX that is simple
-              and obvious. <br className="hidden md:block" />
-              Using TS, CSS, React, Next.js, Sanity, Shopify,
+              and obvious using TS, CSS, React, Next.js, Sanity, Shopify,
             </p>{" "}
             <details className="group inline-block open:contents">
               <summary className="inline group-open:hidden">and more.</summary>
@@ -237,7 +236,7 @@ function CuriculumPanel() {
     <Section>
       <h2>Curiculum</h2>
       <div className="prose">
-        <p>Born in Siberia in 1988, I began my design journey in 2012 as a 3D visualizer.</p>
+        <p>Born in Siberia in 1988, I began my design journey in 2012.</p>
         <p>
           In 2017, I earned a degree in Graphic Design and began working as an
           <InlineLinkButton
@@ -260,7 +259,7 @@ function CuriculumPanel() {
         </p>
         <p>
           Today, I work independently as a designer and developer, pursuing my
-          inerest in generative user interfaces and human{"–"}machine
+          inerest in generative UI and human{"–"}machine
           interaction.
         </p>
       </div>
