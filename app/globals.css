@@ -138,12 +138,12 @@
 
   --content-width: 36rem;
 
-  --text-xs: 14px;
-  --text-sm: 16px;
-  --text-base: 18px;
-  --text-lg: 22px;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 18px;
 
-  --default-font-family: var(--font-barlow-sans);
+  --default-font-family: var(--font-iosevka-aile);
   --default-mono-font-family: var(--font-commit-mono);
 }
 
@@ -174,10 +174,10 @@
     @apply text-lg
   }
   p {
-    @apply leading-normal
+    @apply leading-relaxed
   }
   .prose {
-    @apply space-y-3;
+    @apply space-y-4;
   }
   p code, li code {
     @apply text-xs text-foreground rounded-sm bg-card px-1 py-0.5 break-words whitespace-pre-wrap border border-card-border
