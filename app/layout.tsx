@@ -4,7 +4,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "./globals.css";
 import Footer from "@/components/layout/footer";
-import { geist, geistMono, etBook } from "@/lib/fonts";
+import { commit, barlow } from "@/lib/fonts";
 import { generateMetadata } from "@/lib/metadata";
 import { Toaster } from "@/components/ui/sonner";
 import { Metadata } from "next";
@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${etBook.variable} ${geist.variable} ${geistMono.variable}`}>
+    <html lang="en" className={`${barlow.variable} ${commit.variable}`}>
       {/* <script src="https://unpkg.com/react-scan/dist/auto.global.js" async /> */}
       <body>
         <ThemeProvider

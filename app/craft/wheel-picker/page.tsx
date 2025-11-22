@@ -14,7 +14,7 @@ export default function Page() {
   return (
     <article>
       <h1
-        className={cn(sectionVariants({ animated: true }), "!space-y-0 mb-12")}
+        className={cn(sectionVariants({ animated: true }))}
       >
         Wheel Picker
       </h1>

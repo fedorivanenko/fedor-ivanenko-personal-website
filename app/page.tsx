@@ -9,12 +9,12 @@ function BioPanel() {
         className={cn(sectionVariants({ animated: true }), "!space-y-0 mb-12")}
       >
         <h1>Fedor Ivanenko</h1>
-        <p className="text-muted-foreground text-xs whitespace-nowrap max-w-min">
+        <p className="text-muted-foreground whitespace-nowrap max-w-min">
           Design Engineer
         </p>
       </div>
       <Section>
-        <div className="prose-short">
+        <div className="prose">
           <p>
             I care about experience, performance, and beauty,{" "}
             <br className="hidden md:block" />
@@ -174,8 +174,8 @@ function ProjectRow({ year, href, name, description }: ProjectData) {
   };
 
   return (
-    <li className="contents text-muted-foreground text-sm ">
-      <p>{year}</p>
+    <li className="contents text-muted-foreground">
+      <span>{year}</span>
       {renderName()}
       {renderDescription()}
     </li>
@@ -185,12 +185,12 @@ function ProjectRow({ year, href, name, description }: ProjectData) {
 function ProjectsPanel() {
   return (
     <Section className="relative mb-10 sm:mb-16" id="projects">
-      <h2 className="!mb-1.5">Patricipations</h2>
+      <h2>Patricipations</h2>
       <p>I made several websites and you can hire me to build one.</p>
-      <div className="z-10 absolute w-7.5 h-full pointer-events-none bg-gradient-to-r from-transparent to-background top-0 -right-5" />
-      <div className="z-10 absolute w-7.5 h-full pointer-events-none bg-gradient-to-l from-transparent to-background top-0 -left-5" />
+      <div className="z-10 absolute w-5 h-full pointer-events-none bg-gradient-to-r from-transparent to-background top-0 -right-5" />
+      <div className="z-10 absolute w-5 h-full pointer-events-none bg-gradient-to-l from-transparent to-background top-0 -left-5" />
       <div className="overflow-x-scroll min-h-12 space-y-3 -mx-5 px-5 pb-2">
-        <ul className="w-fit grid grid-cols-[max-content_max-content_max-content] gap-x-7.5 gap-y-1 pr-2.5">
+        <ul className="w-fit grid grid-cols-[max-content_max-content_max-content] gap-x-3 gap-y-1 pr-2.5">
           {projectsData.map((project) => (
             <ProjectRow key={`${project.year}-${project.name}`} {...project} />
           ))}
@@ -204,7 +204,7 @@ function PersonalityPanel() {
   return (
     <Section id="personality">
       <h2>Personality</h2>
-      <div className="prose-long max-w-sm sm:max-w-xl">
+      <div className="prose max-w-sm sm:max-w-xl">
         <p>
           My favorite brand is Asics, my favorite car is&nbsp;Dodge Viper,
           and&nbsp;my&nbsp;favorite music is&nbsp;
@@ -236,7 +236,7 @@ function CuriculumPanel() {
   return (
     <Section>
       <h2>Curiculum</h2>
-      <div className="prose-long">
+      <div className="prose">
         <p>Born in Siberia in 1988, I began my design journey in 2012 as a 3D visualizer.</p>
         <p>
           In 2017, I earned a degree in Graphic Design and began working as an

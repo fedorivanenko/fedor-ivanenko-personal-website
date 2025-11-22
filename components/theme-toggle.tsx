@@ -54,7 +54,7 @@ export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
 
   return (
-    <fieldset className="flex gap-2">
+    <fieldset className="flex gap-2 ml-auto">
       <legend className="sr-only">Select a display theme:</legend>
 
       {options.map((opt) => (

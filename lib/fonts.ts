@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist, Geist_Mono, Barlow } from 'next/font/google'
 import localFont from 'next/font/local'
 
 export const etBook = localFont({
@@ -23,9 +23,28 @@ export const etBook = localFont({
       weight: '400',
       style: 'italic'
     },
-    
+
   ],
   variable: '--font-et-book',
+  display: 'swap',
+})
+
+export const commit = localFont({
+  src: [
+    {
+      path: '../app/fonts/CommitMono-400-Regular.otf',
+      weight: '400',
+      style: 'normal'
+    }
+  ],
+  variable: '--font-commit-mono',
+  display: 'swap',
+})
+
+export const barlow = Barlow({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-barlow-sans',
   display: 'swap',
 })
 

@@ -6,20 +6,20 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.975 0 0);
-  --foreground: oklch(0.175 0 0);
+  --background: oklch(0.970 0 0);
+  --foreground: oklch(0.285 0 0);
   --card: oklch(0.985 0 0);
   --card-foreground: oklch(0.145 0 0);
   --card-border: oklch(0.865 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.375 0 0);
+  --primary: oklch(0.275 0 0);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.965 0 0);
-  --secondary-foreground: oklch(0.375 0 0);
+  --secondary-foreground: oklch(0.275 0 0);
   --muted: oklch(0.945 0 0);
-  --muted-foreground: oklch(0.555 0 0);
-  --accent: oklch(0.729 0 264.052);
+  --muted-foreground: oklch(0.5 0 0);
+  --accent: oklch(0.725 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.25 26);
   --destructive-foreground: oklch(0.975 0 0);
@@ -44,7 +44,7 @@
 
 .dark {
   --background: oklch(0.205 0 0);
-  --foreground: oklch(0.975 0 0);
+  --foreground: oklch(0.970 0 0);
   --card: oklch(0.220 0 0);
   --card-foreground: oklch(0.985 0 0);
   --card-border: oklch(0.255 0 0);
@@ -138,26 +138,28 @@
 
   --content-width: 36rem;
 
-  --text-sm: 0.9375rem;
-  --text-xs: 0.875rem;
+  --text-xs: 14px;
+  --text-sm: 16px;
+  --text-base: 18px;
+  --text-lg: 22px;
 
-  --default-mono-font-family: var(--font-geist-mono);
-  --default-font-family: var(--font-geist-sans);
+  --default-mono-font-family: var(--font-commit-mono);
+  --default-font-family: var(--font-barlow-sans);
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring/50 text-base;
     scrollbar-color: var(--color-border) transparent;
   }
   body {
-    @apply flex flex-col bg-background text-secondary-foreground min-h-[100svh] antialiased font-[450] dark:font-[400] text-[0.96em] xs:text-[1em];
+    @apply flex flex-col bg-background text-secondary-foreground min-h-[100svh] antialiased;
   }
   main {
     @apply w-full pt-16 lg:pt-32 flex flex-col max-w-screen-lg lg:grid lg:grid-cols-[auto_var(--content-width)_auto] gap-x-1 mx-auto px-5 
   }
   article {
-    @apply space-y-12 sm:space-y-15 dark:sm:space-y-18 animation-container col-start-2 max-w-[var(--content-width)] w-full mx-auto lg:mx-0 
+    @apply space-y-12 sm:space-y-18 animation-container col-start-2 max-w-[var(--content-width)] w-full mx-auto lg:mx-0 
   }
   header {
     @apply animate-blur-fade stagger-0 max-w-(--content-width) w-full lg:w-auto mx-auto lg:mx-0  px-2.5 lg:px-0 mb-16 translate-y-0.5
@@ -166,19 +168,16 @@
 
 @layer typography {
   h1, h2, h3, h4 {
-    @apply font-[550] text-foreground
+    @apply font-semibold text-foreground leading-snug
   }
-  h1 {
+  h1, h2 {
     @apply text-lg
   }
   p {
-    @apply leading-relaxed
+    @apply leading-normal
   }
-  .prose-short {
-    @apply space-y-2.5 dark:space-y-3.5;
-  }
-  .prose-long {
-    @apply space-y-2.5 dark:space-y-4 md:space-y-3.5 dark:md:space-y-5;
+  .prose {
+    @apply space-y-3;
   }
   p code, li code {
     @apply text-xs text-foreground rounded-sm bg-card px-1 py-0.5 break-words whitespace-pre-wrap border border-card-border
