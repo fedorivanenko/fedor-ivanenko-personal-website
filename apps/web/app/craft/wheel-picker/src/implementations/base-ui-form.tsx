@@ -20,9 +20,9 @@ export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
 }
 
 type ControlWithRef = Field.Control.Props & {
-  // Base UI provides a callback ref 
+  // Base UI provides a callback ref
   // to wire focus, events, and validity
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: Base UI callback ref needs to accept any instance
   ref?: any;
 };
 

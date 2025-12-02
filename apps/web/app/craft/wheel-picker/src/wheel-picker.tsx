@@ -32,7 +32,7 @@ export interface WheelPickerProps {
   forwardedRef?: React.Ref<WheelPickerHandle>;
 
   // React Hook Form internal callback for focus management
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: external API needs an escape hatch
   callbackRef?: (instance: any) => void;
 
   // List of selectable options displayed in the wheel
@@ -216,7 +216,7 @@ function WheelPicker({
     return () => {
       if (timer.current) clearTimeout(timer.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // biome-ignore lint/react-hooks/exhaustiveDeps: dependencies intentionally limited to throttle parent form updates
   }, [onPick, wheelState.pos]);
 
   // imperiative rotation
