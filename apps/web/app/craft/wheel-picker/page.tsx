@@ -42,7 +42,7 @@ export default function Page() {
         </ul>
         <p>
           Get the source code from{" "}
-          <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/tree/main/app/craft/wheel-picker/src">
+          <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/tree/main/packages/wheel-picker">
             GitHub
           </InlineLinkButton>
           . <br />
