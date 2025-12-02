@@ -1,4 +1,3 @@
-import { Barlow } from 'next/font/google'
 import localFont from 'next/font/local'
 
 export const iosevka = localFont({
@@ -10,9 +9,8 @@ export const iosevka = localFont({
     }
   ],
     variable: '--font-iosevka-aile',
-    display: 'swap',
+    display: 'block',
 })
-
 
 export const commit = localFont({
   src: [
@@ -23,12 +21,5 @@ export const commit = localFont({
     }
   ],
   variable: '--font-commit-mono',
-  display: 'swap',
-})
-
-export const barlow = Barlow({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-barlow-sans',
-  display: 'swap',
+  display: 'block',
 })
