@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useDrag, useWheel } from "@use-gesture/react";
 import { animated, useReducedMotion, useSprings } from "@react-spring/web";
-import { cn } from "@/lib/utils";
+import { cn } from "./utils";
 
 type CSSSize = `${number}${"px" | "rem" | "em"}`;
 

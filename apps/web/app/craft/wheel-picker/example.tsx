@@ -4,8 +4,8 @@ import * as React from 'react';
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { WheelPicker, WheelPickerHandle, WheelPickerWrapper } from "./src/wheel-picker";
-import { monthOptions, formSchema } from "./src/implementations/data";
+import { WheelPicker, WheelPickerHandle, WheelPickerWrapper } from "@fedor/wheel-picker";
+import { monthOptions, formSchema } from "./data";
 import { toast } from "sonner"
 
 export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {

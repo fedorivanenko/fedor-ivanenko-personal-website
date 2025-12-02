@@ -1,4 +1,4 @@
-import { WheelPickerOption } from "../wheel-picker";
+import { WheelPickerOption } from "@fedor/wheel-picker";
 import * as z from "zod";
 
 export const monthOptions: WheelPickerOption[] = [

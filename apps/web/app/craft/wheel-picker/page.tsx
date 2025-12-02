@@ -1,14 +1,8 @@
 import { Section, sectionVariants } from "@/components/layout/section";
 import { InlineLinkButton } from "@/components/ui/button";
-//import { CodeBlock } from "@/components/code-block";
 import { Example } from "./example";
 import { cn } from "@/lib/utils";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
-/*
-import { BaseUIForm } from "./src/implementations/base-ui-form";
-import { TanStackForm } from "./src/implementations/tanstack-form";
-import { ReactHookForm } from "./src/implementations/react-hook-form";
-*/
 
 export default function Page() {
   return (
