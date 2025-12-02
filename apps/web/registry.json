@@ -1,0 +1,19 @@
+{
+    "$schema": "https://ui.shadcn.com/schema/registry.json",
+    "name": "fedor",
+    "homepage": "https://fedor.studio",
+    "items": [
+        {
+            "name": "wheel-picker",
+            "type": "registry:component",
+            "title": "Wheel Picker",
+            "description": "wheel picker",
+            "files": [
+              {
+                "path": "../../packages/wheel-picker/src/wheel-picker.tsx",
+                "type": "registry:component"
+              }
+            ]
+          }
+    ]
+  }
