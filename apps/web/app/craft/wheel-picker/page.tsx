@@ -7,11 +7,7 @@ import { Kbd, KbdGroup } from "@/components/ui/kbd";
 export default function Page() {
   return (
     <article>
-      <h1
-        className={cn(sectionVariants({ animated: true }))}
-      >
-        Wheel Picker
-      </h1>
+      <h1 className={cn(sectionVariants({ animated: true }))}>Wheel Picker</h1>
       <Section>
         <p>
           React component made with{" "}
@@ -27,7 +23,9 @@ export default function Page() {
           .
         </p>
         <ul className="space-y-0.5 content">
-          <li className="inline sm:block">Validation, a11y, and keyboard controls are included.{" "}</li>
+          <li className="inline sm:block">
+            Validation, a11y, and keyboard controls are included.{" "}
+          </li>
           <li className="inline sm:block">
             Compatitable&nbsp;with&nbsp;
             <InlineLinkButton href="https://ui.shadcn.com/docs">

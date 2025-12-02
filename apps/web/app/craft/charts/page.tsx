@@ -1,5 +1,5 @@
 import { Section } from "@/components/layout/section";
-import { Chart } from "./src/chart";
+import { Chart } from "@fedor/hairline-charts";
 
 export default function CraftChartPage() {
     return(

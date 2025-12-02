@@ -5,13 +5,17 @@
     "items": [
         {
             "name": "wheel-picker",
-            "type": "registry:component",
+            "type": "registry:ui",
             "title": "Wheel Picker",
             "description": "wheel picker",
+            "dependencies": [
+              "@use-gesture/react",
+              "@react-spring/web"
+            ],
             "files": [
               {
                 "path": "../../packages/wheel-picker/src/wheel-picker.tsx",
-                "type": "registry:component"
+                "type": "registry:ui"
               }
             ]
           }
