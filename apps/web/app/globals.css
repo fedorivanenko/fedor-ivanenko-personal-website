@@ -172,13 +172,17 @@
     @apply font-semibold text-foreground leading-normal
   }
   h1, h2 {
-    @apply text-lg mb-3
+    @apply text-lg
   }
   p {
     @apply leading-normal
   }
   .prose {
     @apply space-y-4;
+  
+    h2 {
+      @apply mb-3;
+    }
   }
   p code, li code {
     @apply text-xs text-foreground rounded-sm bg-card px-1 py-0.5 break-words whitespace-pre-wrap border border-card-border
