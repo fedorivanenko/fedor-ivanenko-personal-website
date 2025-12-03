@@ -9,7 +9,7 @@ export default defineConfig({
     dts({
       tsconfigPath: "./tsconfig.json",
       entryRoot: "src",
-      outputDir: "dist",
+      outDir: "dist",
       insertTypesEntry: true,
     }),
   ],
