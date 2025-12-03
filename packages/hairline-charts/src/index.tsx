@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { data } from "./data-helper";
 
 import { scaleLinear, scaleBand } from "@visx/scale";

@@ -20,7 +20,19 @@ export default defineConfig({
       fileName: () => "index.mjs",
     },
     rollupOptions: {
-      external: ["react", "react-dom"],
+      external: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "react/jsx-dev-runtime",
+        /^@visx\//,
+      ],
+      output: {
+        globals: {
+          react: "React",
+          "react-dom": "ReactDOM",
+        },
+      },
     },
     sourcemap: true,
     emptyOutDir: true,
