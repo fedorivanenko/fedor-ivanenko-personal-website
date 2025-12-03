@@ -143,7 +143,7 @@
   --text-base: 16px;
   --text-lg: 18px;
 
-  --default-font-family: var(--font-iosevka-aile);
+  --default-font-family: var(--font-iosevka);
   --default-mono-font-family: var(--font-commit-mono);
 }
 

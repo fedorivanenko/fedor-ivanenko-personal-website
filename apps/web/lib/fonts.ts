@@ -3,12 +3,17 @@ import localFont from 'next/font/local'
 export const iosevka = localFont({
   src: [
     {
-      path: '../app/fonts/Iosevka-Aile-01.woff2',
+      path: '../app/fonts/Iosevka-LatinOnly-Regular.woff2',
       weight: '400',
       style: 'normal'
+    },
+    {
+      path: '../app/fonts/Iosevka-LatinOnly-Bold.woff2',
+      weight: '600',
+      style: 'semibold'
     }
   ],
-    variable: '--font-iosevka-aile',
+    variable: '--font-iosevka',
     display: 'block',
 })
 
