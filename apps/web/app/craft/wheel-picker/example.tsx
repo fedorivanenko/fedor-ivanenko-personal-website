@@ -44,7 +44,7 @@ function Example() {
         render={({ field, fieldState }) => (
           <WheelPickerWrapper
             invalid={fieldState.invalid}
-            className="w-40 h-48 ring-offset-card text-base"
+            className="w-40 h-54 ring-offset-card text-base"
           >
             <label id="month-label" className="sr-only">
               Month

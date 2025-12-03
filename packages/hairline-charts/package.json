@@ -2,12 +2,12 @@
   "name": "@fedor/hairline-charts",
   "version": "0.1.0",
   "main": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
+  "types": "./dist/index.d.ts",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch"
+    "build": "vite build",
+    "dev": "vite build --watch"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
@@ -20,7 +20,7 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
     }
   }

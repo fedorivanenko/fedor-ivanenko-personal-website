@@ -4,6 +4,7 @@ import { siteConfig } from "@/config/site";
 
 export const runtime = "edge";
 
+//TODO: change on iosevka font
 async function loadGoogleFont(
   font: string,
   text: string,

@@ -1,7 +1,5 @@
 "use client";
 
-//TODO: remove tailwind
-
 import * as React from "react";
 import { useDrag, useWheel } from "@use-gesture/react";
 import { animated, useReducedMotion, useSprings } from "@react-spring/web";

@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "declaration": true,
-    "declarationDir": "dist/types",
+    "declarationDir": "dist",
     "emitDeclarationOnly": true,
     "noEmit": false,
     "tsBuildInfoFile": "./dist/.tsbuildinfo"
@@ -14,7 +14,8 @@
   "files": [
     "src/index.tsx",
     "src/wheel-picker.tsx",
-    "src/utils.ts"
+    "src/utils.ts",
+    "src/global.d.ts"
   ],
   "exclude": [
     "dist"
