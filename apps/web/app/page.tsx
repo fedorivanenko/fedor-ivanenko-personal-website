@@ -8,8 +8,8 @@ function BioPanel() {
       <div
         className={cn(sectionVariants({ animated: true }), "!space-y-0 mb-12")}
       >
-        <h1>Fedor Ivanenko</h1>
-        <p className="text-lg text-muted-foreground whitespace-nowrap max-w-min">
+        <h1 className="!leading-tight">Fedor Ivanenko</h1>
+        <p className="text-[17px] text-muted-foreground leading-0 whitespace-nowrap max-w-min">
           Design Engineer
         </p>
       </div>
@@ -76,8 +76,8 @@ function CarftPanel() {
         <InlineLinkButton href={"/craft/wheel-picker"} target="_self">
           Wheel Picker
         </InlineLinkButton>
-        <span className="block text-muted-foreground text-sm mt-1">
-          React component. Validation, a11y, and keyboard controls are included.
+        <span className="block text-muted-foreground text-sm mt-0.5">
+          React component. Validation, a11y, and keyboard controls are included
         </span>
       </li>
       </ul>
@@ -163,7 +163,7 @@ function ProjectRow({ year, href, name, description }: ProjectData) {
   };
 
   const renderDescription = () => {
-    const descriptionClassName = "whitespace-nowrap";
+    const descriptionClassName = "whitespace-nowrap text-sm";
     if (descriptionElement) {
       return cloneElement(descriptionElement, {
         className: cn(descriptionClassName, descriptionElement.props.className),
@@ -173,7 +173,7 @@ function ProjectRow({ year, href, name, description }: ProjectData) {
   };
 
   return (
-    <li className="contents text-muted-foreground">
+    <li className="contents text-muted-foreground text-base">
       <span>{year}</span>
       {renderName()}
       {renderDescription()}
