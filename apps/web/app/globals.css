@@ -138,10 +138,10 @@
 
   --content-width: 36rem;
 
-  --text-xs: 14px;
-  --text-sm: 16px;
-  --text-base: 17px;
-  --text-lg: 19px;
+  --text-xs: 0.875rem;    /* 14px */
+  --text-sm: 1rem;        /* 16px */
+  --text-base: 1.0625rem; /* 17px */
+  --text-lg: 1.1875rem;   /* 19px */
 
   --default-font-family: var(--font-iosevka);
   --default-mono-font-family: var(--font-commit-mono);
@@ -149,7 +149,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50 text-base;
+    @apply border-border outline-ring/50;
     scrollbar-color: var(--color-border) transparent;
   }
   body {
