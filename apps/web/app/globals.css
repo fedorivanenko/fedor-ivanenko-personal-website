@@ -138,11 +138,10 @@
 
   --content-width: 36rem;
 
-  --text-xs: 13px;
-  --text-sm: 15px;
-  --text-base: 16px;
-  
-  --text-lg: 18px;
+  --text-xs: 14px;
+  --text-sm: 16px;
+  --text-base: 17px;
+  --text-lg: 19px;
 
   --default-font-family: var(--font-iosevka);
   --default-mono-font-family: var(--font-commit-mono);
