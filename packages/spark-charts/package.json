@@ -1,5 +1,5 @@
 {
-  "name": "@fedor/hairline-charts",
+  "name": "@fedor/spark-charts",
   "version": "0.1.0",
   "main": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

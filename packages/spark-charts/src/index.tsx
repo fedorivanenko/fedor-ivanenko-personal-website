@@ -4,6 +4,28 @@ import { data } from "./data-helper";
 
 import { scaleLinear, scaleBand } from "@visx/scale";
 
+/**
+  Container
+  Grid
+  Data
+      type: line / bar
+      data: sources
+      trendline
+      diff
+      usage / left
+  Tooltip
+  XAxis 
+    layers
+  YAxis
+    layers
+  Per View / Selection
+    total
+    mean
+    min-max
+  Legend
+    isolate on click
+*/
+
 function Chart() {
   const width = 220;
   const height = 240;
