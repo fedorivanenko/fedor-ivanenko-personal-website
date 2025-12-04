@@ -148,12 +148,15 @@
 }
 
 @layer base {
+  html {
+    font-size: 16px;
+  }
   * {
     @apply border-border outline-ring/50;
     scrollbar-color: var(--color-border) transparent;
   }
   body {
-    @apply flex flex-col bg-background text-secondary-foreground min-h-[100svh] antialiased;
+    @apply text-base flex flex-col bg-background text-secondary-foreground min-h-[100svh] antialiased;
   }
   main {
     @apply w-full pt-16 lg:pt-32 flex flex-col max-w-screen-lg lg:grid lg:grid-cols-[auto_var(--content-width)_auto] gap-x-1 mx-auto px-5 
