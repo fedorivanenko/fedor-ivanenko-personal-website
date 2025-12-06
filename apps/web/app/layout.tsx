@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${iosevka.variable} ${commit.variable}`}>
+    <html lang="en" className={`${iosevka.variable} ${commit.variable}`} suppressHydrationWarning>
       {/* <script src="https://unpkg.com/react-scan/dist/auto.global.js" async /> */}
       <body>
         <ThemeProvider
