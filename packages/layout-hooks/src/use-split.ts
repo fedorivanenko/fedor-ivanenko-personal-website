@@ -15,7 +15,7 @@ export function useSplitText<T extends HTMLElement = HTMLElement>(
 
     const originalHTML = el.innerHTML;
     const text = el.textContent?.trim();
-    
+
     if (!text) return;
 
     const tokens = text.split(/(\s+)/);
@@ -26,14 +26,14 @@ export function useSplitText<T extends HTMLElement = HTMLElement>(
         htmlParts.push(`<span class="space" aria-hidden="true">&nbsp;</span>`);
       } else {
         htmlParts.push(`<span class="word" aria-hidden="true" style="white-space:nowrap">`);
-        
+
         for (const ch of token) {
           const escaped = ch === " " ? "&nbsp;" : ch;
           htmlParts.push(
             `<span class="char" aria-hidden="true" style="display:inline-block">${escaped}</span>`
           );
         }
-        
+
         htmlParts.push(`</span>`);
       }
     }
