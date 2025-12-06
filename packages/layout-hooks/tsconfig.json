@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "dist",
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo"
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "files": [
+    "src/index.ts",
+    "src/use-measure.ts",
+    "src/use-scroll.ts",
+    "src/use-split.ts"
+  ],
+  "exclude": [
+    "dist"
+  ]
+}
