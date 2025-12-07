@@ -89,12 +89,12 @@ export function useMeasure(
           const newX = r.left - px;
           const newY = r.top - py;
 
-          if (Math.abs((prev.x ?? 0) - newX) > threshold) {
+          if (prev.x === undefined || Math.abs(prev.x - newX) > threshold) {
             rect.x = newX;
             prev.x = newX;
             changed = true;
           }
-          if (Math.abs((prev.y ?? 0) - newY) > threshold) {
+          if (prev.y === undefined || Math.abs(prev.y - newY) > threshold) {
             rect.y = newY;
             prev.y = newY;
             changed = true;
@@ -102,12 +102,12 @@ export function useMeasure(
         }
 
         if (sizes) {
-          if (Math.abs((prev.w ?? 0) - r.width) > threshold) {
+          if (prev.w === undefined || Math.abs(prev.w - r.width) > threshold) {
             rect.w = r.width;
             prev.w = r.width;
             changed = true;
           }
-          if (Math.abs((prev.h ?? 0) - r.height) > threshold) {
+          if (prev.h === undefined || Math.abs(prev.h - r.height) > threshold) {
             rect.h = r.height;
             prev.h = r.height;
             changed = true;
