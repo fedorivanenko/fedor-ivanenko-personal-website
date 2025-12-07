@@ -5,6 +5,10 @@ export interface ScrollState {
     scrollY: number;
     scrollXProgress: number;
     scrollYProgress: number;
+    scrollXVelocity: number;
+    scrollYVelocity: number;
+    scrollXDirection: -1 | 0 | 1;
+    scrollYDirection: -1 | 0 | 1;
 }
 
 interface ScrollStoreConfig {
@@ -34,6 +38,10 @@ function readContainerScroll(container: HTMLElement | null): ScrollState {
             scrollY,
             scrollXProgress: maxX <= 0 ? 0 : clamp(scrollX / maxX),
             scrollYProgress: maxY <= 0 ? 0 : clamp(scrollY / maxY),
+            scrollXVelocity: 0,
+            scrollYVelocity: 0,
+            scrollXDirection: 0,
+            scrollYDirection: 0,
         };
     }
 
@@ -49,6 +57,10 @@ function readContainerScroll(container: HTMLElement | null): ScrollState {
         scrollY,
         scrollXProgress: maxX <= 0 ? 0 : clamp(scrollX / maxX),
         scrollYProgress: maxY <= 0 ? 0 : clamp(scrollY / maxY),
+        scrollXVelocity: 0,
+        scrollYVelocity: 0,
+        scrollXDirection: 0,
+        scrollYDirection: 0,
     };
 }
 
@@ -84,6 +96,10 @@ class ScrollStore {
         scrollY: 0,
         scrollXProgress: 0,
         scrollYProgress: 0,
+        scrollXVelocity: 0,
+        scrollYVelocity: 0,
+        scrollXDirection: 0,
+        scrollYDirection: 0,
     };
 
     private listeners = new Set<() => void>();
@@ -94,6 +110,11 @@ class ScrollStore {
     };
     private cleanup: (() => void) | null = null;
     private initialized = false;
+    
+    // Velocity tracking
+    private lastScrollX = 0;
+    private lastScrollY = 0;
+    private lastTimestamp = 0;
 
     configure(opts: Partial<ScrollStoreConfig>) {
         const configChanged = 
@@ -113,24 +134,94 @@ class ScrollStore {
         }
     }
 
+    private calculateVelocity(
+        currentX: number,
+        currentY: number,
+        timestamp: number
+    ): Pick<ScrollState, 'scrollXVelocity' | 'scrollYVelocity' | 'scrollXDirection' | 'scrollYDirection'> {
+        // First call - no velocity yet
+        if (this.lastTimestamp === 0) {
+            this.lastScrollX = currentX;
+            this.lastScrollY = currentY;
+            this.lastTimestamp = timestamp;
+            return {
+                scrollXVelocity: 0,
+                scrollYVelocity: 0,
+                scrollXDirection: 0,
+                scrollYDirection: 0,
+            };
+        }
+
+        const deltaTime = timestamp - this.lastTimestamp;
+        
+        // Prevent division by zero
+        if (deltaTime === 0) {
+            return {
+                scrollXVelocity: this.state.scrollXVelocity,
+                scrollYVelocity: this.state.scrollYVelocity,
+                scrollXDirection: this.state.scrollXDirection,
+                scrollYDirection: this.state.scrollYDirection,
+            };
+        }
+
+        const deltaX = currentX - this.lastScrollX;
+        const deltaY = currentY - this.lastScrollY;
+
+        // Velocity in pixels per millisecond
+        const velocityX = deltaX / deltaTime;
+        const velocityY = deltaY / deltaTime;
+
+        // Direction: -1 (left/up), 0 (no movement), 1 (right/down)
+        const directionX = deltaX < 0 ? -1 : deltaX > 0 ? 1 : 0;
+        const directionY = deltaY < 0 ? -1 : deltaY > 0 ? 1 : 0;
+
+        this.lastScrollX = currentX;
+        this.lastScrollY = currentY;
+        this.lastTimestamp = timestamp;
+
+        return {
+            scrollXVelocity: velocityX,
+            scrollYVelocity: velocityY,
+            scrollXDirection: directionX as -1 | 0 | 1,
+            scrollYDirection: directionY as -1 | 0 | 1,
+        };
+    }
+
     private update = () => {
+        const timestamp = performance.now();
         const containerForCalc = isHTMLElement(this.config.container)
             ? this.config.container
             : null;
 
         const base = readContainerScroll(containerForCalc);
-        const next = applyTargetProgress(
+        const withTarget = applyTargetProgress(
             base,
             this.config.target,
             containerForCalc
         );
+
+        // Calculate velocity and direction
+        const velocityData = this.calculateVelocity(
+            withTarget.scrollX,
+            withTarget.scrollY,
+            timestamp
+        );
+
+        const next = {
+            ...withTarget,
+            ...velocityData,
+        };
 
         // Dedup — prevent unnecessary listener executions
         if (
             next.scrollX === this.state.scrollX &&
             next.scrollY === this.state.scrollY &&
             next.scrollXProgress === this.state.scrollXProgress &&
-            next.scrollYProgress === this.state.scrollYProgress
+            next.scrollYProgress === this.state.scrollYProgress &&
+            next.scrollXVelocity === this.state.scrollXVelocity &&
+            next.scrollYVelocity === this.state.scrollYVelocity &&
+            next.scrollXDirection === this.state.scrollXDirection &&
+            next.scrollYDirection === this.state.scrollYDirection
         ) {
             return;
         }
@@ -176,6 +267,11 @@ class ScrollStore {
                 cancelAnimationFrame(this.frame);
                 this.frame = null;
             }
+            
+            // Reset velocity tracking
+            this.lastScrollX = 0;
+            this.lastScrollY = 0;
+            this.lastTimestamp = 0;
         };
     }
 
@@ -214,20 +310,18 @@ function getOrCreateStore(config: Partial<ScrollStoreConfig>): ScrollStore {
     return stores.get(key)!;
 }
 
-/* Public API */
-
+/* PUBLIC API */
 export function useScrollStore(config: Partial<ScrollStoreConfig> = {}) {
     const store = getOrCreateStore(config);
     
     return useSyncExternalStore(
         store.subscribe,
-        store.getSnapshot, // Client Snapshot
-        store.getSnapshot  // Server snapshot
+        store.getSnapshot,
+        store.getSnapshot
     );
 }
 
 /* Cleanup utilities */
-
 export function destroyScrollStore(config: Partial<ScrollStoreConfig>) {
     const key = getStoreKey(config);
     const store = stores.get(key);

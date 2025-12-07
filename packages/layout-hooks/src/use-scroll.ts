@@ -14,6 +14,10 @@ const DISABLED_STATE: ScrollState = {
     scrollY: 0,
     scrollXProgress: 0,
     scrollYProgress: 0,
+    scrollXVelocity: 0,
+    scrollYVelocity: 0,
+    scrollXDirection: 0,
+    scrollYDirection: 0,
 };
 
 export function useScroll(options: UseScrollOptions = {}): ScrollState {
