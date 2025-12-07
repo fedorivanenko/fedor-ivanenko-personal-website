@@ -19,7 +19,6 @@ export type Rect = {
 export type UseMeasureReturn = {
   getRects: () => Rect[];
   subscribe: (fn: () => void) => () => void;
-  isHydrated: boolean;
 };
 
 const DEFAULT_OPTIONS: MeasureOptions = {
@@ -39,9 +38,6 @@ export function useMeasure(
   const callbacksRef = useRef<Set<() => void>>(new Set());
   const frameRef = useRef(0);
   const visibleRef = useRef<Set<number>>(new Set());
-
-  // Track hydration state to prevent SSR/client mismatch
-  const [isHydrated, setIsHydrated] = useState(false);
 
   const {
     position = true,
@@ -145,8 +141,6 @@ export function useMeasure(
   }, [refsKey, containerRef, position, sizes, len, threshold, skipOffscreen]);
 
   useLayoutEffect(() => {
-    // Mark as hydrated on first client render
-    setIsHydrated(true);
 
     const scheduleUpdate = () => {
       if (!frameRef.current) {
@@ -258,7 +252,6 @@ export function useMeasure(
     subscribe: (fn: () => void) => {
       callbacksRef.current.add(fn);
       return () => void callbacksRef.current.delete(fn);
-    },
-    isHydrated,
-  }), [isHydrated]);
+    }
+  }), []);
 }
