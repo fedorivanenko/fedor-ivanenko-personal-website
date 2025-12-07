@@ -27,7 +27,6 @@ export function useScroll(options: UseScrollOptions = {}): ScrollState {
     const resolvedTarget = target?.current ?? null;
     const resolvedContainer = container?.current ?? null;
 
-    // The store now handles its own initialization and cleanup
     return useScrollStore({
         target: resolvedTarget,
         container: resolvedContainer,

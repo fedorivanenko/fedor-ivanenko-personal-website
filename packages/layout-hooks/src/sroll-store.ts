@@ -214,22 +214,20 @@ function getOrCreateStore(config: Partial<ScrollStoreConfig>): ScrollStore {
     return stores.get(key)!;
 }
 
-/* ---------------- PUBLIC API ---------------- */
+/* Public API */
 
 export function useScrollStore(config: Partial<ScrollStoreConfig> = {}) {
     const store = getOrCreateStore(config);
     
     return useSyncExternalStore(
         store.subscribe,
-        store.getSnapshot,
-        store.getSnapshot // Server snapshot
+        store.getSnapshot, // Client Snapshot
+        store.getSnapshot  // Server snapshot
     );
 }
 
-/**
- * Cleanup utility - call when a scroll tracker is no longer needed.
- * Typically not needed as stores auto-cleanup, but useful for testing.
- */
+/* Cleanup utilities */
+
 export function destroyScrollStore(config: Partial<ScrollStoreConfig>) {
     const key = getStoreKey(config);
     const store = stores.get(key);
@@ -240,9 +238,6 @@ export function destroyScrollStore(config: Partial<ScrollStoreConfig>) {
     }
 }
 
-/**
- * Cleanup all scroll stores. Useful for testing or app teardown.
- */
 export function destroyAllScrollStores() {
     stores.forEach(store => store.destroy());
     stores.clear();
