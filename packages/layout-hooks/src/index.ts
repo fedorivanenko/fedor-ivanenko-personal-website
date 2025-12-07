@@ -6,3 +6,5 @@ export type {
 } from "./use-measure";
 
 export { useSplitText } from "./use-split";
+
+export { useScroll } from "./use-scroll";
