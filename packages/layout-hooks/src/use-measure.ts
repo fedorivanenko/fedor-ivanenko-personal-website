@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useMemo } from "react";
+import { useLayoutEffect, useRef, useMemo, useState } from "react";
 
 export type MeasureOptions = {
   position?: boolean;
@@ -19,6 +19,7 @@ export type Rect = {
 export type UseMeasureReturn = {
   getRects: () => Rect[];
   subscribe: (fn: () => void) => () => void;
+  isHydrated: boolean;
 };
 
 const DEFAULT_OPTIONS: MeasureOptions = {
@@ -39,6 +40,9 @@ export function useMeasure(
   const frameRef = useRef(0);
   const visibleRef = useRef<Set<number>>(new Set());
 
+  // Track hydration state to prevent SSR/client mismatch
+  const [isHydrated, setIsHydrated] = useState(false);
+
   const {
     position = true,
     sizes = true,
@@ -48,6 +52,10 @@ export function useMeasure(
 
   const len = refs.length;
 
+  // Create a stable key from refs to detect when the actual ref objects change
+  // This prevents stale measurements when refs array is recreated with different refs
+  const refsKey = refs.map(r => r.current).join(',');
+
   // Pre-allocate rects arrays only when length changes
   if (rectsRef.current.length !== len) {
     rectsRef.current = Array.from({ length: len }, () => ({}));
@@ -55,12 +63,15 @@ export function useMeasure(
   }
 
   // Memoize the measure function
+  // Note: We intentionally don't include 'refs' directly in deps because
+  // we want to track ref changes via refsKey instead
   const measureAll = useMemo(() => {
     return () => {
       frameRef.current = 0;
 
       let px = 0, py = 0;
 
+      // Calculate container offset for relative positioning
       if (position && containerRef?.current) {
         const parentRect = containerRef.current.getBoundingClientRect();
         px = parentRect.left;
@@ -89,6 +100,8 @@ export function useMeasure(
           const newX = r.left - px;
           const newY = r.top - py;
 
+          // Always update on first measurement (when prev is undefined)
+          // This ensures initial values are always captured, even if they're close to 0
           if (prev.x === undefined || Math.abs(prev.x - newX) > threshold) {
             rect.x = newX;
             prev.x = newX;
@@ -102,6 +115,7 @@ export function useMeasure(
         }
 
         if (sizes) {
+          // Same fix for sizes - always update when undefined
           if (prev.w === undefined || Math.abs(prev.w - r.width) > threshold) {
             rect.w = r.width;
             prev.w = r.width;
@@ -121,20 +135,19 @@ export function useMeasure(
       if (hasChanges) {
         const callbacks = callbacksRef.current;
 
-        // Batch notifications if there are many subscribers
-        if (callbacks.size > 10) {
-          // Use microtask to batch
-          queueMicrotask(() => {
-            for (const cb of callbacks) cb();
-          });
-        } else {
-          for (const cb of callbacks) cb();
-        }
+        // Notify subscribers synchronously for immediate style updates
+        // This prevents visual lag when applying styles in useLayoutEffect
+        for (const cb of callbacks) cb();
       }
     };
-  }, [refs, containerRef, position, sizes, len, threshold, skipOffscreen]);
+    // Use refsKey instead of refs to detect actual ref changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refsKey, containerRef, position, sizes, len, threshold, skipOffscreen]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // Mark as hydrated on first client render
+    setIsHydrated(true);
+
     const scheduleUpdate = () => {
       if (!frameRef.current) {
         frameRef.current = requestAnimationFrame(measureAll);
@@ -161,6 +174,8 @@ export function useMeasure(
               needsUpdate = true;
             } else if (!isVisible && wasVisible) {
               visibleRef.current.delete(idx);
+              // Don't clear measurements when element goes offscreen
+              // Keep last known values for better UX
             }
           }
 
@@ -173,12 +188,12 @@ export function useMeasure(
         }
       );
 
+      // Don't assume all elements are visible initially
+      // Let IntersectionObserver tell us what's actually visible
       for (let i = 0; i < len; i++) {
         const el = refs[i].current;
         if (el) {
           io.observe(el);
-          // Initially assume all are visible
-          visibleRef.current.add(i);
         }
       }
     }
@@ -198,25 +213,52 @@ export function useMeasure(
 
     // Only listen to window resize if we're tracking anything
     if (position || sizes) {
-      window.addEventListener("resize", scheduleUpdate, { passive: true });
+      // Store event listener options for proper cleanup
+      const resizeOptions: AddEventListenerOptions = { passive: true };
+      window.addEventListener("resize", scheduleUpdate, resizeOptions);
+
+      // Store cleanup reference
+      const cleanup = () => {
+        // Note: Some browsers require the same options object for removal
+        // but the spec says only 'capture' matters for removal
+        window.removeEventListener("resize", scheduleUpdate);
+      };
+
+      // Initial measurement
+      measureAll();
+
+      // Schedule second measurement for elements that might appear after mount
+      // This catches refs that are populated after initial render
+      const initialMeasureTimeout = setTimeout(measureAll, 0);
+
+      return () => {
+        clearTimeout(initialMeasureTimeout);
+        if (frameRef.current) cancelAnimationFrame(frameRef.current);
+        ro.disconnect();
+        io?.disconnect();
+        cleanup();
+        if (skipOffscreen) visibleRef.current.clear();
+      };
     }
 
+    // Initial measurement
     measureAll();
 
     return () => {
       if (frameRef.current) cancelAnimationFrame(frameRef.current);
       ro.disconnect();
       io?.disconnect();
-      window.removeEventListener("resize", scheduleUpdate);
       if (skipOffscreen) visibleRef.current.clear();
     };
   }, [measureAll, position, sizes, len, containerRef, skipOffscreen]);
 
+  // Return stable functions that don't cause re-renders
   return useMemo(() => ({
     getRects: () => rectsRef.current,
     subscribe: (fn: () => void) => {
       callbacksRef.current.add(fn);
       return () => void callbacksRef.current.delete(fn);
     },
-  }), []);
+    isHydrated,
+  }), [isHydrated]);
 }
