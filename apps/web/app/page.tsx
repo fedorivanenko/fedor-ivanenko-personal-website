@@ -36,7 +36,7 @@ function BioPanel() {
           </p>
           <div>
             <p>
-              I build websites and craft UX using TypeScript, CSS, React, Next.js and Sanity
+              I build websites and craft UX using TS, CSS, React, Next.js and Sanity
             </p>
             {/*
             <details className="group inline-block open:contents">
