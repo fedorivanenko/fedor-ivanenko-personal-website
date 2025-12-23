@@ -35,10 +35,10 @@ function BioPanel() {
             .
           </p>
           <div>
-            <p className="inline">
-              I build clear and practical websites and craft UX that is simple
-              and obvious using TS, CSS, React, Next.js, Sanity, Shopify,
-            </p>{" "}
+            <p>
+              I build websites and craft UX using TypeScript, CSS, React, Next.js and Sanity
+            </p>
+            {/*
             <details className="group inline-block open:contents">
               <summary className="inline group-open:hidden">and more.</summary>
               <span className="[--i:1]">Nest.js,</span>
@@ -60,6 +60,7 @@ function BioPanel() {
               <span className="[--i:16]">GSAP,</span>
               <span className="[--i:17]">and perhaps something more.</span>
             </details>
+             */}
           </div>
         </div>
       </Section>
