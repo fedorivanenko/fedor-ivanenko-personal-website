@@ -1,10 +1,2 @@
-export {
-  WheelPicker,
-  WheelPickerWrapper,
-  wheelPickerWrapperStyle,
-} from "./wheel-picker";
-export type {
-  WheelPickerProps,
-  WheelPickerHandle,
-  WheelPickerOption,
-} from "./wheel-picker";
+export { RotationWheel } from "./rotation-wheel";
+export type { RotationWheelOption } from "./rotation-wheel";

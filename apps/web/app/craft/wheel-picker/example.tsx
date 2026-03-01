@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { WheelPicker, WheelPickerHandle, WheelPickerWrapper } from "@fedor/wheel-picker";
+import { RotationWheel } from "@fedor/wheel-picker";
 import { monthOptions, formSchema } from "./data";
 import { toast } from "sonner"
 
@@ -13,6 +13,8 @@ export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
 }
 
 function Example() {
+  const [resetKey, setResetKey] = React.useState(0);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -27,38 +29,26 @@ function Example() {
     toast.message(`${result} will come`)
   }
 
-  const pickerRef = React.useRef<WheelPickerHandle | null>(null);
-
   return (
     <form
       onSubmit={form.handleSubmit(onSubmit)}
       onReset={() => {
         form.reset();
-        pickerRef.current?.reset();
+        setResetKey(k => k + 1);
       }}
       className="flex flex-col items-center space-y-6 flex-1"
     >
       <Controller
         name="month"
         control={form.control}
-        render={({ field, fieldState }) => (
-          <WheelPickerWrapper
-            invalid={fieldState.invalid}
-            className="w-40 h-54 ring-offset-card text-base"
-          >
-            <label id="month-label" className="sr-only">
-              Month
-            </label>
-            <WheelPicker
-              id="month"
-              forwardedRef={pickerRef}
-              callbackRef={field.ref}
+        render={({ field }) => (
+          <div className="w-40 h-54 text-base">
+            <RotationWheel
+              key={resetKey}
               options={monthOptions}
               onPick={field.onChange}
-              onBlur={field.onBlur}
-              disabled={field.disabled}
             />
-          </WheelPickerWrapper>
+          </div>
         )}
       />
       <div className="flex flex-col space-y-1 w-40">
