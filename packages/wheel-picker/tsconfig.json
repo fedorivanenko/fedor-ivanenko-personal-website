@@ -13,9 +13,6 @@
   ],
   "files": [
     "src/index.tsx",
-    "src/wheel-picker.tsx",
-    "src/utils.ts",
-    "src/global.d.ts"
   ],
   "exclude": [
     "dist"
