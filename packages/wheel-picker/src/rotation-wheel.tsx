@@ -70,7 +70,7 @@ const RotationWheel = React.forwardRef<HTMLDivElement, RotationWheelProps>(
 
     // Velocity signal — written by input layer, read by visual layer via useSprings factory
     const velRef = React.useRef(0);
-    const sourceRef = React.useRef<"gesture" | "inertia" | "key">("gesture");
+    const sourceRef = React.useRef<"wheel" | "drag" | "inertia" | "key">("wheel");
 
     const rotate = React.useCallback(
       (delta: number) => {
