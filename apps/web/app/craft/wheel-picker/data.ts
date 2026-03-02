@@ -1,7 +1,6 @@
-import { WheelPickerOption } from "@fedor/wheel-picker";
 import * as z from "zod";
 
-export const monthOptions: WheelPickerOption[] = [
+export const monthOptions = [
   { value: "", label: "" },
   { value: "JAN", label: "January" },
   { value: "FEB", label: "February" },
