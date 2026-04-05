@@ -5,14 +5,16 @@ import { animated, useReducedMotion, useSprings } from "@react-spring/web";
 import { cn } from "./utils";
 import { useRotationWheel } from "./use-rotation-wheel";
 
-export interface RotationWheelOption {
-  value: string;
+export interface RotationWheelOption<T = string> {
+  value: T;
   label: React.ReactNode;
 }
 
-interface RotationWheelProps {
-  options: RotationWheelOption[];
-  onPick: (value: string) => void;
+interface RotationWheelProps<T> {
+  options: RotationWheelOption<T>[];
+  value: T;
+  onChange: (value: T) => void;
+  disabled?: boolean;
   loop?: boolean;
   className?: string;
   itemHeight?: string;
@@ -20,7 +22,7 @@ interface RotationWheelProps {
   "aria-labelledby"?: string;
 }
 
-const ANGLE_STEP = 12; // deg between slots
+const ANGLE_STEP = 12;
 const RAD = (ANGLE_STEP * Math.PI) / 180;
 const MIN_SNAP_MS = 50;
 
@@ -48,77 +50,120 @@ function clickConfig(velocity: number): {
   return { immediate: false, tension, friction };
 }
 
-const RotationWheel = React.forwardRef<HTMLDivElement, RotationWheelProps>(
-  function RotationWheel(
-    {
-      options,
-      onPick,
-      loop = options.length >= 6,
-      className,
-      itemHeight = "2em",
-      "aria-label": ariaLabel,
-      "aria-labelledby": ariaLabelledBy,
+function RotationWheelInner<T>(
+  {
+    options,
+    value,
+    onChange,
+    disabled = false,
+    loop = options.length >= 6,
+    className,
+    itemHeight = "2em",
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledBy,
+  }: RotationWheelProps<T>,
+  forwardedRef: React.ForwardedRef<HTMLDivElement>,
+) {
+  const n = options.length;
+  const idPrefix = React.useId();
+
+  // Resolve value → index
+  const activeIndex = React.useMemo(() => {
+    const idx = options.findIndex((o) => o.value === value);
+    return idx === -1 ? 0 : idx;
+  }, [options, value]);
+
+  const handleIndexChange = React.useCallback(
+    (index: number) => {
+      if (index >= 0 && index < n) {
+        onChange(options[index].value);
+      }
     },
-    forwardedRef,
-  ) {
-    const n = options.length;
+    [onChange, options, n],
+  );
 
-    const { activeIndex, velocity, containerRef, handleKeyDown } =
-      useRotationWheel({
-        count: n,
-        loop,
-        onPick: React.useCallback(
-          (index: number) => onPick(options[index].value),
-          // biome-ignore lint/react-hooks/exhaustiveDeps: options identity may change
-          [onPick, options],
-        ),
-      });
+  const { safeIndex, velocity, containerRef, handleKeyDown, handleOptionClick } =
+    useRotationWheel({
+      count: n,
+      activeIndex,
+      onIndexChange: handleIndexChange,
+      loop,
+      disabled,
+    });
 
-    React.useImperativeHandle(forwardedRef, () => containerRef.current!);
+  React.useImperativeHandle(forwardedRef, () => containerRef.current!);
 
-    const reducedMotion = useReducedMotion();
-    const [springs] = useSprings(
-      n,
-      (i) => {
-        const rel = relativePosition(i, activeIndex, n, loop);
-        const dist = Math.abs(rel);
-        const { immediate: velImmediate, tension, friction } = clickConfig(velocity);
-        const immediate = dist > 4 || !!reducedMotion || velImmediate;
-        return {
-          rotateX: rel * ANGLE_STEP,
-          opacity: [1, 0.75, 0.5, 0.25][dist] ?? 0,
-          scale: rel === 0 ? 1 : 0.9,
-          immediate,
-          config: { tension, friction },
-        };
-      },
-      [activeIndex],
-    );
+  const reducedMotion = useReducedMotion();
+  const [springs] = useSprings(
+    n,
+    (i) => {
+      const rel = relativePosition(i, safeIndex, n, loop);
+      const dist = Math.abs(rel);
+      const { immediate: velImmediate, tension, friction } = clickConfig(velocity);
+      const immediate = dist > 4 || !!reducedMotion || velImmediate;
+      return {
+        rotateX: rel * ANGLE_STEP,
+        opacity: [1, 0.75, 0.5, 0.25][dist] ?? 0,
+        scale: rel === 0 ? 1 : 0.9,
+        immediate,
+        config: { tension, friction },
+      };
+    },
+    [safeIndex],
+  );
 
+  const optionId = (i: number) => `${idPrefix}-option-${i}`;
+
+  if (n === 0) {
     return (
       <div
         ref={containerRef}
-        tabIndex={0}
-        onKeyDown={handleKeyDown}
         role="listbox"
-        aria-label={ariaLabel}
-        aria-labelledby={ariaLabelledBy}
+        aria-disabled="true"
+        aria-label={ariaLabel ?? "Selection wheel"}
         className={cn(
-          "select-none touch-none cursor-grab relative overflow-hidden outline-none h-full",
-          "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+          "select-none relative overflow-hidden h-full",
           className,
         )}
-        style={{
-          perspective: "64rem",
-          ["--rad" as string]: RAD,
-          ["--h" as string]: itemHeight,
-        }}
-      >
-        {options.map((option, i) => (
+      />
+    );
+  }
+
+  return (
+    <div
+      ref={containerRef}
+      tabIndex={disabled ? undefined : 0}
+      onKeyDown={handleKeyDown}
+      role="listbox"
+      aria-activedescendant={optionId(safeIndex)}
+      aria-roledescription="wheel picker"
+      aria-label={ariaLabelledBy ? undefined : (ariaLabel ?? "Selection wheel")}
+      aria-labelledby={ariaLabelledBy}
+      aria-disabled={disabled || undefined}
+      className={cn(
+        "select-none touch-none relative overflow-hidden outline-none h-full",
+        disabled ? "cursor-default opacity-50" : "cursor-grab",
+        !disabled && "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        className,
+      )}
+      style={{
+        perspective: "64rem",
+        ["--rad" as string]: RAD,
+        ["--h" as string]: itemHeight,
+      }}
+    >
+      {options.map((option, i) => {
+        const rel = relativePosition(i, safeIndex, n, loop);
+        const dist = Math.abs(rel);
+        const isClickable = !disabled && dist > 0 && dist <= 3;
+
+        return (
           <animated.div
-            key={option.value}
+            key={String(option.value)}
+            id={optionId(i)}
             role="option"
-            aria-selected={i === activeIndex}
+            aria-selected={i === safeIndex}
+            onClick={isClickable ? () => handleOptionClick(i) : undefined}
             style={{
               scale: springs[i].scale,
               rotateX: springs[i].rotateX,
@@ -126,15 +171,21 @@ const RotationWheel = React.forwardRef<HTMLDivElement, RotationWheelProps>(
               transformOrigin:
                 "center center calc(-1 * calc(var(--h) / var(--rad)))",
               backfaceVisibility: "hidden",
+              cursor: isClickable ? "pointer" : undefined,
             }}
             className="absolute -translate-y-1/2 flex items-center justify-center top-1/2 w-full h-[var(--h)]"
           >
             {option.label}
           </animated.div>
-        ))}
-      </div>
-    );
-  },
-);
+        );
+      })}
+    </div>
+  );
+}
+
+const RotationWheel = React.forwardRef(RotationWheelInner) as <T = string>(
+  props: RotationWheelProps<T> & React.RefAttributes<HTMLDivElement>,
+) => React.ReactElement;
 
 export { RotationWheel };
+export type { RotationWheelProps };
