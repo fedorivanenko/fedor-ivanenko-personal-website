@@ -13,7 +13,7 @@ export default function Page() {
           React component made with{" "}
           <span data-no-brakes>
             <InlineLinkButton href="https://react-spring.dev/docs">
-              @react-springs
+              @react-spring
             </InlineLinkButton>{" "}
             and{" "}
             <InlineLinkButton href="https://use-gesture.netlify.app/docs/">
@@ -24,10 +24,10 @@ export default function Page() {
         </p>
         <ul className="space-y-0.5 content">
           <li className="inline sm:block">
-            Validation, a11y, and keyboard controls are included.{" "}
+            Controlled, generic, accessible. Keyboard, drag, scroll, and tap.{" "}
           </li>
           <li className="inline sm:block">
-            Compatitable&nbsp;with&nbsp;
+            Compatible&nbsp;with&nbsp;
             <InlineLinkButton href="https://ui.shadcn.com/docs">
               shadcn-ui
             </InlineLinkButton>{" "}
@@ -41,12 +41,14 @@ export default function Page() {
           </li>
         </ul>
         <p>
-          Get the source code from{" "}
+          Install via{" "}
+          <code>npx shadcn add https://fedor.studio/r/wheel-picker.json</code>
+          <br />
+          or get the source from{" "}
           <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/tree/main/packages/wheel-picker">
             GitHub
           </InlineLinkButton>
-          . <br />
-          <span data-no-brakes>npm and CLI installations are coming</span>.
+          .
         </p>
       </Section>
       <Section card>
