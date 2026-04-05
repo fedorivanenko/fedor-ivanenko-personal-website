@@ -41,12 +41,13 @@ function Example() {
       <Controller
         name="month"
         control={form.control}
-        render={({ field }) => (
+        render={({ field, fieldState }) => (
           <div className="w-40 h-54 text-base">
             <RotationWheel
               options={monthOptions}
               value={field.value}
               onChange={field.onChange}
+              error={!!fieldState.error}
             />
           </div>
         )}
