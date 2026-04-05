@@ -4,7 +4,6 @@ import { siteConfig } from "@/config/site";
 
 export const runtime = "edge";
 
-//TODO: change on iosevka font
 async function loadGoogleFont(
   font: string,
   text: string,
@@ -20,7 +19,7 @@ async function loadGoogleFont(
 
   if (resource) {
     const response = await fetch(resource[1]);
-    if (response.status == 200) {
+    if (response.status === 200) {
       return await response.arrayBuffer();
     }
   }
