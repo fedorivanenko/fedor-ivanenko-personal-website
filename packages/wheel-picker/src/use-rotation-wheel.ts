@@ -7,35 +7,43 @@ const THRESHOLD = 32; // px — ratchet tooth spacing
 
 export interface UseRotationWheelOptions {
   count: number;
+  activeIndex: number;
+  onIndexChange: (index: number) => void;
   loop: boolean;
-  onPick: (index: number) => void;
+  disabled?: boolean;
 }
 
 export interface UseRotationWheelReturn {
-  activeIndex: number;
+  /** Clamped active index (safe even if activeIndex is out of bounds) */
+  safeIndex: number;
   velocity: number;
   containerRef: React.RefObject<HTMLDivElement | null>;
   handleKeyDown: (e: React.KeyboardEvent) => void;
+  handleOptionClick: (index: number) => void;
 }
 
 export function useRotationWheel({
   count: n,
+  activeIndex,
+  onIndexChange,
   loop,
-  onPick,
+  disabled = false,
 }: UseRotationWheelOptions): UseRotationWheelReturn {
-  const [activeIndex, setActiveIndex] = React.useState(0);
+  const safeIndex = n === 0 ? 0 : Math.max(0, Math.min(n - 1, activeIndex));
   const velRef = React.useRef(0);
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   const rotate = React.useCallback(
     (delta: number) => {
-      setActiveIndex((prev) =>
-        loop
-          ? (prev + delta + n) % n
-          : Math.max(0, Math.min(n - 1, prev + delta)),
-      );
+      if (n === 0 || disabled) return;
+      const next = loop
+        ? (safeIndex + delta + n) % n
+        : Math.max(0, Math.min(n - 1, safeIndex + delta));
+      if (next !== safeIndex) {
+        onIndexChange(next);
+      }
     },
-    [loop, n],
+    [loop, n, safeIndex, onIndexChange, disabled],
   );
 
   // --- Ratchet accumulator ---
@@ -71,6 +79,7 @@ export function useRotationWheel({
 
   // --- Shared move handler (ratchet) ---
   function handleMove(dir: number, dY: number, velocity: number) {
+    if (disabled) return;
     if (dir !== 0 && dir !== prevDir.current) {
       prevDir.current = dir;
       acc.current = 0;
@@ -87,6 +96,7 @@ export function useRotationWheel({
   // --- Gesture bindings ---
   useWheel(
     ({ direction: [, dirY], velocity: [, vY], delta: [, dY], event }) => {
+      if (disabled) return;
       event.preventDefault();
       handleMove(dirY, dY, Math.abs(vY));
     },
@@ -100,9 +110,12 @@ export function useRotationWheel({
       delta: [, dY],
       first: isFirst,
       last,
+      tap,
       event,
     }) => {
+      if (disabled) return;
       event.preventDefault();
+      if (tap) return;
       if (isFirst) {
         acc.current = 0;
         cancelInertia();
@@ -116,7 +129,7 @@ export function useRotationWheel({
     {
       target: containerRef,
       axis: "y",
-      filterTaps: true,
+      filterTaps: false,
       eventOptions: { passive: false },
       pointer: { touch: true, keys: false },
     },
@@ -125,41 +138,36 @@ export function useRotationWheel({
   // --- Keyboard ---
   const handleKeyDown = React.useCallback(
     (e: React.KeyboardEvent) => {
+      if (disabled) return;
       if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
       e.preventDefault();
       cancelInertia();
       velRef.current = e.repeat ? Infinity : 0;
       rotate(e.key === "ArrowDown" ? 1 : -1);
     },
-    [rotate],
+    [rotate, disabled],
   );
 
-  // --- onPick debounce ---
-  const isFirst = React.useRef(true);
-  const timer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-  React.useEffect(() => {
-    if (isFirst.current) {
-      isFirst.current = false;
-      return;
-    }
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
-      onPick(activeIndex);
-      timer.current = null;
-    }, 125);
-    return () => {
-      if (timer.current) clearTimeout(timer.current);
-    };
-    // biome-ignore lint/react-hooks/exhaustiveDeps: intentionally limited
-  }, [onPick, activeIndex]);
+  // --- Tap-to-select ---
+  const handleOptionClick = React.useCallback(
+    (index: number) => {
+      if (disabled || n === 0) return;
+      if (index >= 0 && index < n && index !== safeIndex) {
+        velRef.current = 0;
+        onIndexChange(index);
+      }
+    },
+    [disabled, n, safeIndex, onIndexChange],
+  );
 
   // --- Cleanup inertia on unmount ---
   React.useEffect(() => cancelInertia, []);
 
   return {
-    activeIndex,
+    safeIndex,
     velocity: velRef.current,
     containerRef,
     handleKeyDown,
+    handleOptionClick,
   };
 }
