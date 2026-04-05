@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Controller, useForm } from "react-hook-form";
-import * as z from "zod";
+import type * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RotationWheel } from "@fedor/wheel-picker";
 import { monthOptions, formSchema } from "./data";
@@ -13,8 +13,6 @@ export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
 }
 
 function Example() {
-  const [resetKey, setResetKey] = React.useState(0);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -24,7 +22,6 @@ function Example() {
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log("submitted", data);
     const result = monthOptions.find(item => item.value === data.month)?.label
     toast.message(`${result} will come`)
   }
@@ -34,7 +31,6 @@ function Example() {
       onSubmit={form.handleSubmit(onSubmit)}
       onReset={() => {
         form.reset();
-        setResetKey(k => k + 1);
       }}
       className="flex flex-col items-center space-y-6 flex-1"
     >
@@ -44,9 +40,9 @@ function Example() {
         render={({ field }) => (
           <div className="w-40 h-54 text-base">
             <RotationWheel
-              key={resetKey}
               options={monthOptions}
-              onPick={field.onChange}
+              value={field.value}
+              onChange={field.onChange}
             />
           </div>
         )}
