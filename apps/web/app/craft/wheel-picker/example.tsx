@@ -26,9 +26,13 @@ function Example() {
     toast.message(`${result} will come`)
   }
 
+  function onError() {
+    toast.error("Pick a month")
+  }
+
   return (
     <form
-      onSubmit={form.handleSubmit(onSubmit)}
+      onSubmit={form.handleSubmit(onSubmit, onError)}
       onReset={() => {
         form.reset();
       }}
