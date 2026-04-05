@@ -15,6 +15,7 @@ interface RotationWheelProps<T extends string | number = string> {
   value: T;
   onChange: (value: T) => void;
   disabled?: boolean;
+  error?: boolean;
   loop?: boolean;
   className?: string;
   itemHeight?: string;
@@ -56,6 +57,7 @@ function RotationWheelInner<T extends string | number>(
     value,
     onChange,
     disabled = false,
+    error = false,
     loop = options.length >= 6,
     className,
     itemHeight = "2em",
@@ -140,9 +142,11 @@ function RotationWheelInner<T extends string | number>(
       aria-label={ariaLabelledBy ? undefined : (ariaLabel ?? "Selection wheel")}
       aria-labelledby={ariaLabelledBy}
       aria-disabled={disabled || undefined}
+      aria-invalid={error || undefined}
       className={cn(
-        "select-none touch-none relative overflow-hidden outline-none h-full",
+        "select-none touch-none relative overflow-hidden outline-none h-full border rounded transition-colors",
         disabled ? "cursor-default opacity-50" : "cursor-grab",
+        error ? "border-destructive" : "border-border",
         !disabled && "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         className,
       )}
