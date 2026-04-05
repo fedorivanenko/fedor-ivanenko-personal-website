@@ -36,7 +36,7 @@ function BioPanel() {
             .
           </p>
           <p>
-            I build websites and craft UX using TS, CSS, React, Next.js and Sanity
+            I build websites using TS, CSS, React, Next.js, Shopify and Sanity
           </p>
         </div>
       </Section>

@@ -24,7 +24,7 @@ export default function Page() {
         </p>
         <ul className="space-y-0.5 content">
           <li className="inline sm:block">
-            Controlled, generic, accessible. Keyboard, drag, scroll, and tap.{" "}
+            Validation, a11y, and keyboard controls are included.{" "}
           </li>
           <li className="inline sm:block">
             Compatible&nbsp;with&nbsp;
