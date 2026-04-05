@@ -13,8 +13,6 @@ export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
 }
 
 function Example() {
-  const [resetKey, setResetKey] = React.useState(0);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -28,24 +26,28 @@ function Example() {
     toast.message(`${result} will come`)
   }
 
+  function onError() {
+    toast.error("Pick a month")
+  }
+
   return (
     <form
-      onSubmit={form.handleSubmit(onSubmit)}
+      onSubmit={form.handleSubmit(onSubmit, onError)}
       onReset={() => {
         form.reset();
-        setResetKey(k => k + 1);
       }}
       className="flex flex-col items-center space-y-6 flex-1"
     >
       <Controller
         name="month"
         control={form.control}
-        render={({ field }) => (
+        render={({ field, fieldState }) => (
           <div className="w-40 h-54 text-base">
             <RotationWheel
-              key={resetKey}
               options={monthOptions}
-              onPick={field.onChange}
+              value={field.value}
+              onChange={field.onChange}
+              error={!!fieldState.error}
             />
           </div>
         )}
