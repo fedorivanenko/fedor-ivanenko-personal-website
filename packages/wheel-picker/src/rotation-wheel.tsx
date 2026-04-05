@@ -5,12 +5,12 @@ import { animated, useReducedMotion, useSprings } from "@react-spring/web";
 import { cn } from "./utils";
 import { useRotationWheel } from "./use-rotation-wheel";
 
-export interface RotationWheelOption<T = string> {
+export interface RotationWheelOption<T extends string | number = string> {
   value: T;
   label: React.ReactNode;
 }
 
-interface RotationWheelProps<T> {
+interface RotationWheelProps<T extends string | number = string> {
   options: RotationWheelOption<T>[];
   value: T;
   onChange: (value: T) => void;
@@ -50,7 +50,7 @@ function clickConfig(velocity: number): {
   return { immediate: false, tension, friction };
 }
 
-function RotationWheelInner<T>(
+function RotationWheelInner<T extends string | number>(
   {
     options,
     value,
@@ -183,7 +183,7 @@ function RotationWheelInner<T>(
   );
 }
 
-const RotationWheel = React.forwardRef(RotationWheelInner) as <T = string>(
+const RotationWheel = React.forwardRef(RotationWheelInner) as <T extends string | number = string>(
   props: RotationWheelProps<T> & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactElement;
 
