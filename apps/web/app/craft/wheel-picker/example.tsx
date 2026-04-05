@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Controller, useForm } from "react-hook-form";
-import * as z from "zod";
+import type * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RotationWheel } from "@fedor/wheel-picker";
 import { monthOptions, formSchema } from "./data";
@@ -24,7 +24,6 @@ function Example() {
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log("submitted", data);
     const result = monthOptions.find(item => item.value === data.month)?.label
     toast.message(`${result} will come`)
   }

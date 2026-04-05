@@ -7,7 +7,7 @@ import Footer from "@/components/layout/footer";
 import { commit, iosevka } from "@/lib/fonts";
 import { generateMetadata } from "@/lib/metadata";
 import { Toaster } from "@/components/ui/sonner";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata : Metadata = generateMetadata();
 
@@ -18,7 +18,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${iosevka.variable} ${commit.variable}`} suppressHydrationWarning>
-      {/* <script src="https://unpkg.com/react-scan/dist/auto.global.js" async /> */}
       <body>
         <ThemeProvider
           attribute="class"

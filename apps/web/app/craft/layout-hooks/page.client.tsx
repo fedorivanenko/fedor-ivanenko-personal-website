@@ -1,20 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useSplitText, useMeasure, useIsHydrated } from "@fedor/layout-hooks";
 
 export function Example() {
   const ref = useRef<HTMLHeadingElement>(null);
   const yes = useIsHydrated(ref);
   const { chars } = useSplitText(ref);
-  const m = useMeasure(chars, ref);
-
-  useEffect(() => {
-    if (yes) {
-      console.log("Animate:", chars.length, "characters");
-      console.log(m.getRects()?.[2]?.x);
-    }
-  }, [yes, chars]);
+  useMeasure(chars, ref);
 
   return (
     <p

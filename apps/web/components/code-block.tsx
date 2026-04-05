@@ -1,4 +1,4 @@
-import { type BundledLanguage } from "shiki";
+import type { BundledLanguage } from "shiki";
 import { createHighlighter } from 'shiki'
 import { createCssVariablesTheme } from 'shiki/core'
 

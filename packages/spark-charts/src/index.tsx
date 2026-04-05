@@ -181,17 +181,6 @@ function Chart() {
                 opacity={0.75}
               />
 
-              {/*
-              <rect
-                x={x - innerWidth / 48}
-                y={yTop-1}
-                width={innerWidth / 24 - 0.5}
-                height={yBottom - yTop}
-                fill="currentColor"
-                opacity={1}
-              />
-               */}
-
               {/* --- LABELING --- */}
               <text
                 x={x}

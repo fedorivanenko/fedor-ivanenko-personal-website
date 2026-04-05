@@ -1,3 +1,4 @@
+import { cloneElement, isValidElement, type ReactElement } from "react";
 import { Section, sectionVariants } from "@/components/layout/section";
 import { buttonVariants, InlineLinkButton } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -34,41 +35,16 @@ function BioPanel() {
             </InlineLinkButton>
             .
           </p>
-          <div>
-            <p>
-              I build websites and craft UX using TS, CSS, React, Next.js and Sanity
-            </p>
-            {/*
-            <details className="group inline-block open:contents">
-              <summary className="inline group-open:hidden">and more.</summary>
-              <span className="[--i:1]">Nest.js,</span>
-              <span className="[--i:2]">Express,</span>
-              <span className="[--i:3]">Astro,</span>
-              <span className="[--i:4]">Prisma,</span>
-              <span className="[--i:5]">Drizzle,</span>
-              <span className="[--i:6]">Postgres,</span>
-              <span className="[--i:7]">Zustand,</span>
-              <span className="[--i:8]">Jotai,</span>
-              <span className="[--i:9]">SWR,</span>
-              <span className="[--i:10]">Zod,</span>
-              <span className="[--i:11]">AI&nbsp;SDK,</span>
-              <span className="[--i:12]">a&nbsp;bit&nbsp;of&nbsp;Python,</span>
-              <span className="[--i:13]">Three.js,</span>
-              <span className="[--i:14]">R3F+drei,</span>
-              <span className="[--i:15]">React&nbsp;Springs,</span>
-              <span className="[--i:16]">Motion,</span>
-              <span className="[--i:16]">GSAP,</span>
-              <span className="[--i:17]">and perhaps something more.</span>
-            </details>
-             */}
-          </div>
+          <p>
+            I build websites and craft UX using TS, CSS, React, Next.js and Sanity
+          </p>
         </div>
       </Section>
     </>
   );
 }
 
-function CarftPanel() {
+function CraftPanel() {
   return (
     <Section>
       <h2>Craft</h2>
@@ -85,8 +61,6 @@ function CarftPanel() {
     </Section>
   );
 }
-
-import { cloneElement, isValidElement, ReactElement } from "react";
 
 interface ProjectData extends React.HTMLAttributes<HTMLLIElement> {
   year: number;
@@ -131,7 +105,7 @@ const projectsData: ProjectData[] = [
     year: 2024,
     name: "pzk.design",
     href: "https://www.pzk.design/",
-    description: <p>Pesonal website. Design and development</p>,
+    description: <p>Personal website. Design and development</p>,
   },
 ];
 
@@ -232,10 +206,10 @@ function PersonalityPanel() {
   );
 }
 
-function CuriculumPanel() {
+function CurriculumPanel() {
   return (
     <Section>
-      <h2>Curiculum</h2>
+      <h2>Curriculum</h2>
       <div className="prose">
         <p>Born in Siberia in 1988, I began my design journey in 2012.</p>
         <p>
@@ -260,7 +234,7 @@ function CuriculumPanel() {
         </p>
         <p>
           Today, I work independently as a designer and developer, pursuing my
-          inerest in generative UI and human{"–"}machine
+          interest in generative UI and human{"–"}machine
           interaction.
         </p>
       </div>
@@ -292,9 +266,9 @@ export default function Home() {
   return (
     <article className="animation-container">
       <BioPanel />
-      <CarftPanel />
+      <CraftPanel />
       <ProjectsPanel />
-      <CuriculumPanel />
+      <CurriculumPanel />
       <PersonalityPanel />
       <ContactPanel />
     </article>
