@@ -118,7 +118,7 @@
   --text-base: 1.0625rem; /* 17px */
   --text-lg: 1.1875rem;   /* 19px */
 
-  --default-font-family: var(--font-iosevka);
+  --default-font-family: var(--font-commit-mono);
   --default-mono-font-family: var(--font-commit-mono);
 }
 

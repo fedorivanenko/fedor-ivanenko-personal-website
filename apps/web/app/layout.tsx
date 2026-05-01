@@ -4,7 +4,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "./globals.css";
 import Footer from "@/components/layout/footer";
-import { commit, iosevka } from "@/lib/fonts";
+import { commit } from "@/lib/fonts";
 import { generateMetadata } from "@/lib/metadata";
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${iosevka.variable} ${commit.variable}`} suppressHydrationWarning>
+    <html lang="en" className={commit.variable} suppressHydrationWarning>
       <body>
         <ThemeProvider
           attribute="class"
