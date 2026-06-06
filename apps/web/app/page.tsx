@@ -31,7 +31,7 @@ export default function Home() {
         </p>
       </Section>
 
-      {/* Blog */}
+      {/* Blog
       <Section id="blog">
         <h2 className="heading-xl">Writing</h2>
         <ul className="gap-7.5 mt-2.5 flex flex-col">
@@ -45,11 +45,13 @@ export default function Home() {
           </li>
         </ul>
       </Section>
+        */}
 
       {/* Craft */}
       <Section id="craft">
         <h2 className="heading-xl">Craft</h2>
         <ul className="gap-7.5 mt-2.5 flex flex-col">
+          {/*
           <li>
             <InlineLinkButton href={"/craft/wheel-picker"} target="_self">
               Nazare
@@ -60,6 +62,7 @@ export default function Home() {
               Made with Tailwind and esbuild
             </p>
           </li>
+          */}
           <li>
             <InlineLinkButton href={"/craft/wheel-picker"} target="_self">
               Wheel Picker
