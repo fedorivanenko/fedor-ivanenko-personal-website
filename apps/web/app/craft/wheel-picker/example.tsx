@@ -1,15 +1,25 @@
 "use client";
 
-import * as React from 'react';
+import * as React from "react";
 import { Controller, useForm } from "react-hook-form";
 import type * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RotationWheel } from "@fedor/wheel-picker";
 import { monthOptions, formSchema } from "./data";
-import { toast } from "sonner"
+import { toast } from "sonner";
 
-export function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  return <button className="border text-sm w-full py-1 cursor-pointer border-border hover:bg-accent/20 transition-colors" {...props} />;
+export function Button({
+  children,
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button
+      className="border-border hover:bg-accent/20 grid h-8 w-full cursor-pointer appearance-none place-items-center border p-0 text-sm/none transition-colors"
+      {...props}
+    >
+      <span className="block translate-y-px">{children}</span>
+    </button>
+  );
 }
 
 function Example() {
@@ -22,12 +32,14 @@ function Example() {
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    const result = monthOptions.find(item => item.value === data.month)?.label
-    toast.message(`${result} will come`)
+    const result = monthOptions.find(
+      (item) => item.value === data.month
+    )?.label;
+    toast.message(`${result} will come`);
   }
 
   function onError() {
-    toast.error("Pick a month")
+    toast.error("Pick a month");
   }
 
   return (
@@ -36,13 +48,13 @@ function Example() {
       onReset={() => {
         form.reset();
       }}
-      className="flex flex-col items-center space-y-6 flex-1"
+      className="flex flex-1 flex-col items-center space-y-6"
     >
       <Controller
         name="month"
         control={form.control}
         render={({ field, fieldState }) => (
-          <div className="w-40 h-54 text-base">
+          <div className="h-54 w-40 text-base">
             <RotationWheel
               options={monthOptions}
               value={field.value}
@@ -52,7 +64,7 @@ function Example() {
           </div>
         )}
       />
-      <div className="flex flex-col space-y-1 w-40">
+      <div className="flex w-40 flex-col space-y-1">
         <Button type="submit">Submit</Button>
         <Button type="reset">Reset</Button>
       </div>
