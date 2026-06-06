@@ -37,8 +37,8 @@ export default function Home() {
 
       {/* Blog */}
       <Section id="blog">
-        <h2>Blog</h2>
-        <ul className="flex flex-col gap-5">
+        <h2>Writing</h2>
+        <ul className="gap-7.5 mt-3.5 flex flex-col">
           <li>
             <InlineLinkButton href={"/craft/wheel-picker"} target="_self">
               Intent-Oriented Agentic Coding
@@ -53,7 +53,7 @@ export default function Home() {
       {/* Craft */}
       <Section id="craft">
         <h2>Craft</h2>
-        <ul className="flex flex-col gap-5">
+        <ul className="gap-7.5 mt-3.5 flex flex-col">
           <li>
             <InlineLinkButton href={"/craft/wheel-picker"} target="_self">
               Nazare
@@ -61,7 +61,7 @@ export default function Home() {
             <p className="text-muted-foreground mt-1">
               Opinionated Shopify Liquid theme and runtime
               <br />
-              Made with Tailwind and esbuild.
+              Made with Tailwind and esbuild
             </p>
           </li>
           <li>
@@ -69,7 +69,7 @@ export default function Home() {
               Wheel Picker
             </InlineLinkButton>
             <p className="text-muted-foreground mt-1">
-              React component.
+              React component
               <br />
               Validation, a11y, and keyboard controls are included
             </p>

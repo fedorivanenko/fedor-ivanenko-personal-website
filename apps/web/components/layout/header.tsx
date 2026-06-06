@@ -6,12 +6,12 @@ export function ReturnButton({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "text-muted-foreground absolute left-0 top-0 flex h-6 items-center justify-center rounded-md text-xs lg:left-2.5",
+        "text-muted-foreground sticky left-0 top-5 flex h-6 w-full items-start justify-start rounded-md text-xs lg:left-2.5",
         className
       )}
     >
       <Link href={"/"} target="_self" className="flex items-center gap-1">
-        <BackIcon className="size-3" /> Index
+        <BackIcon className="size-3 -translate-y-0.5" /> Index
       </Link>
     </div>
   );
