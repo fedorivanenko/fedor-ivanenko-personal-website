@@ -1,18 +1,17 @@
+import { BackIcon } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-
-import Back from '@/components/icons/back.svg'
 
 export function ReturnButton({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "absolute flex justify-center items-center top-0 left-0 lg:left-2.5 h-6 rounded-md text-muted-foreground text-[14px] sm:text-[14px]",
+        "text-muted-foreground sticky left-0 top-5 flex h-6 w-full items-start justify-start rounded-md text-xs lg:left-2.5",
         className
       )}
     >
-      <Link href={"/"} target="_self" className="flex gap-1 items-center">
-        <Back className="size-3"/> Index
+      <Link href={"/"} target="_self" className="flex items-center gap-1">
+        <BackIcon className="size-3 -translate-y-0.5" /> Index
       </Link>
     </div>
   );
@@ -20,7 +19,7 @@ export function ReturnButton({ className }: { className?: string }) {
 
 export function Header() {
   return (
-    <header>
+    <header className="animate-blur-fade stagger-0 mx-auto mb-16 w-full max-w-[var(--content-width)] translate-y-0.5 px-2.5 lg:mx-0 lg:w-auto lg:px-0">
       <ReturnButton />
     </header>
   );

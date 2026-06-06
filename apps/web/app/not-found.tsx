@@ -1,11 +1,12 @@
+import { Article } from "@/components/layout/article";
 import { Section } from "@/components/layout/section";
 import { InlineLinkButton } from "@/components/ui/button";
 
 export default function defaultNotFound() {
   return (
-    <article className="mb-auto">
+    <Article className="mb-auto">
       <Section>
-        <h1>404</h1>
+        <h1 className="heading-xl">404</h1>
         <div className="text-muted-foreground">
           <p className="!mb-0">There is no such page</p>
           <p>
@@ -16,6 +17,6 @@ export default function defaultNotFound() {
           </p>
         </div>
       </Section>
-    </article>
+    </Article>
   );
 }

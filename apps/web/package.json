@@ -43,7 +43,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.8",
-    "@svgr/webpack": "^8.1.0",
     "@types/node": "^20",
     "baseline-browser-mapping": "^2.10.15",
     "postcss": "^8.5.1",

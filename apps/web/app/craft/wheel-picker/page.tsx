@@ -1,17 +1,19 @@
-import { Section, sectionVariants } from "@/components/layout/section";
+import { Article } from "@/components/layout/article";
+import { Section } from "@/components/layout/section";
 import { InlineLinkButton } from "@/components/ui/button";
-import { Example } from "./example";
-import { cn } from "@/lib/utils";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
+import { Example } from "./example";
 
 export default function Page() {
   return (
-    <article>
-      <h1 className={cn(sectionVariants({ animated: true }))}>Wheel Picker</h1>
+    <Article>
+      <h1 className="heading-xl animate-blur-fade stagger flex scroll-m-20 flex-col">
+        Wheel Picker
+      </h1>
       <Section>
         <p>
           React component made with{" "}
-          <span data-no-brakes>
+          <span className="whitespace-nowrap">
             <InlineLinkButton href="https://react-spring.dev/docs">
               @react-spring
             </InlineLinkButton>{" "}
@@ -22,7 +24,7 @@ export default function Page() {
           </span>
           .
         </p>
-        <ul className="space-y-0.5 content">
+        <ul className="content space-y-0.5">
           <li className="inline sm:block">
             Validation, a11y, and keyboard controls are included.{" "}
           </li>
@@ -43,7 +45,7 @@ export default function Page() {
         <p>
           Install via{" "}
           <code>npx shadcn add https://fedor.studio/r/wheel-picker.json</code>
-          <br />
+          <br className="hidden md:block" />
           or get the source from{" "}
           <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/tree/main/packages/wheel-picker">
             GitHub
@@ -59,6 +61,6 @@ export default function Page() {
           <Kbd>Esc</Kbd>
         </KbdGroup>
       </Section>
-    </article>
+    </Article>
   );
 }

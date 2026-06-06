@@ -1,0 +1,11 @@
+node_modules
+.next
+out
+build
+dist
+coverage
+.turbo
+pnpm-lock.yaml
+apps/web/.next
+apps/web/out
+apps/web/build
