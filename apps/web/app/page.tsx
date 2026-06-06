@@ -69,7 +69,7 @@ export default function Home() {
             </InlineLinkButton>
             <p className="text-muted-foreground mt-1">
               React component
-              <br className="hidden md:block" />
+              <br />
               Validation, a11y, and keyboard controls are included
             </p>
           </li>
