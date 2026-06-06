@@ -9,7 +9,7 @@ export default function Footer() {
           <span>{new Date().getFullYear()}</span>
           <span>Talk is cheap, show me your code</span>
         </span>
-        <span className="w-full flex gap-x-2 text-[14px]">
+        <span className="w-full flex gap-x-2 text-xs">
           <InlineLinkButton
             className="text-muted-foreground"
             href={

@@ -35,7 +35,7 @@ async function CodeBlock({children, lang ='tsx'}: CodeBlockProps) {
 
   return (
     <div className="relative">
-      <div className="absolute left-0 top-2.5 z-10 text-[11px] font-mono text-muted-foreground">
+      <div className="absolute left-0 top-2.5 z-10 text-xxs font-mono text-muted-foreground">
         {lang}
       </div>
       <div dangerouslySetInnerHTML={{ __html: out }}/>
