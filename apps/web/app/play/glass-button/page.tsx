@@ -1,15 +1,19 @@
+import { Article } from "@/components/layout/article";
 import { Section } from "@/components/layout/section";
 
 import s from "./glass-button.module.css";
 
 export default function PlayGlassButtonPage() {
   return (
-    <article>
-      <Section card className="aspect-video justify-center items-center perspective-distant">
-        <button className={s["glass-button"]}>
+    <Article>
+      <Section
+        card
+        className="perspective-distant aspect-video items-center justify-center"
+      >
+        <button className={s["glass-button"]} type="button">
           <span data-text="Hello">Hello</span>
         </button>
       </Section>
-    </article>
+    </Article>
   );
 }

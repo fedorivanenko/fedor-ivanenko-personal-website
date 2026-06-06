@@ -19,7 +19,7 @@ export function ReturnButton({ className }: { className?: string }) {
 
 export function Header() {
   return (
-    <header>
+    <header className="animate-blur-fade stagger-0 mx-auto mb-16 w-full max-w-[var(--content-width)] translate-y-0.5 px-2.5 lg:mx-0 lg:w-auto lg:px-0">
       <ReturnButton />
     </header>
   );

@@ -1,7 +1,9 @@
 "use client";
 
-import * as React from "react";
+import { Article } from "@/components/layout/article";
 import { Section } from "@/components/layout/section";
+import * as React from "react";
+
 /*
     | Key | Action                   |
     | --- | ------------------------ |
@@ -14,7 +16,6 @@ import { Section } from "@/components/layout/section";
 */
 
 export function useDataRegistry() {
-
   const elements = React.useRef<HTMLElement[]>([]);
 
   const register = (el: HTMLElement | null) => {
@@ -33,23 +34,24 @@ export default function PlayKeboardNavPage() {
       if (e.key === "}") {
         const first = elements.current[0];
         if (!first) return;
-  
+
         first.focus();
       }
     };
 
     /**
-    select by { and }, WHEN selected enter selection mode with v 
-    esc exit selection mode
+     * select by { and }, WHEN selected enter selection mode with v
+     * esc exit selection mode
      */
-    
+
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [elements]);
-  
+
   return (
-    <article>
-      <Section card className="aspect-video justify-center items-center">
+    <Article>
+      <Section card className="aspect-video items-center justify-center">
+        {/* biome-ignore lint/a11y/useSemanticElements: Play page needs a focusable static region for keyboard-nav experiment. */}
         <div
           ref={register}
           tabIndex={-1}
@@ -59,14 +61,13 @@ export default function PlayKeboardNavPage() {
           role="textbox"
           aria-readonly="true"
           aria-multiline="true"
-          className="bg-amber-200 p-4 ring-0 focus:ring-0 outline-none focus:bg-amber-300 focus:outline-none"
+          className="bg-amber-200 p-4 outline-none ring-0 focus:bg-amber-300 focus:outline-none focus:ring-0"
         >
           <p>Some text to navigate and copy...</p>
           <p>Some text to navigate and copy...</p>
-          <button>Heelo?</button>
-            
+          <button type="button">Heelo?</button>
         </div>
       </Section>
-    </article>
+    </Article>
   );
 }

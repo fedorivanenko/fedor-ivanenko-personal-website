@@ -9,7 +9,7 @@ import { generateMetadata } from "@/lib/metadata";
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 
-export const metadata : Metadata = generateMetadata();
+export const metadata: Metadata = generateMetadata();
 
 export default function RootLayout({
   children,
@@ -17,7 +17,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${akzidenz.variable} ${sonne.variable} ${thie.variable} ${commit.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${akzidenz.variable} ${sonne.variable} ${thie.variable} ${commit.variable}`}
+      suppressHydrationWarning
+    >
       <body>
         <ThemeProvider
           attribute="class"
@@ -25,8 +29,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Toaster/>
-          <main>
+          <Toaster />
+          <main className="mx-auto flex w-full max-w-screen-lg flex-col gap-x-1 px-5 pt-16 lg:grid lg:grid-cols-[auto_var(--content-width)_auto] lg:pt-32">
             {children}
           </main>
           <Footer />

@@ -1,44 +1,40 @@
-import { Section, sectionVariants } from "@/components/layout/section";
+import { Article } from "@/components/layout/article";
+import { Section } from "@/components/layout/section";
 import { InlineLinkButton } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 
 export default function Home() {
   return (
-    <article className="animation-container">
+    <Article>
       {/* Header */}
-      <div
-        className={cn(sectionVariants({ animated: true }), "mb-12 !space-y-0")}
-      >
-        <h1>Fedor Ivanenko</h1>
+      <div className="animate-blur-fade stagger mb-12.5 flex scroll-m-20 flex-col">
+        <h1 className="heading-xl">Fedor Ivanenko</h1>
         <p className="text-muted-foreground max-w-min whitespace-nowrap text-base">
           Design Engineer
         </p>
       </div>
 
       {/* Bio */}
-      <Section>
-        <div className="prose">
-          <p>
-            I care about experience, performance, and beauty,{" "}
-            <br className="hidden md:block" />
-            ship daily, aim for zero technical debt, and pursue simplicity.
-          </p>
-          <p>
-            I build websites using TS, CSS, React, Next.js, Shopify and Sanity
-          </p>
-          <p>
-            Currently in collaboration with{" "}
-            <InlineLinkButton href={"https://www.hyuman.tech/"} target="_self">
-              hyuman.tech
-            </InlineLinkButton>
-          </p>
-        </div>
+      <Section className="mt-0">
+        <p>
+          I care about experience, performance, and beauty,{" "}
+          <br className="hidden md:block" />
+          ship daily, aim for zero technical debt, and pursue simplicity.
+        </p>
+        <p>
+          I build websites using TS, CSS, React, Next.js, Shopify and Sanity
+        </p>
+        <p>
+          Currently in collaboration with{" "}
+          <InlineLinkButton href={"https://www.hyuman.tech/"} target="_self">
+            hyuman.tech
+          </InlineLinkButton>
+        </p>
       </Section>
 
       {/* Blog */}
       <Section id="blog">
-        <h2>Writing</h2>
-        <ul className="gap-7.5 mt-3.5 flex flex-col">
+        <h2 className="heading-xl">Writing</h2>
+        <ul className="gap-7.5 mt-2.5 flex flex-col">
           <li>
             <InlineLinkButton href={"/craft/wheel-picker"} target="_self">
               Intent-Oriented Agentic Coding
@@ -52,15 +48,15 @@ export default function Home() {
 
       {/* Craft */}
       <Section id="craft">
-        <h2>Craft</h2>
-        <ul className="gap-7.5 mt-3.5 flex flex-col">
+        <h2 className="heading-xl">Craft</h2>
+        <ul className="gap-7.5 mt-2.5 flex flex-col">
           <li>
             <InlineLinkButton href={"/craft/wheel-picker"} target="_self">
               Nazare
             </InlineLinkButton>
             <p className="text-muted-foreground mt-1">
               Opinionated Shopify Liquid theme and runtime
-              <br />
+              <br className="hidden md:block" />
               Made with Tailwind and esbuild
             </p>
           </li>
@@ -70,7 +66,7 @@ export default function Home() {
             </InlineLinkButton>
             <p className="text-muted-foreground mt-1">
               React component
-              <br />
+              <br className="hidden md:block" />
               Validation, a11y, and keyboard controls are included
             </p>
           </li>
@@ -79,7 +75,7 @@ export default function Home() {
 
       {/* Contacts */}
       <Section id="contacts">
-        <h2>Connect</h2>
+        <h2 className="heading-xl">Connect</h2>
         <p>
           Reach me at{" "}
           <InlineLinkButton href="https://x.com/fedorivanenko_">
@@ -93,6 +89,6 @@ export default function Home() {
           </span>
         </p>
       </Section>
-    </article>
+    </Article>
   );
 }
