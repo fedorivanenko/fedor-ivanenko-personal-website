@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { AvailabilityMessage } from "@/components/availability-message";
+import { ContactDialog } from "@/components/contact-dialog";
 import { Article } from "@/components/layout/article";
 import { Section } from "@/components/layout/section";
 import { InlineLinkButton } from "@/components/ui/button";
@@ -23,13 +24,12 @@ export default function Home() {
         </div>
         <p>
           I build fast, maintainable Shopify and Next.js / Hydrogen storefronts
-          for design-led brands and studios
+          <br className={styles.desktopBreak} /> for design-led brands and
+          studios
         </p>
-        <p>
-          <InlineLinkButton href="mailto:f@fedor.studio">
-            Discuss a project
-          </InlineLinkButton>
-        </p>
+        <div>
+          <ContactDialog />
+        </div>
         <p className={styles.muted}>Projects typically start at $9,000</p>
       </header>
 
@@ -323,49 +323,6 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section id="process" aria-labelledby="process-title">
-        <h2 id="process-title" className={styles.title}>
-          Result-focused process
-        </h2>
-        <p>
-          I believe the best way to collaborate is to build together and get
-          tangible results as soon as possible.
-        </p>
-
-        <div className={styles.entries}>
-          <article className={styles.entry}>
-            <h3 className={styles.entryTitle}>
-              01 — Define the outcome &amp; analyze the risks
-            </h3>
-            <p>
-              We define what needs to be delivered, which parts matter most,
-              and what could block or delay the work
-            </p>
-          </article>
-          <article className={styles.entry}>
-            <h3 className={styles.entryTitle}>02 — Prototype &amp; refine</h3>
-            <p>
-              I spin up a quick but fully functional prototype in the real
-              environment so we can catch problems early and discuss solutions
-            </p>
-          </article>
-          <article className={styles.entry}>
-            <h3 className={styles.entryTitle}>03 — Build &amp; validate</h3>
-            <p>
-              Once the prototype is settled, I implement and strengthen the
-              whole system while preserving the design intent
-            </p>
-          </article>
-          <article className={styles.entry}>
-            <h3 className={styles.entryTitle}>04 — Launch</h3>
-            <p>
-              I complete the final QA, prepare the production release, and
-              support the launch
-            </p>
-          </article>
-        </div>
-      </Section>
-
       <Section id="nazare" aria-labelledby="nazare-title">
         <h2 id="nazare-title" className={styles.title}>
           Better infrastructure for Shopify themes
@@ -376,16 +333,8 @@ export default function Home() {
           evolve
         </p>
         <p>
-          It grows from problems observed in real storefront work → themes
-          become difficult to understand and increasingly expensive to change
-          as their complexity accumulates
-        </p>
-        <p>
-          <InlineLinkButton
-            className={styles.cta}
-            href="https://nazare.engineering"
-          >
-            <span className={styles.ctaText}>Explore Nazare</span>
+          <InlineLinkButton href="https://nazare.engineering">
+            Explore Nazare
           </InlineLinkButton>
         </p>
       </Section>
@@ -401,21 +350,14 @@ export default function Home() {
         <p>
           <AvailabilityMessage />
         </p>
-        <p>
-          <InlineLinkButton href="mailto:f@fedor.studio">
-            Discuss a project
-          </InlineLinkButton>
-        </p>
-        <p>
-          <InlineLinkButton href="mailto:f@fedor.studio">
-            f@fedor.studio
-          </InlineLinkButton>
-        </p>
+        <div>
+          <ContactDialog />
+        </div>
         <p className={styles.muted}>
           Shopify and Next.js storefront engineering for design-led brands and
           studios.
         </p>
-        </Section>
+      </Section>
       </Article>
     </>
   );

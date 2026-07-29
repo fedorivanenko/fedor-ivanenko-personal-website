@@ -10,7 +10,6 @@ const sectionIds = [
   "principles",
   "background",
   "services",
-  "process",
   "nazare",
   "contact",
 ];
@@ -133,14 +132,6 @@ export function SectionMenu() {
         <span
           className={[
             styles.bar,
-            activeId === "process" ? styles.activeBar : "",
-          ]
-            .filter(Boolean)
-            .join(" ")}
-        />
-        <span
-          className={[
-            styles.bar,
             activeId === "nazare" ? styles.activeBar : "",
           ]
             .filter(Boolean)
@@ -219,18 +210,6 @@ export function SectionMenu() {
           onClick={() => handleNavigation("services")}
         >
           <span className={styles.label}>Ways to work together</span>
-        </button>
-        <button
-          className={[
-            styles.link,
-            activeId === "process" ? styles.activeLink : "",
-          ]
-            .filter(Boolean)
-            .join(" ")}
-          type="button"
-          onClick={() => handleNavigation("process")}
-        >
-          <span className={styles.label}>Result-focused process</span>
         </button>
         <button
           className={[
