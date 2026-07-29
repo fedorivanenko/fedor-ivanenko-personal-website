@@ -7,6 +7,10 @@ import { Section } from "@/components/layout/section";
 import { InlineLinkButton } from "@/components/ui/button";
 import { SectionMenu } from "@/components/section-menu";
 
+import alkamindThumbnail from "./project-images/alkamind.webp";
+import climaticHealthThumbnail from "./project-images/climatic-health.webp";
+import exeterThumbnail from "./project-images/exeter.webp";
+import jadeyThumbnail from "./project-images/jadey.webp";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -40,7 +44,12 @@ export default function Home() {
         <div className={styles.entries}>
           <article className={styles.entry}>
             <h3 className={styles.entryTitle}>Alkamind</h3>
-            <div className={styles.coverPlaceholder} aria-hidden="true" />
+            <Image
+              className={styles.coverImage}
+              src={alkamindThumbnail}
+              alt="Alkamind website preview"
+              sizes="(max-width: 616px) calc(100vw - 40px), 576px"
+            />
             <p className={styles.muted}>Shopify · Full theme rebuild</p>
             <p>
               A complete rebuild and migration of Alkamind&apos;s ecommerce
@@ -67,7 +76,12 @@ export default function Home() {
 
           <article className={styles.entry}>
             <h3 className={styles.entryTitle}>Exeter</h3>
-            <div className={styles.coverPlaceholder} aria-hidden="true" />
+            <Image
+              className={styles.coverImage}
+              src={exeterThumbnail}
+              alt="Exeter website preview"
+              sizes="(max-width: 616px) calc(100vw - 40px), 576px"
+            />
             <p className={styles.muted}>Next.js · Full website rebuild</p>
             <p>
               A complete rebuild of the editorial platform for{" "}
@@ -100,10 +114,8 @@ export default function Home() {
             </h3>
             <Image
               className={styles.coverImage}
-              src="/images/projects/jadey.webp"
+              src={jadeyThumbnail}
               alt="Jadey website preview"
-              width={1200}
-              height={630}
               sizes="(max-width: 616px) calc(100vw - 40px), 576px"
             />
             <p className={styles.muted}>Next.js · New build</p>
@@ -138,10 +150,8 @@ export default function Home() {
             </h3>
             <Image
               className={styles.coverImage}
-              src="/images/projects/climatic-health.webp"
+              src={climaticHealthThumbnail}
               alt="Climatic Health website preview"
-              width={1200}
-              height={630}
               sizes="(max-width: 616px) calc(100vw - 40px), 576px"
             />
             <p className={styles.muted}>

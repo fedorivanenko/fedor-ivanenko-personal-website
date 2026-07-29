@@ -51,19 +51,12 @@
   max-width: 24rem;
 }
 
-.coverImage,
-.coverPlaceholder {
+.coverImage {
   width: 100%;
   aspect-ratio: 40 / 21;
-}
-
-.coverImage {
   border-radius: 4px;
   object-fit: cover;
-}
-
-.coverPlaceholder {
-  background: var(--card);
+  object-position: center;
 }
 
 .entryTitle {

@@ -134,7 +134,7 @@ export function ContactDialog() {
         // Draft was already cleared in state.
       }
       dialogRef.current?.close();
-      toast.success("Message sent");
+      toast.success("Got your message! Get back soon.");
     } catch (submitError) {
       setError(
         submitError instanceof Error

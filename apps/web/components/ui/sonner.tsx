@@ -35,10 +35,10 @@ const Toaster = ({ ...props }: ToasterProps) => {
       style={
         {
           fontFamily: "inherit",
-          "--normal-bg": "var(--card)",
+          "--normal-bg": "var(--dialog-background)",
           "--normal-text": "var(--foreground)",
-          "--normal-border": "var(--card-border)",
-          "--border-radius": 0,
+          "--normal-border": "transparent",
+          "--border-radius": "var(--radius)",
         } as React.CSSProperties
       }
       {...props}
