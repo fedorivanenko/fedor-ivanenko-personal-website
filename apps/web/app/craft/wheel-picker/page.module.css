@@ -1,0 +1,49 @@
+.title {
+  display: flex;
+  flex-direction: column;
+  scroll-margin-top: 5rem;
+  color: var(--foreground);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.copyList {
+  display: block;
+}
+
+.copyList > li {
+  display: inline;
+}
+
+.copyList > li + li::before {
+  content: " ";
+}
+
+.inline {
+  white-space: nowrap;
+}
+
+.exampleCard {
+  position: relative;
+}
+
+.kbdGroup {
+  position: absolute;
+  left: 0.625rem;
+  bottom: 0.625rem;
+}
+
+@media (min-width: 32rem) {
+  .copyList > li {
+    display: block;
+  }
+
+  .copyList > li + li {
+    margin-top: 0.125rem;
+  }
+
+  .copyList > li + li::before {
+    content: none;
+  }
+}

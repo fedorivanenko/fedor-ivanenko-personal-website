@@ -1,0 +1,18 @@
+.card {
+  aspect-ratio: 16 / 9;
+  align-items: center;
+  justify-content: center;
+}
+
+.panel {
+  background: #fee685;
+  padding: 1rem;
+  outline: none;
+  box-shadow: 0 0 0 0 transparent;
+}
+
+.panel:focus {
+  background: #ffd236;
+  outline: none;
+  box-shadow: 0 0 0 0 transparent;
+}

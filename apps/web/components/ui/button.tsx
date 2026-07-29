@@ -1,64 +1,36 @@
-import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { cva, type VariantProps } from "class-variance-authority";
-
-import { cn } from "@/lib/utils";
 import Link from "next/link";
+import * as React from "react";
 
-const buttonVariants = cva(
-  "inline-flex items-baseline justify-center gap-2 md:whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
-  {
-    variants: {
-      variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-border bg-transparent hover:bg-input hover:text-accent-foreground",
-        secondary: "bg-input/75 text-secondary-foreground hover:bg-input/50",
-        ghost: "hover:bg-input/50 hover:text-accent-foreground",
-        link: "text-primary underline-offset-3 underline decoration-[1px] decoration-secondary-foreground/20 hover:decoration-secondary-foreground/50 transition-all",
-      },
-      size: {
-        default: "h-9 px-4 py-2",
-        tiny: "h-6 rounded-md px-2 py-0 text-xs gap-1",
-        sm: "h-8 rounded-md px-3",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
-        inline: "inline-flex text-[length:inherit] tracking-[0.015em]",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  }
-);
+import styles from "./button.module.css";
 
 export interface ButtonProps
-  extends
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: "default" | "outline" | "secondary" | "ghost" | "link";
+  size?: "default" | "tiny" | "sm" | "lg" | "icon" | "inline";
   asChild?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant = "default", size = "default", asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
-    return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
-    );
+    const classes = [
+      size === "inline" || variant === "link"
+        ? styles.linkButton
+        : styles.button,
+      size === "inline" ? styles.inline : "",
+      className,
+    ]
+      .filter(Boolean)
+      .join(" ");
+
+    return <Comp className={classes} ref={ref} {...props} />;
   }
 );
 Button.displayName = "Button";
 
 export interface InlineLinkButtonProps
-  extends
-    Omit<
+  extends Omit<
       ButtonProps,
       keyof React.AnchorHTMLAttributes<HTMLAnchorElement> | "asChild"
     >,
@@ -72,12 +44,7 @@ function InlineLinkButton({
   ...props
 }: InlineLinkButtonProps) {
   return (
-    <Button
-      className={cn(className, "px-0")}
-      variant="link"
-      size="inline"
-      asChild
-    >
+    <Button className={className} variant="link" size="inline" asChild>
       <Link href={href} target={target} {...props}>
         {children}
       </Link>
@@ -85,4 +52,4 @@ function InlineLinkButton({
   );
 }
 
-export { Button, InlineLinkButton, buttonVariants };
+export { Button, InlineLinkButton };

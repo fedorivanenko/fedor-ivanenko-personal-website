@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { animated, useReducedMotion, useSprings } from "@react-spring/web";
-import { cn } from "./utils";
+
 import { useRotationWheel } from "./use-rotation-wheel";
 
 export interface RotationWheelOption<T extends string | number = string> {
@@ -69,7 +69,6 @@ function RotationWheelInner<T extends string | number>(
   const n = options.length;
   const idPrefix = React.useId();
 
-  // Resolve value → index
   const activeIndex = React.useMemo(() => {
     const idx = options.findIndex((o) => o.value === value);
     return idx === -1 ? 0 : idx;
@@ -115,6 +114,20 @@ function RotationWheelInner<T extends string | number>(
   );
 
   const optionId = (i: number) => `${idPrefix}-option-${i}`;
+  const rootStyle: React.CSSProperties = {
+    position: "relative",
+    overflow: "hidden",
+    height: "100%",
+    border: "1px solid var(--border)",
+    borderRadius: "0.5rem",
+    outline: "none",
+    userSelect: "none",
+    touchAction: "none",
+    transition: "border-color 150ms ease, opacity 150ms ease",
+    cursor: disabled ? "default" : "grab",
+    opacity: disabled ? 0.5 : 1,
+    borderColor: error ? "var(--destructive)" : "var(--border)",
+  };
 
   if (n === 0) {
     return (
@@ -123,10 +136,8 @@ function RotationWheelInner<T extends string | number>(
         role="listbox"
         aria-disabled="true"
         aria-label={ariaLabel ?? "Selection wheel"}
-        className={cn(
-          "select-none relative overflow-hidden h-full",
-          className,
-        )}
+        className={className}
+        style={rootStyle}
       />
     );
   }
@@ -143,14 +154,9 @@ function RotationWheelInner<T extends string | number>(
       aria-labelledby={ariaLabelledBy}
       aria-disabled={disabled || undefined}
       aria-invalid={error || undefined}
-      className={cn(
-        "select-none touch-none relative overflow-hidden outline-none h-full border rounded transition-colors",
-        disabled ? "cursor-default opacity-50" : "cursor-grab",
-        error ? "border-destructive" : "border-border",
-        !disabled && "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-        className,
-      )}
+      className={className}
       style={{
+        ...rootStyle,
         perspective: "64rem",
         ["--rad" as string]: RAD,
         ["--h" as string]: itemHeight,
@@ -169,15 +175,23 @@ function RotationWheelInner<T extends string | number>(
             aria-selected={i === safeIndex}
             onClick={isClickable ? () => handleOptionClick(i) : undefined}
             style={{
+              position: "absolute",
+              top: "50%",
+              left: 0,
+              display: "flex",
+              width: "100%",
+              height: itemHeight,
+              alignItems: "center",
+              justifyContent: "center",
+              transform: "translateY(-50%)",
+              backfaceVisibility: "hidden",
               scale: springs[i].scale,
               rotateX: springs[i].rotateX,
               opacity: springs[i].opacity,
               transformOrigin:
                 "center center calc(-1 * calc(var(--h) / var(--rad)))",
-              backfaceVisibility: "hidden",
               cursor: isClickable ? "pointer" : undefined,
             }}
-            className="absolute -translate-y-1/2 flex items-center justify-center top-1/2 w-full h-[var(--h)]"
           >
             {option.label}
           </animated.div>

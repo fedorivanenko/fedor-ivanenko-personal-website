@@ -2,13 +2,15 @@ import { Article } from "@/components/layout/article";
 import { Section } from "@/components/layout/section";
 import { InlineLinkButton } from "@/components/ui/button";
 
+import styles from "./not-found.module.css";
+
 export default function defaultNotFound() {
   return (
-    <Article className="mb-auto">
+    <Article className={styles.container}>
       <Section>
-        <h1 className="heading-xl">404</h1>
-        <div className="text-muted-foreground">
-          <p className="!mb-0">There is no such page</p>
+        <h1 className={styles.title}>404</h1>
+        <div className={styles.copy}>
+          <p>There is no such page</p>
           <p>
             Return to{" "}
             <InlineLinkButton href="/" target="_self">

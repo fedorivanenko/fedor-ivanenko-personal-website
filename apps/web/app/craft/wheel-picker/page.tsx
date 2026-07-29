@@ -2,18 +2,20 @@ import { Article } from "@/components/layout/article";
 import { Section } from "@/components/layout/section";
 import { InlineLinkButton } from "@/components/ui/button";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
+
 import { Example } from "./example";
+import styles from "./page.module.css";
 
 export default function Page() {
   return (
     <Article>
-      <h1 className="heading-xl animate-blur-fade stagger flex scroll-m-20 flex-col">
+      <h1 className={["animate-blur-fade stagger-0", styles.title].join(" ")}>
         Wheel Picker
       </h1>
       <Section>
         <p>
           React component made with{" "}
-          <span className="whitespace-nowrap">
+          <span className={styles.inline}>
             <InlineLinkButton href="https://react-spring.dev/docs">
               @react-spring
             </InlineLinkButton>{" "}
@@ -24,38 +26,31 @@ export default function Page() {
           </span>
           .
         </p>
-        <ul className="content space-y-0.5">
-          <li className="inline sm:block">
-            Validation, a11y, and keyboard controls are included.{" "}
-          </li>
-          <li className="inline sm:block">
+        <ul className={styles.copyList}>
+          <li>Validation, a11y, and keyboard controls are included.</li>
+          <li>
             Compatible&nbsp;with&nbsp;
             <InlineLinkButton href="https://ui.shadcn.com/docs">
               shadcn-ui
             </InlineLinkButton>{" "}
             and{" "}
-            <InlineLinkButton
-              href={"https://base-ui.com/react/overview/quick-start"}
-            >
+            <InlineLinkButton href="https://base-ui.com/react/overview/quick-start">
               base-ui
             </InlineLinkButton>
             .
           </li>
         </ul>
         <p>
-          Install via{" "}
-          <code>npx shadcn add https://fedor.studio/r/wheel-picker.json</code>
-          <br className="hidden md:block" />
-          or get the source from{" "}
+          Source lives in the{" "}
           <InlineLinkButton href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/tree/main/packages/wheel-picker">
-            GitHub
+            GitHub repo
           </InlineLinkButton>
           .
         </p>
       </Section>
-      <Section card>
+      <Section card className={styles.exampleCard}>
         <Example />
-        <KbdGroup className="absolute bottom-2.5 left-2.5">
+        <KbdGroup className={styles.kbdGroup}>
           <Kbd>↑</Kbd>
           <Kbd>↓</Kbd>
           <Kbd>Esc</Kbd>
