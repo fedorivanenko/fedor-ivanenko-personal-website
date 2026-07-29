@@ -46,8 +46,8 @@ export default function Home() {
           help with.
         </p>
         <p className={styles.copy}>
-          <InlineLinkButton href="mailto:f@nazare.engineering">
-            → f@nazare.engineering
+          <InlineLinkButton href="mailto:f@fedor.studio">
+            → f@fedor.studio
           </InlineLinkButton>
         </p>
         <p className={styles.links}>
