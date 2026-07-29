@@ -27,20 +27,28 @@
 }
 
 .page > .hero {
-  margin-bottom: 3.125rem;
+  margin-bottom: 6rem;
+}
+
+.page > section:not(:last-child) {
+  margin-bottom: 6rem;
 }
 
 .entries {
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 .entry {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.narrowEntries {
+  max-width: 24rem;
 }
 
 .coverImage,
@@ -64,6 +72,11 @@
   line-height: 1.5;
 }
 
+.title + *,
+.entryTitle + * {
+  margin-top: -0.175rem;
+}
+
 .muted {
   color: var(--muted-foreground);
 }
@@ -71,4 +84,32 @@
 .status {
   color: var(--foreground);
   font-weight: 600;
+}
+
+.cta {
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  border-radius: calc(var(--radius) - 2px);
+  background: color-mix(in oklab, var(--foreground) 12%, transparent);
+  padding: 0.625rem 0.875rem;
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+.cta:hover {
+  background: color-mix(in oklab, var(--foreground) 20%, transparent);
+  text-decoration: none;
+}
+
+.ctaText,
+.cta svg {
+  transform: translateY(0.12em);
+}
+
+@media (min-width: 32rem) {
+  .page > .hero,
+  .page > section:not(:last-child) {
+    margin-bottom: 9rem;
+  }
 }

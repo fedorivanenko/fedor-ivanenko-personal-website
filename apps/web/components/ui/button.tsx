@@ -1,3 +1,4 @@
+import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import { Slot } from "@radix-ui/react-slot";
 import Link from "next/link";
 import * as React from "react";
@@ -43,10 +44,15 @@ function InlineLinkButton({
   className,
   ...props
 }: InlineLinkButtonProps) {
+  const isExternal = typeof href === "string" && /^https?:\/\//.test(href);
+
   return (
     <Button className={className} variant="link" size="inline" asChild>
       <Link href={href} target={target} {...props}>
         {children}
+        {isExternal ? (
+          <ExternalLinkIcon className={styles.externalIcon} aria-hidden="true" />
+        ) : null}
       </Link>
     </Button>
   );

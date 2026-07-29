@@ -1,16 +1,21 @@
 import Image from "next/image";
 
+import { AvailabilityMessage } from "@/components/availability-message";
 import { Article } from "@/components/layout/article";
 import { Section } from "@/components/layout/section";
 import { InlineLinkButton } from "@/components/ui/button";
+import { SectionMenu } from "@/components/section-menu";
 
 import styles from "./page.module.css";
 
 export default function Home() {
   return (
-    <Article className={styles.page}>
-      <header
-        className={[styles.hero, "animate-blur-fade", "stagger-0"].join(" ")}
+    <>
+      <SectionMenu />
+      <Article className={styles.page}>
+        <header
+          id="top"
+          className={[styles.hero, "animate-blur-fade", "stagger-0"].join(" ")}
       >
         <div className={styles.identity}>
           <h1 className={styles.name}>Fedor Studio</h1>
@@ -28,7 +33,7 @@ export default function Home() {
         <p className={styles.muted}>Projects typically start at $9,000</p>
       </header>
 
-      <Section aria-labelledby="selected-work-title">
+      <Section id="selected-work" aria-labelledby="selected-work-title">
         <h2 id="selected-work-title" className={styles.title}>
           Selected work
         </h2>
@@ -88,7 +93,11 @@ export default function Home() {
           </article>
 
           <article className={styles.entry}>
-            <h3 className={styles.entryTitle}>Jadey</h3>
+            <h3 className={styles.entryTitle}>
+              <InlineLinkButton href="https://www.hellojadey.com/">
+                Jadey
+              </InlineLinkButton>
+            </h3>
             <Image
               className={styles.coverImage}
               src="/images/projects/jadey.webp"
@@ -122,7 +131,11 @@ export default function Home() {
           </article>
 
           <article className={styles.entry}>
-            <h3 className={styles.entryTitle}>Climatic Health</h3>
+            <h3 className={styles.entryTitle}>
+              <InlineLinkButton href="https://www.climatichealth.com/">
+                Climatic Health
+              </InlineLinkButton>
+            </h3>
             <Image
               className={styles.coverImage}
               src="/images/projects/climatic-health.webp"
@@ -160,7 +173,7 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section aria-labelledby="principles-title">
+      <Section id="principles" aria-labelledby="principles-title">
         <h2 id="principles-title" className={styles.title}>
           Builds that stay cheap to use and change
         </h2>
@@ -176,7 +189,7 @@ export default function Home() {
           the machinery inside reliable, maintainable, and easy to extend
         </p>
 
-        <div className={styles.entries}>
+        <div className={[styles.entries, styles.narrowEntries].join(" ")}>
           <article className={styles.entry}>
             <h3 className={styles.entryTitle}>Design fidelity</h3>
             <p>
@@ -209,7 +222,22 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section aria-labelledby="services-title">
+      <Section id="background" aria-labelledby="background-title">
+        <h2 id="background-title" className={styles.title}>
+          Engineering grounded in Design
+        </h2>
+        <p>
+          I started in product design and UX research before moving into
+          frontend engineering
+        </p>
+        <p>
+          That background shapes how I build. I care whether an implementation
+          preserves the design, supports real content, remains understandable,
+          and if it is simply beautiful
+        </p>
+      </Section>
+
+      <Section id="services" aria-labelledby="services-title">
         <h2 id="services-title" className={styles.title}>
           Ways to work together
         </h2>
@@ -295,7 +323,7 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section aria-labelledby="process-title">
+      <Section id="process" aria-labelledby="process-title">
         <h2 id="process-title" className={styles.title}>
           Result-focused process
         </h2>
@@ -338,7 +366,7 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section aria-labelledby="nazare-title">
+      <Section id="nazare" aria-labelledby="nazare-title">
         <h2 id="nazare-title" className={styles.title}>
           Better infrastructure for Shopify themes
         </h2>
@@ -353,40 +381,16 @@ export default function Home() {
           as their complexity accumulates
         </p>
         <p>
-          Nazaré does not require a migration. Client projects remain standard
-          native Shopify builds. Nazaré is the tooling and research layer
-          intended to make those builds safer to maintain and extend.
-        </p>
-        <p>
-          <InlineLinkButton href="https://nazare.engineering">
-            Explore Nazare
+          <InlineLinkButton
+            className={styles.cta}
+            href="https://nazare.engineering"
+          >
+            <span className={styles.ctaText}>Explore Nazare</span>
           </InlineLinkButton>
         </p>
       </Section>
 
-      <Section aria-labelledby="background-title">
-        <h2 id="background-title" className={styles.title}>
-          Design + Engineering
-        </h2>
-        <p>
-          I started in product design and UX research before moving into
-          frontend engineering
-        </p>
-        <p>
-          That background shapes how I build. I care whether an implementation
-          preserves the design, supports real content, remains understandable,
-          and is easy to change later
-        </p>
-        <p>
-          I also love beautiful design. You can see some on my{" "}
-          <InlineLinkButton href="https://www.are.na/fedor-ivanenko/">
-            are.na
-          </InlineLinkButton>
-          .
-        </p>
-      </Section>
-
-      <Section aria-labelledby="contact-title">
+      <Section id="contact" aria-labelledby="contact-title">
         <h2 id="contact-title" className={styles.title}>
           Have a storefront to build?
         </h2>
@@ -395,8 +399,7 @@ export default function Home() {
           the project.
         </p>
         <p>
-          I&apos;ll review the context and tell you whether I&apos;m a fit, what
-          the likely scope is, and what the engagement would cost.
+          <AvailabilityMessage />
         </p>
         <p>
           <InlineLinkButton href="mailto:f@fedor.studio">
@@ -412,7 +415,8 @@ export default function Home() {
           Shopify and Next.js storefront engineering for design-led brands and
           studios.
         </p>
-      </Section>
-    </Article>
+        </Section>
+      </Article>
+    </>
   );
 }
