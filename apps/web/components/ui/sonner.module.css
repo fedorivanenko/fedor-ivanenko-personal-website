@@ -12,6 +12,12 @@
   padding: 0.625rem 0.875rem;
 }
 
+.title,
+.description {
+  font-size: 0.875rem;
+  transform: translateY(0.15em);
+}
+
 .description {
   color: var(--muted-foreground);
 }

@@ -27,6 +27,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       toastOptions={{
         classNames: {
           toast: styles.toast,
+          title: styles.title,
           description: styles.description,
           actionButton: styles.actionButton,
           cancelButton: styles.cancelButton,
