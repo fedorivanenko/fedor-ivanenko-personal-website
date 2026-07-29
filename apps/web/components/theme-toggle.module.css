@@ -1,0 +1,33 @@
+.fieldset {
+  margin-left: auto;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.option {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  color: inherit;
+}
+
+.optionActive {
+  color: var(--foreground);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.icon {
+  width: 0.875rem;
+  height: 0.875rem;
+}

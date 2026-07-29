@@ -1,44 +1,32 @@
 import * as React from "react";
-import { cn } from "@/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
 
-const sectionVariants = cva("flex flex-col scroll-m-20 space-y-4", {
-  variants: {
-    animated: {
-      true: "animate-blur-fade stagger",
-      false: "",
-    },
-    card: {
-      true: "bg-card py-7.5 -mx-2.5 border border-card-border",
-      false: "mx-0",
-    },
-  },
-  defaultVariants: {
-    animated: true,
-    card: false,
-  },
-});
+import styles from "./section.module.css";
 
 export interface SectionProps
-  extends
-    React.HTMLAttributes<HTMLElement>,
-    VariantProps<typeof sectionVariants> {
+  extends React.HTMLAttributes<HTMLElement> {
   className?: string;
   as?: "section" | "div";
+  animated?: boolean;
+  card?: boolean;
 }
 
 function Section({
   className,
-  animated,
-  card,
+  animated = true,
+  card = false,
   as = "section",
   ...props
 }: SectionProps) {
-  return React.createElement(
-    as,
-    { className: cn(sectionVariants({ animated, card }), className), ...props },
-    props.children
-  );
+  const classes = [
+    styles.section,
+    animated ? styles.animated : "",
+    card ? styles.card : "",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return React.createElement(as, { className: classes, ...props }, props.children);
 }
 
-export { Section, sectionVariants };
+export { Section };

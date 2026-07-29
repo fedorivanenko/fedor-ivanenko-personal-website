@@ -1,10 +1,13 @@
 "use client";
 
 import { useTheme } from "next-themes";
+import * as React from "react";
 
 import { LaptopIcon, MoonIcon, SunIcon } from "@/components/icons";
 
-interface themeOptionInterface {
+import styles from "./theme-toggle.module.css";
+
+interface ThemeOption {
   label: string;
   value: string;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
@@ -16,10 +19,12 @@ const MiniButton = ({
   icon: Icon,
   theme,
   setTheme,
-}: themeOptionInterface & {
+}: ThemeOption & {
   theme: string | undefined;
   setTheme: (v: string) => void;
 }) => {
+  const checked = theme === value;
+
   return (
     <span>
       <input
@@ -27,16 +32,16 @@ const MiniButton = ({
         id={`theme-switch-${value}`}
         type="radio"
         value={value}
-        checked={theme === value}
+        checked={checked}
         onChange={() => setTheme(value)}
-        className="peer sr-only"
+        className={styles.srOnly}
       />
       <label
         htmlFor={`theme-switch-${value}`}
-        className="peer-checked:text-foreground flex cursor-pointer items-center"
+        className={[styles.option, checked ? styles.optionActive : ""].join(" ")}
       >
-        <span className="sr-only">{label}</span>
-        <Icon className="size-3.5" />
+        <span className={styles.srOnly}>{label}</span>
+        <Icon className={styles.icon} />
       </label>
     </span>
   );
@@ -46,22 +51,26 @@ const options = [
   { value: "system", label: "System", icon: LaptopIcon },
   { value: "light", label: "Light", icon: SunIcon },
   { value: "dark", label: "Dark", icon: MoonIcon },
-] satisfies themeOptionInterface[];
+] satisfies ThemeOption[];
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
-    <fieldset className="ml-auto flex gap-2">
-      <legend className="sr-only">Select a display theme:</legend>
+    <fieldset className={styles.fieldset}>
+      <legend className={styles.srOnly}>Select a display theme:</legend>
 
       {options.map((opt) => (
-        <MiniButton
-          key={opt.value}
-          {...opt}
-          theme={theme}
-          setTheme={setTheme}
-        />
+        <MiniButton key={opt.value} {...opt} theme={theme} setTheme={setTheme} />
       ))}
     </fieldset>
   );

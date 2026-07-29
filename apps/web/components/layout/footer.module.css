@@ -1,0 +1,39 @@
+.footer {
+  margin: auto auto 0;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 5rem 1.25rem 1.25rem;
+  color: var(--muted-foreground);
+}
+
+.inner {
+  margin-inline: auto;
+  display: flex;
+  width: 100%;
+  max-width: var(--content-width);
+  flex-direction: column;
+}
+
+.line {
+  display: inline-flex;
+  gap: 0.5rem;
+}
+
+.links {
+  display: flex;
+  width: 100%;
+  column-gap: 0.5rem;
+  font-size: var(--text-xs);
+  line-height: 1.3333;
+}
+
+.mutedLink {
+  color: var(--muted-foreground);
+}
+
+@media (min-width: 44rem) {
+  .footer {
+    padding-top: 10rem;
+  }
+}

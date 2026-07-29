@@ -1,28 +1,23 @@
-import { cn } from "@/lib/utils"
+import styles from "./kbd.module.css";
 
 function Kbd({ className, ...props }: React.ComponentProps<"kbd">) {
   return (
     <kbd
       data-slot="kbd"
-      className={cn(
-        "bg-muted border border-border text-muted-foreground pointer-events-none inline-flex h-5 w-fit min-w-5 items-center justify-center gap-1 rounded-xs px-1 font-sans text-xxs font-medium select-none",
-        "[&_svg:not([class*='size-'])]:size-3",
-        "[[data-slot=tooltip-content]_&]:bg-background/20 [[data-slot=tooltip-content]_&]:text-background dark:[[data-slot=tooltip-content]_&]:bg-background/10",
-        className
-      )}
+      className={[styles.kbd, className].filter(Boolean).join(" ")}
       {...props}
     />
-  )
+  );
 }
 
 function KbdGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <kbd
+    <div
       data-slot="kbd-group"
-      className={cn("inline-flex items-center gap-1", className)}
+      className={[styles.group, className].filter(Boolean).join(" ")}
       {...props}
     />
-  )
+  );
 }
 
-export { Kbd, KbdGroup }
+export { Kbd, KbdGroup };

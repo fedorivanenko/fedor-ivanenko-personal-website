@@ -1,28 +1,26 @@
 import ThemeToggle from "../theme-toggle";
 import { InlineLinkButton } from "../ui/button";
 
+import styles from "./footer.module.css";
+
 export default function Footer() {
   return (
-    <footer className="flex flex-col animate-blur-fade mx-auto mt-auto w-full px-5 pb-5 text-muted-foreground pt-20 md:pt-40 stagger-2">
-      <div className="max-w-[var(--content-width)] gap-y-0 w-full flex flex-col mx-auto justify-baseline">
-        <span className="inline-flex gap-2 ">
+    <footer className={[styles.footer, "animate-blur-fade", "stagger-2"].join(" ")}>
+      <div className={styles.inner}>
+        <span className={styles.line}>
           <span>{new Date().getFullYear()}</span>
           <span>Talk is cheap, show me your code</span>
         </span>
-        <span className="w-full flex gap-x-2 text-xs">
+        <span className={styles.links}>
           <InlineLinkButton
-            className="text-muted-foreground"
-            href={
-              "https://github.com/fedorivanenko/fedor-ivanenko-personal-website"
-            }
+            className={styles.mutedLink}
+            href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website"
           >
             Website Code
           </InlineLinkButton>
           <InlineLinkButton
-            className="text-muted-foreground whitespace-nowrap gap-x-1"
-            href={
-              "https://github.com/fedorivanenko/fedor-ivanenko-personal-website/blob/main/license.md"
-            }
+            className={styles.mutedLink}
+            href="https://github.com/fedorivanenko/fedor-ivanenko-personal-website/blob/main/license.md"
           >
             MIT
           </InlineLinkButton>

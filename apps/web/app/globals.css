@@ -1,48 +1,30 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-
-@config "../tailwind.config.ts";
-
-@custom-variant dark (&:is(.dark *));
-
 :root {
   --background: oklch(0.97 0 0);
   --foreground: oklch(0.28 0 0);
-
   --card: oklch(0.985 0 0);
   --card-foreground: var(--foreground);
   --card-border: oklch(0.885 0 0);
-
   --popover: var(--card);
   --popover-foreground: var(--card-foreground);
-
   --primary: oklch(0.26 0 0);
   --primary-foreground: oklch(0.985 0 0);
-
   --secondary: oklch(0.94 0 0);
   --secondary-foreground: oklch(0.42 0 0);
-
   --muted: oklch(0.93 0 0);
   --muted-foreground: oklch(0.54 0 0);
-
   --accent: oklch(0.9 0 0);
   --accent-foreground: var(--foreground);
-
   --destructive: oklch(0.58 0.21 25);
   --destructive-foreground: oklch(0.985 0 0);
-
   --border: oklch(0.885 0 0);
   --input: var(--border);
   --ring: oklch(0.6 0 0);
-
   --chart-1: oklch(0.65 0.18 40);
   --chart-2: oklch(0.62 0.14 180);
   --chart-3: oklch(0.52 0.12 250);
   --chart-4: oklch(0.76 0.16 85);
   --chart-5: oklch(0.7 0.17 25);
-
   --radius: 0.625rem;
-
   --shiki-background: var(--card);
   --shiki-foreground: var(--foreground);
   --shiki-token-constant: oklch(0.5 0.14 250);
@@ -54,44 +36,41 @@
   --shiki-token-string-expression: var(--shiki-token-string);
   --shiki-token-punctuation: oklch(0.36 0 0);
   --shiki-token-link: var(--shiki-token-constant);
+  --content-width: 36rem;
+  --text-xxs: 0.75rem;
+  --text-xs: 0.875rem;
+  --text-sm: 1rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
 }
 
 .dark {
   --background: oklch(0.18 0 0);
   --foreground: oklch(0.92 0 0);
-
   --card: oklch(0.22 0 0);
   --card-foreground: var(--foreground);
   --card-border: oklch(0.32 0 0);
-
   --popover: var(--card);
   --popover-foreground: var(--card-foreground);
-
   --primary: oklch(0.92 0 0);
   --primary-foreground: oklch(0.18 0 0);
-
   --secondary: oklch(0.26 0 0);
   --secondary-foreground: oklch(0.82 0 0);
-
   --muted: oklch(0.26 0 0);
   --muted-foreground: oklch(0.66 0 0);
-
   --accent: oklch(0.3 0 0);
   --accent-foreground: var(--foreground);
-
   --destructive: oklch(0.62 0.19 25);
   --destructive-foreground: oklch(0.985 0 0);
-
   --border: oklch(0.32 0 0);
   --input: var(--border);
   --ring: oklch(0.64 0 0);
-
   --chart-1: oklch(0.68 0.16 250);
   --chart-2: oklch(0.72 0.13 180);
   --chart-3: oklch(0.76 0.15 85);
   --chart-4: oklch(0.7 0.16 300);
   --chart-5: oklch(0.7 0.17 25);
-
   --shiki-token-constant: oklch(0.76 0.13 250);
   --shiki-token-string: oklch(0.76 0.12 160);
   --shiki-token-comment: oklch(0.62 0 0);
@@ -101,124 +80,155 @@
   --shiki-token-punctuation: oklch(0.86 0 0);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-card-border: var(--card-border);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-
-  --breakpoint-xs: 27rem;
-  --breakpoint-sm: 32rem;
-  --breakpoint-md: 44rem;
-
-  --content-width: 36rem;
-
-  --text-xxs: 0.75rem; /* 12px */
-  --text-xs: 0.875rem; /* 14px */
-  --text-sm: 1rem; /* 16px */
-  --text-base: 1.0625rem; /* 17px */
-  --text-lg: 1.125rem; /* 18px */
-  --text-xl: 1.25rem; /* 20px */
-
-  --default-font-family: var(--font-thie);
-  --default-mono-font-family: var(--font-commit);
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border: 0 solid var(--border);
+  margin: 0;
+  padding: 0;
 }
 
-@utility font-commit {
+html {
+  font-size: 16px;
+}
+
+body {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  background: var(--background);
+  color: var(--secondary-foreground);
+  font-family: var(--font-thie);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  scrollbar-color: var(--border) transparent;
+}
+
+button,
+input,
+select,
+textarea {
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+button,
+select {
+  text-transform: none;
+}
+
+button,
+input:where([type="button"], [type="reset"], [type="submit"]) {
+  appearance: button;
+  background-color: transparent;
+  background-image: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+ol,
+ul,
+menu {
+  list-style: none;
+}
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  vertical-align: middle;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+code,
+kbd,
+pre,
+samp {
   font-family: var(--font-commit);
 }
 
-@utility font-akzidenz {
-  font-family: var(--font-akzidenz);
+p code,
+li code {
+  border: 1px solid var(--card-border);
+  border-radius: calc(var(--radius) - 4px);
+  background: var(--card);
+  color: var(--foreground);
+  padding: 0.125rem 0.25rem;
+  font-size: var(--text-xs);
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
-@utility font-sonne {
-  font-family: var(--font-sonne);
+li::marker {
+  color: color-mix(in oklab, var(--muted-foreground) 50%, transparent);
 }
 
-@utility font-thie {
-  font-family: var(--font-thie);
+pre {
+  margin-inline: -0.625rem;
+  overflow-x: scroll;
+  border-radius: 1rem;
+  padding: 1.875rem 0 0.625rem 1.25rem;
+  font-size: var(--text-xs);
 }
 
-@utility heading {
-  @apply text-foreground font-semibold;
+.shiki {
+  border: 1px solid var(--card-border);
 }
 
-@utility heading-xl {
-  @apply heading text-xl;
+pre:has(code .line[data-line]) {
+  counter-reset: line;
 }
 
-@layer base {
-  html {
-    font-size: 16px;
-  }
-
-  * {
-    @apply border-border outline-ring/50;
-    scrollbar-color: var(--color-border) transparent;
-  }
-
-  body {
-    @apply bg-background text-secondary-foreground flex min-h-[100svh] flex-col text-base antialiased;
-  }
-
-  p code,
-  li code {
-    @apply border-card-border bg-card text-foreground whitespace-pre-wrap break-words rounded-sm border px-1 py-0.5 text-xs;
-  }
-
-  li::marker {
-    @apply text-muted-foreground/50;
-  }
+pre code .line[data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+  display: none;
+  width: 0.5rem;
+  margin-right: 1.25rem;
+  color: var(--muted-foreground);
+  text-align: left;
+  user-select: none;
 }
 
-@layer code {
-  pre {
-    @apply pt-7.5 -mx-2.5 overflow-x-scroll rounded-2xl py-2.5 pl-5 text-xs;
-  }
+pre code [data-line] {
+  position: relative;
+  display: inline-block;
+}
 
-  .shiki {
-    @apply border-card-border border;
-  }
-
-  pre:has(code .line[data-line]) {
-    counter-reset: line;
-  }
-
+@media (min-width: 44rem) {
   pre code .line[data-line]::before {
-    counter-increment: line;
-    content: counter(line);
-    @apply text-xxs text-muted-foreground mr-5 hidden w-2 select-none text-left md:inline-block;
-  }
-
-  pre code [data-line] {
-    @apply relative inline-block;
+    display: inline-block;
   }
 }
 
@@ -236,7 +246,7 @@
   }
 }
 
-@utility animate-blur-fade {
+.animate-blur-fade {
   opacity: 0;
   transform: translateY(40px);
   filter: blur(20px);
@@ -244,8 +254,24 @@
   animation-delay: calc(var(--stagger, 0) * 120ms);
 }
 
-@utility stagger-* {
-  --stagger: --value(integer);
+.stagger-0 {
+  --stagger: 0;
+}
+
+.stagger-1 {
+  --stagger: 1;
+}
+
+.stagger-2 {
+  --stagger: 2;
+}
+
+.stagger-3 {
+  --stagger: 3;
+}
+
+.stagger-4 {
+  --stagger: 4;
 }
 
 @media (prefers-reduced-motion: reduce) {

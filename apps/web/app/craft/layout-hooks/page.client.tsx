@@ -1,7 +1,7 @@
 "use client";
 
+import { useIsHydrated, useMeasure, useSplitText } from "@fedor/layout-hooks";
 import { useRef } from "react";
-import { useSplitText, useMeasure, useIsHydrated } from "@fedor/layout-hooks";
 
 export function Example() {
   const ref = useRef<HTMLHeadingElement>(null);

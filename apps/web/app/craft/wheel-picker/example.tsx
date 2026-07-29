@@ -1,23 +1,22 @@
 "use client";
 
-import * as React from "react";
-import { Controller, useForm } from "react-hook-form";
-import type * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { RotationWheel } from "@fedor/wheel-picker";
-import { monthOptions, formSchema } from "./data";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type * as React from "react";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import type * as z from "zod";
+
+import { formSchema, monthOptions } from "./data";
+import styles from "./example.module.css";
 
 export function Button({
   children,
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <button
-      className="border-border hover:bg-accent/20 grid h-8 w-full cursor-pointer appearance-none place-items-center border p-0 text-sm/none transition-colors"
-      {...props}
-    >
-      <span className="block translate-y-px">{children}</span>
+    <button className={styles.exampleButton} {...props}>
+      <span>{children}</span>
     </button>
   );
 }
@@ -32,9 +31,7 @@ function Example() {
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    const result = monthOptions.find(
-      (item) => item.value === data.month
-    )?.label;
+    const result = monthOptions.find((item) => item.value === data.month)?.label;
     toast.message(`${result} will come`);
   }
 
@@ -48,13 +45,13 @@ function Example() {
       onReset={() => {
         form.reset();
       }}
-      className="flex flex-1 flex-col items-center space-y-6"
+      className={styles.form}
     >
       <Controller
         name="month"
         control={form.control}
         render={({ field, fieldState }) => (
-          <div className="h-54 w-40 text-base">
+          <div className={styles.wheel}>
             <RotationWheel
               options={monthOptions}
               value={field.value}
@@ -64,7 +61,7 @@ function Example() {
           </div>
         )}
       />
-      <div className="flex w-40 flex-col space-y-1">
+      <div className={styles.buttons}>
         <Button type="submit">Submit</Button>
         <Button type="reset">Reset</Button>
       </div>

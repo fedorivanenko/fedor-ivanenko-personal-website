@@ -1,19 +1,11 @@
 "use client";
 
-import { Article } from "@/components/layout/article";
-import { Section } from "@/components/layout/section";
 import * as React from "react";
 
-/*
-    | Key | Action                   |
-    | --- | ------------------------ |
-    | `}` | Move down one section    |
-    | `{` | Move up one section      |
-    | `j` | Move to next element     |
-    | `k` | Move to previous element |
-    | `v` | Enter selection mode     |
-    |`esc`| Exit selection mode      |
-*/
+import { Article } from "@/components/layout/article";
+import { Section } from "@/components/layout/section";
+
+import styles from "./page.module.css";
 
 export function useDataRegistry() {
   const elements = React.useRef<HTMLElement[]>([]);
@@ -39,29 +31,24 @@ export default function PlayKeboardNavPage() {
       }
     };
 
-    /**
-     * select by { and }, WHEN selected enter selection mode with v
-     * esc exit selection mode
-     */
-
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [elements]);
 
   return (
     <Article>
-      <Section card className="aspect-video items-center justify-center">
+      <Section card className={styles.card}>
         {/* biome-ignore lint/a11y/useSemanticElements: Play page needs a focusable static region for keyboard-nav experiment. */}
         <div
           ref={register}
           tabIndex={-1}
           contentEditable="false"
-          suppressContentEditableWarning={true}
+          suppressContentEditableWarning
           onBeforeInput={(e) => e.preventDefault()}
           role="textbox"
           aria-readonly="true"
           aria-multiline="true"
-          className="bg-amber-200 p-4 outline-none ring-0 focus:bg-amber-300 focus:outline-none focus:ring-0"
+          className={styles.panel}
         >
           <p>Some text to navigate and copy...</p>
           <p>Some text to navigate and copy...</p>

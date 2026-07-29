@@ -1,0 +1,22 @@
+.article {
+  grid-column-start: 2;
+  margin-inline: auto;
+  width: 100%;
+  max-width: var(--content-width);
+}
+
+.article > :not(:last-child) {
+  margin-bottom: 3rem;
+}
+
+@media (min-width: 32rem) {
+  .article > :not(:last-child) {
+    margin-bottom: 4.5rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .article {
+    margin-inline: 0;
+  }
+}
