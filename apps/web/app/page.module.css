@@ -1,8 +1,14 @@
 .hero {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
   margin-bottom: 3.125rem;
   scroll-margin-top: 5rem;
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
 }
 
 .name,
@@ -13,46 +19,80 @@
   line-height: 1.4;
 }
 
-.role {
-  width: max-content;
+.heroTitle {
   color: var(--muted-foreground);
   font-size: var(--text-base);
+  font-weight: 400;
   line-height: 1.5;
-  white-space: nowrap;
-}
-
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  scroll-margin-top: 5rem;
-}
-
-.copy {
-  line-height: inherit;
-}
-
-.links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1rem;
-}
-
-.philosophyQuote {
-  max-width: 34rem;
-  font-style: italic;
-}
-
-.philosophyLead {
-  color: var(--foreground);
-}
-
-.philosophyList {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
 }
 
 .page > .hero {
-  margin-bottom: 3.125rem;
+  margin-bottom: 6rem;
+}
+
+.page > section:not(:last-child) {
+  margin-bottom: 6rem;
+}
+
+.entries {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin-top: 2rem;
+}
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.narrowEntries {
+  max-width: 24rem;
+}
+
+.coverImage {
+  width: 100%;
+  aspect-ratio: 40 / 21;
+  border-radius: 4px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.entryTitle {
+  color: var(--foreground);
+  font-size: var(--text-base);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.title + *,
+.entryTitle + * {
+  margin-top: -0.175rem;
+}
+
+.muted {
+  color: var(--muted-foreground);
+}
+
+.status {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.desktopBreak {
+  display: none;
+}
+
+@media (min-width: 32rem) {
+  .page > .hero,
+  .page > section:not(:last-child) {
+    margin-bottom: 9rem;
+  }
+}
+
+@media (min-width: 44rem) {
+  .desktopBreak {
+    display: inline;
+  }
 }

@@ -3,6 +3,9 @@
   --foreground: oklch(0.28 0 0);
   --card: oklch(0.985 0 0);
   --card-foreground: var(--foreground);
+  --dialog-background: white;
+  --dialog-button-background: black;
+  --dialog-button-foreground: white;
   --card-border: oklch(0.885 0 0);
   --popover: var(--card);
   --popover-foreground: var(--card-foreground);
@@ -50,6 +53,9 @@
   --foreground: oklch(0.92 0 0);
   --card: oklch(0.22 0 0);
   --card-foreground: var(--foreground);
+  --dialog-background: color-mix(in oklab, var(--card) 20%, transparent);
+  --dialog-button-background: white;
+  --dialog-button-foreground: black;
   --card-border: oklch(0.32 0 0);
   --popover: var(--card);
   --popover-foreground: var(--card-foreground);
@@ -91,6 +97,7 @@
 
 html {
   font-size: 16px;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -275,6 +282,10 @@ pre code [data-line] {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   .animate-blur-fade {
     animation-duration: 0.01ms;
     animation-delay: 0.01ms;

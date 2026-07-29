@@ -3,25 +3,39 @@
 }
 
 .toast {
-  border: 1px solid var(--border);
-  background: var(--background);
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--dialog-background);
   color: var(--foreground);
-  box-shadow:
-    0 10px 15px -3px rgb(0 0 0 / 10%),
-    0 4px 6px -4px rgb(0 0 0 / 10%);
-  padding: 0.5rem 1rem;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 20%);
+  backdrop-filter: blur(16px);
+  padding: 0.625rem 0.875rem;
 }
 
 .description {
   color: var(--muted-foreground);
 }
 
+.actionButton,
+.cancelButton {
+  border-radius: calc(var(--radius) - 2px);
+  padding: 0.5rem 0.625rem;
+}
+
 .actionButton {
-  background: var(--primary);
-  color: var(--primary-foreground);
+  background: var(--dialog-button-background);
+  color: var(--dialog-button-foreground);
 }
 
 .cancelButton {
-  background: var(--muted);
-  color: var(--muted-foreground);
+  background: color-mix(in oklab, var(--foreground) 12%, transparent);
+  color: var(--foreground);
+}
+
+.actionButton:hover {
+  opacity: 0.8;
+}
+
+.cancelButton:hover {
+  background: color-mix(in oklab, var(--foreground) 20%, transparent);
 }

@@ -40,6 +40,15 @@
   text-decoration-color: color-mix(in oklab, var(--secondary-foreground) 50%, transparent);
 }
 
+.linkButton:has(.externalIcon) {
+  gap: 0.25rem;
+}
+
+.linkButton .externalIcon {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
 .inline {
   padding-inline: 0;
   font-size: inherit;
