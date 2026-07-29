@@ -1,17 +1,14 @@
-import Image from "next/image";
+// import Image from "next/image";
 
 import { AvailabilityMessage } from "@/components/availability-message";
 import { ContactDialog } from "@/components/contact-dialog";
 import { Article } from "@/components/layout/article";
 import { Section } from "@/components/layout/section";
-import { InlineLinkButton } from "@/components/ui/button";
+import { ProjectPreview } from "@/components/project-preview";
 import { SectionMenu } from "@/components/section-menu";
-
-import alkamindThumbnail from "./project-images/alkamind.webp";
-import climaticHealthThumbnail from "./project-images/climatic-health.webp";
-import exeterThumbnail from "./project-images/exeter.webp";
-import jadeyThumbnail from "./project-images/jadey.webp";
+import { InlineLinkButton } from "@/components/ui/button";
 import styles from "./page.module.css";
+// import climaticHealthThumbnail from "./project-images/climatic-health.webp";
 
 export default function Home() {
   return (
@@ -44,11 +41,11 @@ export default function Home() {
         <div className={styles.entries}>
           <article className={styles.entry}>
             <h3 className={styles.entryTitle}>Alkamind</h3>
-            <Image
+            <ProjectPreview
               className={styles.coverImage}
-              src={alkamindThumbnail}
-              alt="Alkamind website preview"
-              sizes="(max-width: 616px) calc(100vw - 40px), 576px"
+              src="/videos/alkamind-preview.mp4"
+              poster="/videos/alkamind-preview-poster.webp"
+              label="Alkamind website preview"
             />
             <p className={styles.muted}>Shopify · Full theme rebuild</p>
             <p>
@@ -76,11 +73,11 @@ export default function Home() {
 
           <article className={styles.entry}>
             <h3 className={styles.entryTitle}>Exeter</h3>
-            <Image
+            <ProjectPreview
               className={styles.coverImage}
-              src={exeterThumbnail}
-              alt="Exeter website preview"
-              sizes="(max-width: 616px) calc(100vw - 40px), 576px"
+              src="/videos/exeter-preview.mp4"
+              poster="/videos/exeter-preview-poster.webp"
+              label="Exeter website preview"
             />
             <p className={styles.muted}>Next.js · Full website rebuild</p>
             <p>
@@ -112,11 +109,11 @@ export default function Home() {
                 Jadey
               </InlineLinkButton>
             </h3>
-            <Image
+            <ProjectPreview
               className={styles.coverImage}
-              src={jadeyThumbnail}
-              alt="Jadey website preview"
-              sizes="(max-width: 616px) calc(100vw - 40px), 576px"
+              src="/videos/jadey-preview.mp4"
+              poster="/videos/jadey-preview-poster.webp"
+              label="Jadey website preview"
             />
             <p className={styles.muted}>Next.js · New build</p>
             <p>
@@ -142,7 +139,7 @@ export default function Home() {
             </p>
           </article>
 
-          <article className={styles.entry}>
+          {/* <article className={styles.entry}>
             <h3 className={styles.entryTitle}>
               <InlineLinkButton href="https://www.climatichealth.com/">
                 Climatic Health
@@ -179,7 +176,7 @@ export default function Home() {
                 Hyuman
               </InlineLinkButton>
             </p>
-          </article>
+          </article> */}
         </div>
       </Section>
 
