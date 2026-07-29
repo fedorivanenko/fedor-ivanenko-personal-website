@@ -1,4 +1,5 @@
 .trigger {
+  display: inline-flex;
   width: fit-content;
   cursor: pointer;
   align-items: center;

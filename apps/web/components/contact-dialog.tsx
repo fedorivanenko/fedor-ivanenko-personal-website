@@ -4,8 +4,6 @@ import { Cross1Icon } from "@radix-ui/react-icons";
 import * as React from "react";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
-
 import styles from "./contact-dialog.module.css";
 
 const DRAFT_KEY = "fedor-studio:inquiry-draft";
@@ -148,15 +146,9 @@ export function ContactDialog() {
 
   return (
     <>
-      <Button
-        className={styles.trigger}
-        type="button"
-        variant="link"
-        size="inline"
-        onClick={openDialog}
-      >
+      <button className={styles.trigger} type="button" onClick={openDialog}>
         <span className={styles.triggerText}>Discuss a project</span>
-      </Button>
+      </button>
 
       <dialog
         ref={dialogRef}
