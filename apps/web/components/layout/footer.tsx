@@ -1,4 +1,3 @@
-import ThemeToggle from "../theme-toggle";
 import { InlineLinkButton } from "../ui/button";
 
 import styles from "./footer.module.css";
@@ -24,7 +23,6 @@ export default function Footer() {
           >
             MIT
           </InlineLinkButton>
-          <ThemeToggle />
         </span>
       </div>
     </footer>

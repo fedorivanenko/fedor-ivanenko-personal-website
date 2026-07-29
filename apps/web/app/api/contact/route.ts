@@ -9,7 +9,7 @@ const MAX_BODY_BYTES = 16_384;
 
 const inquirySchema = z.object({
   email: z.string().trim().email().max(254),
-  message: z.string().trim().min(20).max(5000),
+  message: z.string().trim().max(5000),
   company: z.string().max(100).optional(),
   submissionId: z.string().uuid(),
 });
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
   const result = inquirySchema.safeParse(body);
   if (!result.success) {
     return NextResponse.json(
-      { error: "Enter a valid email and a message of at least 20 characters." },
+      { error: "Enter a valid email." },
       { status: 400 },
     );
   }
@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
         to: [toEmail],
         replyTo: result.data.email,
         subject: "New project inquiry",
-        text: `Sender: ${result.data.email}\n\n${result.data.message}`,
+        text: `Sender: ${result.data.email}\n\n${result.data.message || "No project details provided."}`,
       },
       { idempotencyKey: `project-inquiry/${result.data.submissionId}` },
     );

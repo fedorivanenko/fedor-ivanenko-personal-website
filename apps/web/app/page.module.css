@@ -58,6 +58,7 @@
 }
 
 .coverImage {
+  border-radius: 4px;
   object-fit: cover;
 }
 
@@ -86,30 +87,19 @@
   font-weight: 600;
 }
 
-.cta {
-  width: fit-content;
-  align-items: center;
-  justify-content: center;
-  border-radius: calc(var(--radius) - 2px);
-  background: color-mix(in oklab, var(--foreground) 12%, transparent);
-  padding: 0.625rem 0.875rem;
-  color: var(--foreground);
-  text-decoration: none;
-}
-
-.cta:hover {
-  background: color-mix(in oklab, var(--foreground) 20%, transparent);
-  text-decoration: none;
-}
-
-.ctaText,
-.cta svg {
-  transform: translateY(0.12em);
+.desktopBreak {
+  display: none;
 }
 
 @media (min-width: 32rem) {
   .page > .hero,
   .page > section:not(:last-child) {
     margin-bottom: 9rem;
+  }
+}
+
+@media (min-width: 44rem) {
+  .desktopBreak {
+    display: inline;
   }
 }

@@ -1,105 +1,267 @@
 .trigger {
+  width: fit-content;
   cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: calc(var(--radius) - 2px);
+  background: var(--dialog-button-background);
+  padding: 0.625rem 0.875rem;
+  color: var(--dialog-button-foreground);
+  text-decoration: none;
+}
+
+.trigger:hover {
+  background: var(--dialog-button-background);
+  opacity: 0.8;
+  text-decoration: none;
+}
+
+.triggerText {
+  transform: translateY(0.12em);
 }
 
 .dialog {
-  width: calc(100% - 2.5rem);
-  max-width: var(--content-width);
+  width: calc(100% - 2rem);
+  max-width: 42rem;
+  max-height: calc(100svh - 2rem);
   margin: auto;
-  border: 1px solid var(--border);
-  background: var(--background);
+  overflow: visible;
+  border: 0;
+  padding: 0;
+  background: transparent;
   color: var(--secondary-foreground);
 }
 
 .dialog::backdrop {
-  background: rgb(0 0 0 / 60%);
+  background: rgb(0 0 0 / 40%);
+  backdrop-filter: blur(4px);
 }
 
 .panel {
-  padding: 1.25rem;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--dialog-background);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 20%);
+  backdrop-filter: blur(16px);
+  padding: 0.5rem;
+  animation: dialog-in 160ms ease-out;
 }
 
 .header {
   display: flex;
-  align-items: baseline;
+  min-height: 2.5rem;
+  align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 2rem;
+  padding: 0.25rem 0.25rem 0.25rem 0.625rem;
 }
 
 .title {
   color: var(--foreground);
-  font-size: var(--text-xl);
+  font-size: var(--text-base);
   font-weight: 600;
-  line-height: 1.4;
+  line-height: 1.5;
+  transform: translateY(0.12em);
+}
+
+.close,
+.send {
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+  flex: none;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    opacity 160ms ease;
 }
 
 .close {
-  cursor: pointer;
   color: var(--muted-foreground);
+}
+
+.close:hover {
+  background: color-mix(in oklab, var(--foreground) 20%, transparent);
+  color: var(--foreground);
+}
+
+.close svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.input,
+.composer {
+  border-radius: calc(var(--radius) - 2px);
+  background: color-mix(in oklab, var(--foreground) 12%, transparent);
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.input {
+  width: 100%;
+  padding: calc(0.75rem + 0.15em) 0.875rem calc(0.75rem - 0.15em);
+  color: var(--foreground);
+  font: inherit;
+  line-height: 1.5;
+  outline: none;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--muted-foreground);
+  opacity: 1;
+}
+
+.input:hover,
+.composer:hover,
+.composer:focus-within {
+  background: color-mix(in oklab, var(--foreground) 20%, transparent);
+}
+
+.input:focus-visible,
+.composer:focus-within {
+  box-shadow: inset 0 0 0 2px var(--ring);
+}
+
+.input[aria-invalid="true"] {
+  box-shadow: inset 0 0 0 2px var(--destructive);
+}
+
+.fieldError {
+  padding: 0.375rem 0.875rem 0;
+  color: var(--destructive);
   font-size: var(--text-xs);
   line-height: 1.3333;
 }
 
-.close:hover {
-  color: var(--foreground);
-  text-decoration-line: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-}
-
-.form,
-.field {
+.composer {
   display: flex;
   flex-direction: column;
 }
 
-.form {
-  gap: 1rem;
+.textarea {
+  width: 100%;
+  min-height: min(14rem, 38svh);
+  resize: none;
+  background: transparent;
+  color: var(--foreground);
+  padding: 0.75rem 0.875rem 0.25rem;
+  font: inherit;
+  line-height: 1.5;
+  outline: none;
 }
 
-.field {
-  gap: 0.25rem;
+.formFooter {
+  display: flex;
+  min-height: 2.4rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-inline: 0.625rem 0.125rem;
 }
 
-.label {
+.status {
+  min-width: 0;
+  padding-bottom: 0.375rem;
   color: var(--muted-foreground);
   font-size: var(--text-xs);
   line-height: 1.3333;
 }
 
-.input,
-.textarea {
-  width: 100%;
-  border: 1px solid var(--border);
-  border-radius: 0;
-  background: var(--card);
-  color: var(--foreground);
-  padding: 0.5rem;
-  outline: none;
+.error {
+  color: var(--destructive);
 }
 
-.input:focus-visible,
-.textarea:focus-visible {
-  border-color: var(--ring);
-  box-shadow: 0 0 0 1px var(--ring);
+.send {
+  width: auto;
+  height: 2.4rem;
+  border-radius: calc(var(--radius) - 2px);
+  background: var(--dialog-button-background);
+  padding: 0.5rem 0.875rem;
+  color: var(--dialog-button-foreground);
 }
 
-.textarea {
-  min-height: 12rem;
-  resize: vertical;
+.sendText {
+  font-weight: 500;
+  transform: translateY(0.15rem);
 }
 
+.send:hover {
+  opacity: 0.8;
+}
+
+.close:focus-visible,
+.send:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+}
+
+.close:disabled,
+.send:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+
+.visuallyHidden,
 .honeypot {
   position: absolute;
-  left: -10000px;
   width: 1px;
   height: 1px;
   overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
-.error {
-  color: var(--destructive);
-  font-size: var(--text-xs);
-  line-height: 1.3333;
+.honeypot {
+  left: -10000px;
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem) scale(0.98);
+  }
+}
+
+@media (max-width: 44rem) {
+  .dialog {
+    width: calc(100% - 1rem);
+    max-height: calc(100svh - 1rem);
+  }
+
+  .textarea {
+    min-height: min(12rem, 36svh);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    animation: none;
+  }
+
+  .close,
+  .send,
+  .input,
+  .composer {
+    transition-duration: 0.01ms;
+  }
 }

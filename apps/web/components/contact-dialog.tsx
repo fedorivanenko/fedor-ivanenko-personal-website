@@ -1,5 +1,6 @@
 "use client";
 
+import { Cross1Icon } from "@radix-ui/react-icons";
 import * as React from "react";
 import { toast } from "sonner";
 
@@ -42,9 +43,11 @@ export function ContactDialog() {
   const dialogRef = React.useRef<HTMLDialogElement>(null);
   const emailInputRef = React.useRef<HTMLInputElement>(null);
   const titleId = React.useId();
+  const emailErrorId = React.useId();
   const [draft, setDraft] = React.useState<Draft>(emptyDraft);
   const [draftLoaded, setDraftLoaded] = React.useState(false);
   const [isSending, setIsSending] = React.useState(false);
+  const [emailError, setEmailError] = React.useState("");
   const [error, setError] = React.useState("");
 
   React.useEffect(() => {
@@ -68,6 +71,7 @@ export function ContactDialog() {
 
   function openDialog() {
     setDraft(readDraft());
+    setEmailError("");
     setError("");
     dialogRef.current?.showModal();
     requestAnimationFrame(() => emailInputRef.current?.focus());
@@ -80,6 +84,20 @@ export function ContactDialog() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
+
+    if (!draft.email.trim()) {
+      setEmailError("Enter your email.");
+      emailInputRef.current?.focus();
+      return;
+    }
+
+    if (!emailInputRef.current?.validity.valid) {
+      setEmailError("Enter a valid email.");
+      emailInputRef.current?.focus();
+      return;
+    }
+
+    setEmailError("");
     setIsSending(true);
 
     const form = event.currentTarget;
@@ -137,7 +155,7 @@ export function ContactDialog() {
         size="inline"
         onClick={openDialog}
       >
-        Discuss a project
+        <span className={styles.triggerText}>Discuss a project</span>
       </Button>
 
       <dialog
@@ -159,52 +177,98 @@ export function ContactDialog() {
             <button
               className={styles.close}
               type="button"
+              aria-label="Close inquiry"
               onClick={closeDialog}
               disabled={isSending}
             >
-              Close
+              <Cross1Icon aria-hidden="true" />
             </button>
           </header>
 
-          <form className={styles.form} onSubmit={handleSubmit}>
+          <form className={styles.form} onSubmit={handleSubmit} noValidate>
             <label className={styles.field}>
-              <span className={styles.label}>Your email</span>
+              <span className={styles.visuallyHidden}>Your email</span>
               <input
                 ref={emailInputRef}
                 className={styles.input}
                 type="email"
                 name="email"
+                placeholder="Your email"
                 autoComplete="email"
                 inputMode="email"
                 maxLength={254}
                 required
+                aria-invalid={Boolean(emailError)}
+                aria-describedby={emailError ? emailErrorId : undefined}
                 value={draft.email}
-                onChange={(event) =>
+                onChange={(event) => {
+                  setEmailError("");
                   setDraft((current) => ({
                     ...current,
                     email: event.target.value,
-                  }))
-                }
+                  }));
+                }}
               />
+              {emailError ? (
+                <span
+                  id={emailErrorId}
+                  className={styles.fieldError}
+                  role="alert"
+                >
+                  {emailError}
+                </span>
+              ) : null}
             </label>
 
-            <label className={styles.field}>
-              <span className={styles.label}>Message</span>
-              <textarea
-                className={styles.textarea}
-                name="message"
-                minLength={20}
-                maxLength={MAX_MESSAGE_LENGTH}
-                required
-                value={draft.message}
-                onChange={(event) =>
-                  setDraft((current) => ({
-                    ...current,
-                    message: event.target.value,
-                  }))
-                }
-              />
-            </label>
+            <div className={styles.composer}>
+              <label className={styles.field}>
+                <span className={styles.visuallyHidden}>Message</span>
+                <textarea
+                  className={styles.textarea}
+                  name="message"
+                  placeholder="Tell me about your project, or just leave your email. I’ll get back to you."
+                  maxLength={MAX_MESSAGE_LENGTH}
+                  value={draft.message}
+                  onChange={(event) =>
+                    setDraft((current) => ({
+                      ...current,
+                      message: event.target.value,
+                    }))
+                  }
+                  onKeyDown={(event) => {
+                    if (
+                      event.key === "Enter" &&
+                      !event.shiftKey &&
+                      !event.nativeEvent.isComposing
+                    ) {
+                      event.preventDefault();
+                      event.currentTarget.form?.requestSubmit();
+                    }
+                  }}
+                />
+              </label>
+
+            </div>
+
+            <div className={styles.formFooter}>
+              <p
+                className={[styles.status, error ? styles.error : ""]
+                  .filter(Boolean)
+                  .join(" ")}
+                role="status"
+                aria-live="polite"
+              >
+                {error || (isSending ? "Sending…" : "")}
+              </p>
+              <button
+                className={styles.send}
+                type="submit"
+                aria-label={isSending ? "Sending inquiry" : "Send inquiry"}
+                disabled={isSending}
+              >
+                <span className={styles.sendText}>Send</span>
+              </button>
+            </div>
 
             <label className={styles.honeypot} aria-hidden="true">
               Company
@@ -215,16 +279,6 @@ export function ContactDialog() {
                 autoComplete="off"
               />
             </label>
-
-            {error ? (
-              <p className={styles.error} role="alert">
-                {error}
-              </p>
-            ) : null}
-
-            <Button type="submit" disabled={isSending}>
-              {isSending ? "Sending…" : "Send"}
-            </Button>
           </form>
         </div>
       </dialog>

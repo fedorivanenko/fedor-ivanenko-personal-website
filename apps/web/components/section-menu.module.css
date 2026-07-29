@@ -19,7 +19,7 @@
 
 .menu[data-open="true"] {
   width: min(20rem, calc(100vw - 1.5rem));
-  height: min(26rem, calc(100svh - 1.5rem));
+  height: min(21rem, calc(100svh - 1.5rem));
   box-shadow: 0 12px 32px rgb(0 0 0 / 20%);
 }
 
@@ -129,7 +129,7 @@
 
   .menu[data-open="true"] {
     width: calc(100vw - 1rem);
-    height: min(26rem, calc(100svh - 1rem));
+    height: min(21rem, calc(100svh - 1rem));
   }
 }
 
