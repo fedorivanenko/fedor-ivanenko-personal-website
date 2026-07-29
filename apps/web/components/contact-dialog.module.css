@@ -1,0 +1,105 @@
+.trigger {
+  cursor: pointer;
+}
+
+.dialog {
+  width: calc(100% - 2.5rem);
+  max-width: var(--content-width);
+  margin: auto;
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--secondary-foreground);
+}
+
+.dialog::backdrop {
+  background: rgb(0 0 0 / 60%);
+}
+
+.panel {
+  padding: 1.25rem;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.title {
+  color: var(--foreground);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.close {
+  cursor: pointer;
+  color: var(--muted-foreground);
+  font-size: var(--text-xs);
+  line-height: 1.3333;
+}
+
+.close:hover {
+  color: var(--foreground);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.form,
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form {
+  gap: 1rem;
+}
+
+.field {
+  gap: 0.25rem;
+}
+
+.label {
+  color: var(--muted-foreground);
+  font-size: var(--text-xs);
+  line-height: 1.3333;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: var(--card);
+  color: var(--foreground);
+  padding: 0.5rem;
+  outline: none;
+}
+
+.input:focus-visible,
+.textarea:focus-visible {
+  border-color: var(--ring);
+  box-shadow: 0 0 0 1px var(--ring);
+}
+
+.textarea {
+  min-height: 12rem;
+  resize: vertical;
+}
+
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.error {
+  color: var(--destructive);
+  font-size: var(--text-xs);
+  line-height: 1.3333;
+}

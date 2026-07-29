@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { AvailabilityMessage } from "@/components/availability-message";
+import { ContactDialog } from "@/components/contact-dialog";
 import { Article } from "@/components/layout/article";
 import { Section } from "@/components/layout/section";
 import { InlineLinkButton } from "@/components/ui/button";
@@ -25,11 +26,9 @@ export default function Home() {
           I build fast, maintainable Shopify and Next.js / Hydrogen storefronts
           for design-led brands and studios
         </p>
-        <p>
-          <InlineLinkButton href="mailto:f@fedor.studio">
-            Discuss a project
-          </InlineLinkButton>
-        </p>
+        <div>
+          <ContactDialog />
+        </div>
         <p className={styles.muted}>Projects typically start at $9,000</p>
       </header>
 
@@ -401,21 +400,14 @@ export default function Home() {
         <p>
           <AvailabilityMessage />
         </p>
-        <p>
-          <InlineLinkButton href="mailto:f@fedor.studio">
-            Discuss a project
-          </InlineLinkButton>
-        </p>
-        <p>
-          <InlineLinkButton href="mailto:f@fedor.studio">
-            f@fedor.studio
-          </InlineLinkButton>
-        </p>
+        <div>
+          <ContactDialog />
+        </div>
         <p className={styles.muted}>
           Shopify and Next.js storefront engineering for design-led brands and
           studios.
         </p>
-        </Section>
+      </Section>
       </Article>
     </>
   );
