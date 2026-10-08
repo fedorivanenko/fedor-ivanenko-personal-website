@@ -1,371 +1,184 @@
-// import Image from "next/image";
-
-import { AvailabilityMessage } from "@/components/availability-message";
 import { ContactDialog } from "@/components/contact-dialog";
-import { Article } from "@/components/layout/article";
-import { Section } from "@/components/layout/section";
-import { ProjectPreview } from "@/components/project-preview";
-import { SectionMenu } from "@/components/section-menu";
-import { InlineLinkButton } from "@/components/ui/button";
-import styles from "./page.module.css";
-// import climaticHealthThumbnail from "./project-images/climatic-health.webp";
+import ThemeToggle from "@/components/theme-toggle";
 
 export default function Home() {
   return (
-    <>
-      <SectionMenu />
-      <Article className={styles.page}>
-        <header
-          id="top"
-          className={[styles.hero, "animate-blur-fade", "stagger-0"].join(" ")}
+    <div className="min-h-svh bg-[#fafafa] text-[#151515] dark:bg-[#111211] dark:text-[#eeeeea]">
+      <nav className="sticky top-0 z-20 border-b border-[#ddddda] bg-[#fafafa]/95 text-[0.6875rem] dark:border-[#343532] dark:bg-[#111211]/95">
+        <div className="flex h-14 items-center justify-between gap-6 px-5 sm:px-7">
+          <a
+            href="#top"
+            className="flex items-center gap-3 outline-none focus-visible:ring-1 focus-visible:ring-[#36ef2a]"
+          >
+            <span
+              aria-hidden="true"
+              className="size-5 border border-[#36ef2a] bg-[#58ff47] shadow-[0_0_12px_rgba(88,255,71,0.55)]"
+            />
+            <span>fedor.studio / index</span>
+          </a>
+          <div className="flex min-w-0 items-center gap-5">
+            <a className="hidden hover:underline sm:inline" href="#work">
+              Work
+            </a>
+            <a
+              className="hidden hover:underline sm:inline"
+              href="https://nazare.engineering"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Nazaré ↗
+            </a>
+            <ThemeToggle />
+          </div>
+        </div>
+      </nav>
+      <div
+        aria-hidden="true"
+        className="overflow-hidden border-b border-[#ecece9] px-5 py-1.5 text-[0.625rem] leading-none whitespace-nowrap text-[#c1c2bd] select-none dark:border-[#242522] dark:text-[#41423e]"
       >
-        <div className={styles.identity}>
-          <h1 className={styles.name}>Fedor Studio</h1>
-          <h2 className={styles.heroTitle}>E-commerce Design Engineer</h2>
+        ──→ design ∙ engineering ∙ commerce ┼ shopify ∙ next.js ∙ liquid
+        ┼ systems that remain useful ──→ design ∙ engineering ∙ commerce ┼
+        shopify ∙ next.js ∙ liquid
+      </div>
+
+      <main id="top" className="mx-auto w-full max-w-3xl px-5 py-16 sm:px-7 md:py-24">
+        <header className="max-w-2xl">
+          <p className="font-semibold">Fedor Ivanenko</p>
+          <p className="mt-1 text-[#71716d] dark:text-[#989994]">
+            E-commerce Design Engineer
+          </p>
+
+          <div className="mt-9 space-y-4 leading-6">
+            <p>
+              I build custom Shopify and Next.js storefronts for design-led
+              brands and studios.
+            </p>
+            <p>
+              Design-faithful on the surface. Fast, dependable, and
+              maintainable underneath.
+            </p>
+          </div>
+
+          <div className="mt-7 flex flex-wrap items-center gap-4">
+            <ContactDialog />
+            <span className="flex items-center gap-2 text-[0.75rem] text-[#71716d] dark:text-[#989994]">
+              <span
+                aria-hidden="true"
+                className="size-2 bg-[#58ff47] shadow-[0_0_8px_rgba(88,255,71,0.65)]"
+              />
+              Available for selected projects
+            </span>
+          </div>
+        </header>
+
+        <section id="work" className="mt-24 scroll-mt-20" aria-labelledby="work-title">
+          <div className="flex items-end justify-between gap-4 border-b border-[#ccccca] pb-3 dark:border-[#3b3c39]">
+            <h2 id="work-title" className="font-semibold">
+              Selected work
+            </h2>
+            <span className="text-[0.6875rem] text-[#858681]">03 projects</span>
+          </div>
+
+          <div className="bg-[radial-gradient(circle,#dededb_1px,transparent_1px)] [background-size:20px_20px] dark:bg-[radial-gradient(circle,#30312e_1px,transparent_1px)]">
+            <article className="grid grid-cols-[2rem_1fr] gap-x-3 border-b border-[#ddddda] bg-[#fafafa]/88 py-5 backdrop-blur-[1px] sm:grid-cols-[2rem_1.05fr_1fr_auto] dark:border-[#343532] dark:bg-[#111211]/88">
+              <span className="text-[#858681]">01</span>
+              <h3 className="font-semibold">Alkamind</h3>
+              <p className="col-start-2 mt-1 text-[#71716d] sm:col-start-auto sm:mt-0 dark:text-[#989994]">
+                Shopify theme rebuild
+              </p>
+              <p className="col-start-2 mt-2 text-[0.6875rem] uppercase tracking-[0.08em] sm:col-start-auto sm:mt-0">
+                Awaiting launch
+              </p>
+            </article>
+
+            <article className="grid grid-cols-[2rem_1fr] gap-x-3 border-b border-[#ddddda] bg-[#fafafa]/88 py-5 backdrop-blur-[1px] sm:grid-cols-[2rem_1.05fr_1fr_auto] dark:border-[#343532] dark:bg-[#111211]/88">
+              <span className="text-[#858681]">02</span>
+              <h3 className="font-semibold">Exeter</h3>
+              <p className="col-start-2 mt-1 text-[#71716d] sm:col-start-auto sm:mt-0 dark:text-[#989994]">
+                Next.js + Sanity
+              </p>
+              <p className="col-start-2 mt-2 text-[0.6875rem] uppercase tracking-[0.08em] sm:col-start-auto sm:mt-0">
+                Awaiting launch
+              </p>
+            </article>
+
+            <a
+              className="grid grid-cols-[2rem_1fr] gap-x-3 border-b border-[#ddddda] bg-[#fafafa]/88 py-5 backdrop-blur-[1px] transition-colors hover:bg-[#f1f1ee] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-[#36ef2a] sm:grid-cols-[2rem_1.05fr_1fr_auto] dark:border-[#343532] dark:bg-[#111211]/88 dark:hover:bg-[#1a1b19]"
+              href="https://www.hellojadey.com/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span className="text-[#858681]">03</span>
+              <h3 className="font-semibold">Jadey ↗</h3>
+              <p className="col-start-2 mt-1 text-[#71716d] sm:col-start-auto sm:mt-0 dark:text-[#989994]">
+                Next.js + Sanity + Supabase
+              </p>
+              <p className="col-start-2 mt-2 flex items-center gap-2 text-[0.6875rem] uppercase tracking-[0.08em] sm:col-start-auto sm:mt-0">
+                <span aria-hidden="true" className="size-2 bg-[#58ff47]" />
+                Live
+              </p>
+            </a>
+          </div>
+        </section>
+
+        <section className="mt-24 grid gap-10 border-t border-[#ccccca] pt-5 sm:grid-cols-[1fr_2fr] dark:border-[#3b3c39]">
+          <h2 className="font-semibold">Practice</h2>
+          <div className="space-y-5 leading-6">
+            <p>
+              I began in product design and now engineer storefronts. My work
+              focuses on design fidelity, maintainable systems, merchant
+              usability, and dependable delivery.
+            </p>
+            <p>
+              I partner with design studios, e-commerce agencies, and brands on
+              complete builds or focused implementation work.
+            </p>
+          </div>
+        </section>
+
+        <section className="mt-20 border border-[#ccccca] bg-[radial-gradient(circle,#dededb_1px,transparent_1px)] p-5 [background-size:20px_20px] dark:border-[#3b3c39] dark:bg-[radial-gradient(circle,#30312e_1px,transparent_1px)]">
+          <div className="bg-[#fafafa]/90 p-5 dark:bg-[#111211]/90">
+            <p className="text-[0.6875rem] uppercase tracking-[0.08em] text-[#71716d] dark:text-[#989994]">
+              Building in public
+            </p>
+            <h2 className="mt-3 font-semibold">Nazaré</h2>
+            <p className="mt-3 max-w-xl leading-6">
+              Open-source, Liquid-first infrastructure for Shopify themes that
+              stay easier to build, maintain, and evolve.
+            </p>
+            <a
+              className="mt-5 inline-block border border-[#9b9c97] bg-[#fafafa] px-3 py-2 text-[0.75rem] hover:border-[#151515] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#36ef2a] dark:bg-[#111211] dark:hover:border-[#eeeeea]"
+              href="https://nazare.engineering"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Explore Nazaré ↗
+            </a>
+          </div>
+        </section>
+      </main>
+
+      <footer className="mx-auto flex w-full max-w-3xl flex-col gap-3 border-t border-[#ddddda] px-5 py-6 text-[0.6875rem] text-[#71716d] sm:flex-row sm:items-center sm:justify-between sm:px-7 dark:border-[#343532] dark:text-[#989994]">
+        <span>Fedor Studio · {new Date().getFullYear()}</span>
+        <div className="flex gap-5">
+          <a
+            className="hover:text-[#151515] hover:underline dark:hover:text-[#eeeeea]"
+            href="https://github.com/fedorivanenko"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub ↗
+          </a>
+          <a
+            className="hover:text-[#151515] hover:underline dark:hover:text-[#eeeeea]"
+            href="https://x.com/fedorivanenko_"
+            target="_blank"
+            rel="noreferrer"
+          >
+            X ↗
+          </a>
         </div>
-        <p>
-          I build fast, maintainable Shopify and Next.js / Hydrogen storefronts
-          <br className={styles.desktopBreak} /> for design-led brands and
-          studios
-        </p>
-        <div>
-          <ContactDialog />
-        </div>
-        <p className={styles.muted}>Projects typically start at $9,000</p>
-      </header>
-
-      <Section id="selected-work" aria-labelledby="selected-work-title">
-        <h2 id="selected-work-title" className={styles.title}>
-          Selected work
-        </h2>
-        <div className={styles.entries}>
-          <article className={styles.entry}>
-            <h3 className={styles.entryTitle}>Alkamind</h3>
-            <ProjectPreview
-              className={styles.coverImage}
-              src="/videos/alkamind-preview.mp4"
-              poster="/videos/alkamind-preview-poster.webp"
-              label="Alkamind website preview"
-            />
-            <p className={styles.muted}>Shopify · Full theme rebuild</p>
-            <p>
-              A complete rebuild and migration of Alkamind&apos;s ecommerce
-              storefront to a new custom native Shopify theme
-            </p>
-            <p>
-              My role covered the theme architecture, frontend implementation,
-              reusable Shopify sections, and migration of the existing
-              storefront
-            </p>
-            <p className={styles.status}>Completed · Awaiting launch</p>
-            <p>
-              Design by{" "}
-              <InlineLinkButton href="https://wearemostlysunny.com/">
-                Mostly Sunny
-              </InlineLinkButton>
-              <br />
-              Delivered in collaboration with{" "}
-              <InlineLinkButton href="https://www.hyuman.tech/">
-                Hyuman
-              </InlineLinkButton>
-            </p>
-          </article>
-
-          <article className={styles.entry}>
-            <h3 className={styles.entryTitle}>Exeter</h3>
-            <ProjectPreview
-              className={styles.coverImage}
-              src="/videos/exeter-preview.mp4"
-              poster="/videos/exeter-preview-poster.webp"
-              label="Exeter website preview"
-            />
-            <p className={styles.muted}>Next.js · Full website rebuild</p>
-            <p>
-              A complete rebuild of the editorial platform for{" "}
-              <em>The Exeter Bulletin</em>, oldest student&apos;s magazine in the
-              USA, built with Next.js and Sanity CMS
-            </p>
-            <p>
-              My role covered the editorial section of the website, including
-              frontend development, CMS architecture, and Sanity integration
-            </p>
-            <p className={styles.status}>Completed · Awaiting launch</p>
-            <p>
-              Design by{" "}
-              <InlineLinkButton href="https://cotton.design/">
-                Cotton
-              </InlineLinkButton>
-              <br />
-              Delivered in collaboration with{" "}
-              <InlineLinkButton href="https://www.hyuman.tech/">
-                Hyuman
-              </InlineLinkButton>
-            </p>
-          </article>
-
-          <article className={styles.entry}>
-            <h3 className={styles.entryTitle}>
-              <InlineLinkButton href="https://www.hellojadey.com/">
-                Jadey
-              </InlineLinkButton>
-            </h3>
-            <ProjectPreview
-              className={styles.coverImage}
-              src="/videos/jadey-preview.mp4"
-              poster="/videos/jadey-preview-poster.webp"
-              label="Jadey website preview"
-            />
-            <p className={styles.muted}>Next.js · New build</p>
-            <p>
-              A community platform helping women navigate cancer through
-              practical guidance, expert resources, curated products, and
-              shared experiences. Built with Next.js, Sanity CMS, and Supabase
-            </p>
-            <p>
-              My role covered the UX and implementation of the authentication
-              experience, selected pages, and UI animations
-            </p>
-            <p className={styles.status}>Live</p>
-            <p>
-              Design and brand by{" "}
-              <InlineLinkButton href="https://wearemostlysunny.com/">
-                Mostly Sunny
-              </InlineLinkButton>
-              <br />
-              Delivered in collaboration with{" "}
-              <InlineLinkButton href="https://www.hyuman.tech/">
-                Hyuman
-              </InlineLinkButton>
-            </p>
-          </article>
-
-          {/* <article className={styles.entry}>
-            <h3 className={styles.entryTitle}>
-              <InlineLinkButton href="https://www.climatichealth.com/">
-                Climatic Health
-              </InlineLinkButton>
-            </h3>
-            <Image
-              className={styles.coverImage}
-              src={climaticHealthThumbnail}
-              alt="Climatic Health website preview"
-              sizes="(max-width: 616px) calc(100vw - 40px), 576px"
-            />
-            <p className={styles.muted}>
-              Shopify · Launch and Engineering support
-            </p>
-            <p>
-              Ongoing engineering support for an existing Shopify storefront,
-              including theme improvements, feature implementation,
-              maintenance, and frontend refinement.
-            </p>
-            <p className={styles.status}>Live</p>
-            <p>
-              Original development by{" "}
-              <InlineLinkButton href="https://www.linkedin.com/in/chin-yuan-979159130/">
-                Chin Yuan
-              </InlineLinkButton>
-              <br />
-              Design by{" "}
-              <InlineLinkButton href="https://wearemostlysunny.com/">
-                Mostly Sunny
-              </InlineLinkButton>
-              <br />
-              Delivered in collaboration with{" "}
-              <InlineLinkButton href="https://www.hyuman.tech/">
-                Hyuman
-              </InlineLinkButton>
-            </p>
-          </article> */}
-        </div>
-      </Section>
-
-      <Section id="principles" aria-labelledby="principles-title">
-        <h2 id="principles-title" className={styles.title}>
-          Builds that stay cheap to use and change
-        </h2>
-        <p>E-commerce storefronts rarely stay finished.</p>
-        <p>
-          New campaigns, products, markets, integrations, and content requests
-          continuously change them. Without a carefully engineered system,
-          every new change makes the storefront slower, more fragile, and more
-          expensive to maintain.
-        </p>
-        <p>
-          I build storefronts that preserve the original design while keeping
-          the machinery inside reliable, maintainable, and easy to extend
-        </p>
-
-        <div className={[styles.entries, styles.narrowEntries].join(" ")}>
-          <article className={styles.entry}>
-            <h3 className={styles.entryTitle}>Design fidelity</h3>
-            <p>
-              Careful implementation of typography, spacing, responsiveness,
-              motion, and interaction details
-            </p>
-          </article>
-          <article className={styles.entry}>
-            <h3 className={styles.entryTitle}>Maintainable architecture</h3>
-            <p>
-              Design systems, reusable components, clear API modules,
-              everything that make the storefront easy to understand and
-              extend
-            </p>
-          </article>
-          <article className={styles.entry}>
-            <h3 className={styles.entryTitle}>Merchant usability</h3>
-            <p>
-              Clear structure and thoughtfully designed store data make the
-              storefront easy for teams to manage and operate
-            </p>
-          </article>
-          <article className={styles.entry}>
-            <h3 className={styles.entryTitle}>Robust Solutions</h3>
-            <p>
-              Efficient, robust, and maintainable technical solutions that keep
-              storefronts hard to break and easy to upgrade
-            </p>
-          </article>
-        </div>
-      </Section>
-
-      <Section id="background" aria-labelledby="background-title">
-        <h2 id="background-title" className={styles.title}>
-          Engineering grounded in Design
-        </h2>
-        <p>
-          I started in product design and UX research before moving into
-          frontend engineering
-        </p>
-        <p>
-          That background shapes how I build. I care whether an implementation
-          preserves the design, supports real content, remains understandable,
-          and if it is simply beautiful
-        </p>
-      </Section>
-
-      <Section id="services" aria-labelledby="services-title">
-        <h2 id="services-title" className={styles.title}>
-          Ways to work together
-        </h2>
-
-        <div className={styles.entries}>
-          <article className={styles.entry}>
-            <h3 className={styles.entryTitle}>Custom Shopify Storefront</h3>
-            <p>
-              Native Shopify theme development from completed designs or an
-              existing storefront
-            </p>
-            <p>
-              Includes theme architecture, custom sections, responsive
-              implementation, interactions, apps integrations, automation,
-              accessibility, performance review, QA, and launch support
-            </p>
-            <p>
-              Typical investment: $6,000–$18,000
-              <br />
-              Typical timeline: 4-8 weeks
-            </p>
-          </article>
-
-          <article className={styles.entry}>
-            <h3 className={styles.entryTitle}>
-              Studio and Agency Partnership
-            </h3>
-            <p>
-              Senior Shopify or Next.js / Hydrogen implementation capacity for
-              design studios and e-commerce agencies
-            </p>
-            <p>
-              White-label delivery, frontend ownership, overflow development,
-              and complete implementation engagements
-            </p>
-            <p>
-              One-time $6,000 per engagement
-              <br />
-              Subscription $4,000 per month
-              <br />
-              Hourly $125 per hour
-            </p>
-          </article>
-
-          <article className={styles.entry}>
-            <h3 className={styles.entryTitle}>
-              Next.js / Hydrogen Storefront Development
-            </h3>
-            <p>
-              Custom e-commerce frontends for projects that require greater
-              flexibility than a standard Shopify theme
-            </p>
-            <p>
-              Includes component architecture, CMS or commerce integration,
-              responsive implementation, interactions, performance
-              optimization, resource usage optimization, and deployment support
-            </p>
-            <p>
-              Typical investment: $12,000–$24,000
-              <br />
-              Typical timeline: 6-8 weeks
-            </p>
-          </article>
-
-          <article className={styles.entry}>
-            <h3 className={styles.entryTitle}>
-              Focused storefront improvements
-            </h3>
-            <p>
-              Clearly defined work on existing Shopify or Next.js storefronts.
-            </p>
-            <p>
-              Suitable for landing pages, new sections, complex interactions,
-              performance improvements, component systems, and architecture
-              cleanup
-            </p>
-            <p>
-              Minimum engagement: $3,000
-              <br />
-              Typical timeline: 3-5 days
-            </p>
-          </article>
-        </div>
-      </Section>
-
-      <Section id="nazare" aria-labelledby="nazare-title">
-        <h2 id="nazare-title" className={styles.title}>
-          Better infrastructure for Shopify themes
-        </h2>
-        <p>
-          I am also building <strong>Nazaré</strong>, a Liquid-first open-source
-          toolkit that makes Shopify Themes easier to build, maintain, and
-          evolve
-        </p>
-        <p>
-          <InlineLinkButton href="https://nazare.engineering">
-            Explore Nazare
-          </InlineLinkButton>
-        </p>
-      </Section>
-
-      <Section id="contact" aria-labelledby="contact-title">
-        <h2 id="contact-title" className={styles.title}>
-          Have a storefront to build?
-        </h2>
-        <p>
-          Send me your current website, Figma file, or a short description of
-          the project.
-        </p>
-        <p>
-          <AvailabilityMessage />
-        </p>
-        <div>
-          <ContactDialog />
-        </div>
-        <p className={styles.muted}>
-          Shopify and Next.js storefront engineering for design-led brands and
-          studios.
-        </p>
-      </Section>
-      </Article>
-    </>
+      </footer>
+    </div>
   );
 }

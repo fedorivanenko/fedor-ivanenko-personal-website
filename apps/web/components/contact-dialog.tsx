@@ -146,8 +146,12 @@ export function ContactDialog() {
 
   return (
     <>
-      <button className={styles.trigger} type="button" onClick={openDialog}>
-        <span className={styles.triggerText}>Discuss a project</span>
+      <button
+        className="inline-flex cursor-pointer border border-[#9b9c97] bg-[#fafafa] px-3 py-2 text-[0.75rem] text-[#151515] hover:border-[#151515] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#36ef2a] dark:bg-[#111211] dark:text-[#eeeeea] dark:hover:border-[#eeeeea]"
+        type="button"
+        onClick={openDialog}
+      >
+        Discuss a project ↗
       </button>
 
       <dialog
