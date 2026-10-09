@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 export const commit = localFont({
   src: [
     {
-      path: "../app/fonts/CommitMono-400-Regular.otf",
+      path: "../public/fonts/CommitMono-400-Regular.woff",
       weight: "400",
       style: "normal",
     },
