@@ -12,6 +12,7 @@ const VISIBLE_HEADER_HEIGHT = 80;
 interface DocumentModalsProps {
   documents: DocumentNode[];
   onClose: (documentId: string) => void;
+  onActivate: (documentId: string) => void;
 }
 
 interface WindowPosition {
@@ -121,7 +122,11 @@ function DocumentWindow({
   );
 }
 
-export function DocumentModals({ documents, onClose }: DocumentModalsProps) {
+export function DocumentModals({
+  documents,
+  onClose,
+  onActivate,
+}: DocumentModalsProps) {
   const currentDocument = documents.at(-1);
   const documentIds = documents.map((document) => document.id).join(",");
   const zIndexRef = React.useRef(0);
@@ -136,16 +141,20 @@ export function DocumentModals({ documents, onClose }: DocumentModalsProps) {
   );
   const [selectedDocumentId, setSelectedDocumentId] = React.useState<string>();
 
-  const bringToFront = React.useCallback((documentId: string) => {
-    const nextZ = ++zIndexRef.current;
-    setSelectedDocumentId(documentId);
-    setPositions((current) => ({
-      ...current,
-      [documentId]: current[documentId]
-        ? { ...current[documentId], z: nextZ }
-        : getInitialPosition(Object.keys(current).length, nextZ),
-    }));
-  }, []);
+  const bringToFront = React.useCallback(
+    (documentId: string) => {
+      const nextZ = ++zIndexRef.current;
+      setSelectedDocumentId(documentId);
+      onActivate(documentId);
+      setPositions((current) => ({
+        ...current,
+        [documentId]: current[documentId]
+          ? { ...current[documentId], z: nextZ }
+          : getInitialPosition(Object.keys(current).length, nextZ),
+      }));
+    },
+    [onActivate],
+  );
 
   React.useLayoutEffect(() => {
     const ids = documentIds ? documentIds.split(",") : [];

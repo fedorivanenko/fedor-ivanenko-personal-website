@@ -17,7 +17,7 @@ import {
   nodeById,
 } from "@/content/filesystem";
 
-const MIN_SCALE = 0.6;
+const MIN_SCALE = 0.35;
 const MAX_SCALE = 1.6;
 
 const ROW_TRAVEL_DURATION = 36;
@@ -52,7 +52,7 @@ export function EndlessCanvas() {
   const [selectedNodeId, setSelectedNodeId] = React.useState("fedor");
   const [openDocumentIds, setOpenDocumentIds] = React.useState<string[]>([]);
   const [expandedFolders, setExpandedFolders] = React.useState(
-    () => new Set(["fedor", "work", "capabilities", "experiments"])
+    () => new Set<string>()
   );
   const [hiddenNodeIds, setHiddenNodeIds] = React.useState(
     () => new Set<string>()
@@ -432,7 +432,7 @@ export function EndlessCanvas() {
             backgroundPosition: `${offset.x}px ${offset.y}px`,
             backgroundSize: `${20 * scale}px ${20 * scale}px`,
             opacity: isCanvasReady
-              ? Math.min(1, Math.max(0.15, scale))
+              ? Math.min(1, Math.max(0.05, scale))
               : 0,
           }}
           aria-hidden="true"
@@ -614,6 +614,7 @@ export function EndlessCanvas() {
 
       <DocumentModals
         documents={openDocuments}
+        onActivate={setSelectedNodeId}
         onClose={(documentId) =>
           setOpenDocumentIds((current) =>
             current.filter((openId) => openId !== documentId)
