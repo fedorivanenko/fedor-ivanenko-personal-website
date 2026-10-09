@@ -438,11 +438,6 @@ export function EndlessCanvas() {
                 (child) => child.y + NODE_HEIGHT / 2,
               );
               const middleX = parentX + (childX - parentX) / 2;
-              const revealedChildYs = children
-                .filter((child) => !concealedNodeIds.has(child.id))
-                .map((child) => child.y + NODE_HEIGHT / 2);
-              const verticalTop = Math.min(parentY, ...revealedChildYs);
-              const verticalBottom = Math.max(parentY, ...revealedChildYs);
 
               return (
                 <React.Fragment key={parent.id}>
@@ -455,30 +450,37 @@ export function EndlessCanvas() {
                       transitionDuration: `${animationSettings.rowDuration}ms`,
                     }}
                   />
-                  <span
-                    className="absolute border-l border-dashed border-[#a9aaa5] transition-[top,left,height] ease-linear motion-reduce:transition-none dark:border-[#50514d]"
-                    style={{
-                      left: middleX,
-                      top: verticalTop,
-                      height: verticalBottom - verticalTop,
-                      transitionDuration: `${animationSettings.rowDuration}ms`,
-                    }}
-                  />
-                  {children.map((child, index) => (
-                    <span
-                      key={child.id}
-                      className="absolute border-t border-dashed border-[#a9aaa5] transition-[top,left,width] ease-linear data-[concealed=true]:opacity-0 motion-reduce:transition-none dark:border-[#50514d]"
-                      data-concealed={
-                        concealedNodeIds.has(child.id) ? "true" : undefined
-                      }
-                      style={{
-                        left: middleX,
-                        top: childYs[index],
-                        width: childX - middleX,
-                        transitionDuration: `${animationSettings.rowDuration}ms`,
-                      }}
-                    />
-                  ))}
+                  {children.map((child, index) => {
+                    const childY = childYs[index] ?? parentY;
+                    const previousY = childYs[index - 1] ?? parentY;
+                    const isConcealed = concealedNodeIds.has(child.id);
+
+                    return (
+                      <React.Fragment key={child.id}>
+                        {index > 0 ? (
+                          <span
+                            className="absolute border-l border-dashed border-[#a9aaa5] data-[concealed=true]:opacity-0 dark:border-[#50514d]"
+                            data-concealed={isConcealed ? "true" : undefined}
+                            style={{
+                              left: middleX,
+                              top: Math.min(previousY, childY),
+                              height: Math.abs(childY - previousY),
+                            }}
+                          />
+                        ) : null}
+                        <span
+                          className="absolute border-t border-dashed border-[#a9aaa5] transition-[top,left,width] ease-linear data-[concealed=true]:opacity-0 motion-reduce:transition-none dark:border-[#50514d]"
+                          data-concealed={isConcealed ? "true" : undefined}
+                          style={{
+                            left: middleX,
+                            top: childY,
+                            width: childX - middleX,
+                            transitionDuration: `${animationSettings.rowDuration}ms`,
+                          }}
+                        />
+                      </React.Fragment>
+                    );
+                  })}
                 </React.Fragment>
               );
             })}
