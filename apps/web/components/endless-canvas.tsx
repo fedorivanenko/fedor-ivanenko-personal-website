@@ -12,12 +12,10 @@ import {
   nodeById,
 } from "@/content/filesystem";
 
-const MIN_SCALE = 0.35;
+const MIN_SCALE = 0.6;
 const MAX_SCALE = 1.6;
 
-const DEFAULT_ANIMATION_SETTINGS = {
-  rowDuration: 500,
-};
+const ROW_TRAVEL_DURATION = 36;
 
 export function EndlessCanvas() {
   const viewportRef = React.useRef<HTMLDivElement>(null);
@@ -36,39 +34,30 @@ export function EndlessCanvas() {
   const hasInitialFitRef = React.useRef(false);
   const animationStartedAtRef = React.useRef(0);
   const animationTimersRef = React.useRef(
-    new Set<ReturnType<typeof setTimeout>>(),
+    new Set<ReturnType<typeof setTimeout>>()
   );
   const [scale, setScale] = React.useState(0.8);
   const [offset, setOffset] = React.useState({ x: 0, y: 0 });
   const [selectedNodeId, setSelectedNodeId] = React.useState("fedor");
   const [openDocumentIds, setOpenDocumentIds] = React.useState<string[]>([]);
   const [expandedFolders, setExpandedFolders] = React.useState(
-    () => new Set(["fedor", "work", "capabilities", "experiments"]),
+    () => new Set(["fedor", "work", "capabilities", "experiments"])
   );
-  const [animationSettings, setAnimationSettings] = React.useState(
-    DEFAULT_ANIMATION_SETTINGS,
-  );
-  const [animationDebug, setAnimationDebug] = React.useState({
-    direction: "open" as "open" | "close",
-    nodeCount: 3,
-    step: 0,
-    complete: true,
-  });
   const [hiddenNodeIds, setHiddenNodeIds] = React.useState(
-    () => new Set<string>(),
+    () => new Set<string>()
   );
   const [concealedNodeIds, setConcealedNodeIds] = React.useState(
-    () => new Set<string>(),
+    () => new Set<string>()
   );
 
   const layout = React.useMemo(
     () => layoutVisibleNodes(expandedFolders, hiddenNodeIds),
-    [expandedFolders, hiddenNodeIds],
+    [expandedFolders, hiddenNodeIds]
   );
   const visibleNodes = layout.nodes;
   const visibleNodeById = React.useMemo(
     () => new Map(visibleNodes.map((node) => [node.id, node])),
-    [visibleNodes],
+    [visibleNodes]
   );
   const openDocuments = openDocumentIds.flatMap((documentId) => {
     const node = nodeById.get(documentId);
@@ -84,7 +73,7 @@ export function EndlessCanvas() {
     const fitScale = Math.min(
       0.9,
       (availableWidth - 80) / layout.width,
-      (availableHeight - 80) / layout.height,
+      (availableHeight - 80) / layout.height
     );
     const nextScale = Math.max(0.45, fitScale);
 
@@ -105,7 +94,7 @@ export function EndlessCanvas() {
     () => () => {
       for (const timer of animationTimersRef.current) clearTimeout(timer);
     },
-    [],
+    []
   );
 
   React.useEffect(() => {
@@ -163,7 +152,9 @@ export function EndlessCanvas() {
   }
 
   function logAnimationEvent(message: string) {
-    const elapsed = Math.round(performance.now() - animationStartedAtRef.current);
+    const elapsed = Math.round(
+      performance.now() - animationStartedAtRef.current
+    );
     console.info(`[tree-animation +${elapsed}ms] ${message}`);
   }
 
@@ -202,12 +193,12 @@ export function EndlessCanvas() {
 
     const nextVisibleNodes = layoutVisibleNodes(nextExpandedFolders).nodes;
     const currentNodeIds = new Set(
-      visibleNodes.map((visibleNode) => visibleNode.id),
+      visibleNodes.map((visibleNode) => visibleNode.id)
     );
     const nextNodeIds = new Set(
-      nextVisibleNodes.map((visibleNode) => visibleNode.id),
+      nextVisibleNodes.map((visibleNode) => visibleNode.id)
     );
-    const rowDuration = animationSettings.rowDuration;
+    const rowDuration = ROW_TRAVEL_DURATION;
 
     if (isExpanding) {
       const addedNodeIds = nextVisibleNodes
@@ -216,21 +207,15 @@ export function EndlessCanvas() {
       const initiallyHiddenNodeIds = addedNodeIds.slice(2);
       const firstReservedNodeId = addedNodeIds[1];
 
-      setAnimationDebug({
-        direction: "open",
-        nodeCount: addedNodeIds.length,
-        step: 0,
-        complete: addedNodeIds.length <= 1,
-      });
       startAnimationLog(
-        `open ${nodeId}: show ${addedNodeIds[0] ?? "none"}; start sibling movement`,
+        `open ${nodeId}: show ${addedNodeIds[0] ?? "none"}; start sibling movement`
       );
       setHiddenNodeIds(
-        (current) => new Set([...current, ...initiallyHiddenNodeIds]),
+        (current) => new Set([...current, ...initiallyHiddenNodeIds])
       );
       if (firstReservedNodeId) {
-        setConcealedNodeIds((current) =>
-          new Set([...current, firstReservedNodeId]),
+        setConcealedNodeIds(
+          (current) => new Set([...current, firstReservedNodeId])
         );
       }
       setExpandedFolders(nextExpandedFolders);
@@ -249,13 +234,8 @@ export function EndlessCanvas() {
             if (nextReservedNodeId) next.add(nextReservedNodeId);
             return next;
           });
-          setAnimationDebug((current) => ({
-            ...current,
-            step: index + 1,
-            complete: index + 2 === addedNodeIds.length,
-          }));
           logAnimationEvent(
-            `show ${addedNodeId}${nextReservedNodeId ? "; move siblings one row" : ""}`,
+            `show ${addedNodeId}${nextReservedNodeId ? "; move siblings one row" : ""}`
           );
         });
       });
@@ -267,17 +247,10 @@ export function EndlessCanvas() {
       .map((visibleNode) => visibleNode.id)
       .reverse();
 
-    setAnimationDebug({
-      direction: "close",
-      nodeCount: removedNodeIds.length,
-      step: 0,
-      complete: false,
-    });
     startAnimationLog(`close ${nodeId}: hide nodes one row at a time`);
     removedNodeIds.forEach((removedNodeId, index) => {
       scheduleAnimation(index * rowDuration, () => {
         setHiddenNodeIds((current) => new Set([...current, removedNodeId]));
-        setAnimationDebug((current) => ({ ...current, step: index }));
         logAnimationEvent(`hide ${removedNodeId}; move siblings one row`);
       });
     });
@@ -288,7 +261,6 @@ export function EndlessCanvas() {
         for (const removedNodeId of removedNodeIds) next.delete(removedNodeId);
         return next;
       });
-      setAnimationDebug((current) => ({ ...current, complete: true }));
       logAnimationEvent(`close ${nodeId} complete`);
     });
   }
@@ -350,8 +322,8 @@ export function EndlessCanvas() {
         MAX_SCALE,
         Math.max(
           MIN_SCALE,
-          pinch.scale * (distance / Math.max(pinch.distance, 1)),
-        ),
+          pinch.scale * (distance / Math.max(pinch.distance, 1))
+        )
       );
 
       setScale(nextScale);
@@ -409,7 +381,7 @@ export function EndlessCanvas() {
     <div className="flex h-svh flex-col overflow-hidden bg-[#f1f1ee] text-[#171717] dark:bg-[#151515] dark:text-[#e8e8e3]">
       <div
         ref={viewportRef}
-        className="relative flex-1 touch-none cursor-grab overflow-hidden overscroll-none bg-[radial-gradient(circle,#cacbc6_1px,transparent_1px)] [background-size:20px_20px] active:cursor-grabbing dark:bg-[radial-gradient(circle,#30312e_1px,transparent_1px)]"
+        className="relative flex-1 cursor-grab touch-none overflow-hidden overscroll-none active:cursor-grabbing"
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerEnd}
@@ -417,7 +389,17 @@ export function EndlessCanvas() {
         onWheel={handleWheel}
       >
         <div
-          className="absolute top-0 left-0 origin-top-left"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,#cacbc6_1px,transparent_1px)] transition-opacity dark:bg-[radial-gradient(circle,#30312e_1px,transparent_1px)]"
+          style={{
+            backgroundPosition: `${offset.x}px ${offset.y}px`,
+            backgroundSize: `${20 * scale}px ${20 * scale}px`,
+            opacity: Math.min(1, Math.max(0.15, scale)),
+          }}
+          aria-hidden="true"
+        />
+
+        <div
+          className="absolute left-0 top-0 origin-top-left"
           style={{
             width: layout.width,
             height: layout.height,
@@ -427,7 +409,7 @@ export function EndlessCanvas() {
           <div className="absolute inset-0" aria-hidden="true">
             {visibleNodes.map((parent) => {
               const children = visibleNodes.filter(
-                (node) => node.parentId === parent.id,
+                (node) => node.parentId === parent.id
               );
               if (children.length === 0) return null;
 
@@ -435,7 +417,7 @@ export function EndlessCanvas() {
               const childX = children[0].x;
               const parentY = parent.y + NODE_HEIGHT / 2;
               const childYs = children.map(
-                (child) => child.y + NODE_HEIGHT / 2,
+                (child) => child.y + NODE_HEIGHT / 2
               );
               const middleX = parentX + (childX - parentX) / 2;
 
@@ -447,7 +429,7 @@ export function EndlessCanvas() {
                       left: parentX,
                       top: parentY,
                       width: middleX - parentX,
-                      transitionDuration: `${animationSettings.rowDuration}ms`,
+                      transitionDuration: `${ROW_TRAVEL_DURATION}ms`,
                     }}
                   />
                   {children.map((child, index) => {
@@ -475,7 +457,7 @@ export function EndlessCanvas() {
                             left: middleX,
                             top: childY,
                             width: childX - middleX,
-                            transitionDuration: `${animationSettings.rowDuration}ms`,
+                            transitionDuration: `${ROW_TRAVEL_DURATION}ms`,
                           }}
                         />
                       </React.Fragment>
@@ -500,11 +482,11 @@ export function EndlessCanvas() {
                 data-concealed={
                   concealedNodeIds.has(node.id) ? "true" : undefined
                 }
-                className="absolute top-0 left-0 min-h-28 cursor-pointer border transition-transform ease-linear will-change-transform data-[concealed=true]:pointer-events-none data-[concealed=true]:opacity-0 motion-reduce:transition-none border-[#aaa9a4] bg-[#f1f1ee] p-4 text-left shadow-[0_12px_32px_rgba(0,0,0,0.08)] hover:border-[#777773] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846] data-[selected=true]:border-[#ff6846] data-[selected=true]:shadow-[0_0_28px_rgba(255,104,70,0.16)] dark:border-[#484946] dark:bg-[#1b1c1a] dark:shadow-[0_12px_32px_rgba(0,0,0,0.32)] dark:hover:border-[#72736e]"
+                className="absolute left-0 top-0 min-h-28 cursor-pointer border border-[#aaa9a4] bg-[#f1f1ee] p-4 text-left shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-transform ease-linear will-change-transform hover:border-[#777773] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846] data-[concealed=true]:pointer-events-none data-[selected=true]:border-[#ff6846] data-[concealed=true]:opacity-0 data-[selected=true]:shadow-[0_0_28px_rgba(255,104,70,0.16)] motion-reduce:transition-none dark:border-[#484946] dark:bg-[#1b1c1a] dark:shadow-[0_12px_32px_rgba(0,0,0,0.32)] dark:hover:border-[#72736e]"
                 style={{
                   width: node.width,
                   transform: `translate3d(${node.x}px, ${node.y}px, 0)`,
-                  transitionDuration: `${animationSettings.rowDuration}ms`,
+                  transitionDuration: `${ROW_TRAVEL_DURATION}ms`,
                 }}
                 onClick={() => selectNode(node.id)}
                 onTransitionRun={(event) => {
@@ -582,104 +564,13 @@ export function EndlessCanvas() {
             <ThemeToggle />
           </span>
         </div>
-
-        <details
-          className="absolute top-4 right-4 w-fit max-w-[calc(100%-2rem)] open:w-72 border border-[#aaa9a4] bg-[#f1f1ee] dark:border-[#484946] dark:bg-[#1b1c1a]"
-          onPointerDown={(event) => event.stopPropagation()}
-          onWheel={(event) => event.stopPropagation()}
-        >
-          <summary className="cursor-pointer list-none px-3 py-2 hover:bg-black/5 [&::-webkit-details-marker]:hidden dark:hover:bg-white/5">
-            Animation debug
-          </summary>
-          <div className="space-y-3 border-t border-[#aaa9a4] p-3 dark:border-[#484946]">
-            <label className="grid grid-cols-[1fr_6rem] items-center gap-3">
-              <span>Row travel ms</span>
-              <input
-                className="min-w-0 border border-[#aaa9a4] bg-transparent px-2 py-1 dark:border-[#484946]"
-                type="number"
-                min={0}
-                max={8000}
-                step={50}
-                value={animationSettings.rowDuration}
-                onChange={(event) =>
-                  setAnimationSettings({
-                    rowDuration: Math.max(0, Number(event.target.value)),
-                  })
-                }
-              />
-            </label>
-            <p className="opacity-50">
-              Card 1 and sibling movement start together. Each next card waits
-              for one row of travel.
-            </p>
-            <div className="border border-[#aaa9a4] dark:border-[#484946]">
-              <div className="flex items-center justify-between border-b border-[#aaa9a4] px-2 py-1 dark:border-[#484946]">
-                <span>{animationDebug.direction.toUpperCase()}</span>
-                <span className="opacity-50">
-                  {animationDebug.nodeCount} nodes
-                </span>
-              </div>
-              <div
-                className="grid h-8"
-                style={{
-                  gridTemplateColumns: `repeat(${Math.max(1, animationDebug.nodeCount)}, minmax(0, 1fr))`,
-                }}
-              >
-                {Array.from(
-                  { length: Math.max(1, animationDebug.nodeCount) },
-                  (_, index) => `${animationDebug.direction}-${index + 1}`,
-                ).map((eventId, index) => (
-                    <span
-                      key={eventId}
-                      className="grid place-items-center border-r border-[#aaa9a4] last:border-r-0 data-[current=true]:bg-[#ff6846] data-[current=true]:text-black data-[passed=true]:bg-[#ff6846]/15 dark:border-[#484946]"
-                      data-current={
-                        !animationDebug.complete &&
-                        animationDebug.step === index
-                          ? "true"
-                          : undefined
-                      }
-                      data-passed={
-                        animationDebug.complete || animationDebug.step > index
-                          ? "true"
-                          : undefined
-                      }
-                    >
-                      {animationDebug.direction === "open" ? "+" : "-"}
-                      {index + 1}
-                    </span>
-                  ))}
-              </div>
-              <div className="flex justify-between border-t border-[#aaa9a4] px-2 py-1 opacity-50 dark:border-[#484946]">
-                <span>0ms</span>
-                <span>
-                  {(animationDebug.direction === "open"
-                    ? Math.max(0, animationDebug.nodeCount - 1)
-                    : animationDebug.nodeCount) * animationSettings.rowDuration}
-                  ms
-                </span>
-              </div>
-            </div>
-            <p className="opacity-50">Timing events log to the browser console.</p>
-            <div className="flex items-center justify-end border-t border-[#aaa9a4] pt-3 dark:border-[#484946]">
-              <button
-                type="button"
-                className="hover:underline"
-                onClick={() =>
-                  setAnimationSettings(DEFAULT_ANIMATION_SETTINGS)
-                }
-              >
-                Reset
-              </button>
-            </div>
-          </div>
-        </details>
       </div>
 
       <DocumentModals
         documents={openDocuments}
         onClose={(documentId) =>
           setOpenDocumentIds((current) =>
-            current.filter((openId) => openId !== documentId),
+            current.filter((openId) => openId !== documentId)
           )
         }
       />
