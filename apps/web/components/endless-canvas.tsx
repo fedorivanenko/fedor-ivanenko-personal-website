@@ -1,9 +1,14 @@
 "use client";
 
-import { EnterFullScreenIcon, TargetIcon } from "@radix-ui/react-icons";
+import {
+  EnterFullScreenIcon,
+  FileTextIcon,
+  TargetIcon,
+} from "@radix-ui/react-icons";
 import * as React from "react";
 
 import { DocumentModals } from "@/components/document-modal";
+import { FolderIcon } from "@/components/icons";
 import ThemeToggle from "@/components/theme-toggle";
 
 import {
@@ -482,7 +487,7 @@ export function EndlessCanvas() {
                 data-concealed={
                   concealedNodeIds.has(node.id) ? "true" : undefined
                 }
-                className="absolute left-0 top-0 min-h-28 cursor-pointer border border-[#aaa9a4] bg-[#f1f1ee] p-4 text-left shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-transform ease-linear will-change-transform hover:border-[#777773] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846] data-[concealed=true]:pointer-events-none data-[selected=true]:border-[#ff6846] data-[concealed=true]:opacity-0 data-[selected=true]:shadow-[0_0_28px_rgba(255,104,70,0.16)] motion-reduce:transition-none dark:border-[#484946] dark:bg-[#1b1c1a] dark:shadow-[0_12px_32px_rgba(0,0,0,0.32)] dark:hover:border-[#72736e]"
+                className="group absolute left-0 top-0 min-h-28 cursor-pointer border border-[#aaa9a4] bg-[#f1f1ee] p-4 text-left shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-transform ease-linear will-change-transform hover:border-[#777773] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846] data-[concealed=true]:pointer-events-none data-[selected=true]:border-[#ff6846] data-[concealed=true]:opacity-0 data-[selected=true]:shadow-[0_0_28px_rgba(255,104,70,0.16)] motion-reduce:transition-none dark:border-[#484946] dark:bg-[#1b1c1a] dark:shadow-[0_12px_32px_rgba(0,0,0,0.32)] dark:hover:border-[#72736e]"
                 style={{
                   width: node.width,
                   transform: `translate3d(${node.x}px, ${node.y}px, 0)`,
@@ -506,9 +511,13 @@ export function EndlessCanvas() {
                   }
                 }}
               >
+                {isFolder ? (
+                  <FolderIcon className="pointer-events-none absolute right-3 top-3 size-4 opacity-50" />
+                ) : (
+                  <FileTextIcon className="pointer-events-none absolute right-3 top-3 size-4 opacity-50" />
+                )}
                 <span className="flex justify-between gap-4 opacity-50">
                   <span>{node.parentId ?? "~"}</span>
-                  <span>{node.kind.toUpperCase()}</span>
                 </span>
                 <strong className="mt-4 block font-normal">{node.name}</strong>
                 <span className="mt-2 flex justify-between gap-4 opacity-60">
