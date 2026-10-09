@@ -19,6 +19,7 @@ import {
 
 const MIN_SCALE = 0.35;
 const MAX_SCALE = 1.6;
+const TAP_SLOP = 8;
 
 const ROW_TRAVEL_DURATION = 36;
 const VIEWPORT_ANIMATION_DURATION = 250;
@@ -31,6 +32,11 @@ export function EndlessCanvas() {
     y: number;
   } | null>(null);
   const pointersRef = React.useRef(new Map<number, { x: number; y: number }>());
+  // Touches that started on a node stay uncaptured until they move past
+  // TAP_SLOP, so a plain tap still delivers its click to the node button.
+  const pendingTapsRef = React.useRef(
+    new Map<number, { x: number; y: number }>()
+  );
   const pinchRef = React.useRef<{
     distance: number;
     scale: number;
@@ -318,7 +324,14 @@ export function EndlessCanvas() {
       x: event.clientX,
       y: event.clientY,
     });
-    event.currentTarget.setPointerCapture(event.pointerId);
+    if (nodeTarget) {
+      pendingTapsRef.current.set(event.pointerId, {
+        x: event.clientX,
+        y: event.clientY,
+      });
+    } else {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }
 
     if (pointersRef.current.size === 1) {
       dragRef.current = {
@@ -328,6 +341,11 @@ export function EndlessCanvas() {
       };
       return;
     }
+
+    for (const pointerId of pendingTapsRef.current.keys()) {
+      event.currentTarget.setPointerCapture(pointerId);
+    }
+    pendingTapsRef.current.clear();
 
     const [first, second] = [...pointersRef.current.values()];
     const centerX = (first.x + second.x) / 2;
@@ -343,6 +361,16 @@ export function EndlessCanvas() {
 
   function handlePointerMove(event: React.PointerEvent<HTMLDivElement>) {
     if (!pointersRef.current.has(event.pointerId)) return;
+
+    const tapStart = pendingTapsRef.current.get(event.pointerId);
+    if (
+      tapStart &&
+      Math.hypot(event.clientX - tapStart.x, event.clientY - tapStart.y) >
+        TAP_SLOP
+    ) {
+      pendingTapsRef.current.delete(event.pointerId);
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }
 
     pointersRef.current.set(event.pointerId, {
       x: event.clientX,
@@ -387,6 +415,7 @@ export function EndlessCanvas() {
     if (!pointersRef.current.has(event.pointerId)) return;
 
     pointersRef.current.delete(event.pointerId);
+    pendingTapsRef.current.delete(event.pointerId);
     if (event.currentTarget.hasPointerCapture(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
@@ -524,7 +553,7 @@ export function EndlessCanvas() {
                 data-concealed={
                   concealedNodeIds.has(node.id) ? "true" : undefined
                 }
-                className="group absolute left-0 top-0 min-h-28 cursor-pointer border border-[#aaa9a4] bg-[#f1f1ee] p-4 text-left shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-transform ease-linear will-change-transform hover:border-[#777773] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846] data-[concealed=true]:pointer-events-none data-[selected=true]:border-[#ff6846] data-[concealed=true]:opacity-0 data-[selected=true]:shadow-[0_0_28px_rgba(255,104,70,0.16)] motion-reduce:transition-none dark:border-[#484946] dark:bg-[#1b1c1a] dark:shadow-[0_12px_32px_rgba(0,0,0,0.32)] dark:hover:border-[#72736e]"
+                className="group absolute left-0 top-0 min-h-28 cursor-pointer border border-[#aaa9a4] bg-[#f1f1ee] p-4 text-left shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-transform ease-linear will-change-transform hover:border-[#777773] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846] data-[concealed=true]:pointer-events-none data-[selected=true]:border-[#ff6846] data-[selected=true]:hover:border-[#ff6846] data-[concealed=true]:opacity-0 data-[selected=true]:shadow-[0_0_28px_rgba(255,104,70,0.16)] motion-reduce:transition-none dark:border-[#484946] dark:bg-[#1b1c1a] dark:shadow-[0_12px_32px_rgba(0,0,0,0.32)] dark:hover:border-[#72736e]"
                 style={{
                   width: node.width,
                   transform: `translate3d(${node.x}px, ${node.y}px, 0)`,
