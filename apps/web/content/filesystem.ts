@@ -134,16 +134,6 @@ export const nodes: FileSystemNode[] = [
 
 export const nodeById = new Map(nodes.map((node) => [node.id, node]));
 
-const maximumTreeDepth = nodes.reduce((maximumDepth, node) => {
-  let depth = 0;
-  let parentId = node.parentId;
-  while (parentId) {
-    depth += 1;
-    parentId = nodeById.get(parentId)?.parentId;
-  }
-  return Math.max(maximumDepth, depth);
-}, 0);
-
 const childrenByParentId = new Map<string, FileSystemNode[]>();
 for (const node of nodes) {
   if (!node.parentId) continue;
@@ -162,8 +152,10 @@ export function layoutVisibleNodes(
 } {
   const positions = new Map<string, PositionedNode>();
   let lastRowY = WORLD_PADDING;
+  let maximumVisibleDepth = 0;
 
   function placeNode(node: FileSystemNode, depth: number, y: number) {
+    maximumVisibleDepth = Math.max(maximumVisibleDepth, depth);
     positions.set(node.id, {
       ...node,
       x: WORLD_PADDING + depth * (NODE_WIDTH + COLUMN_GAP),
@@ -198,8 +190,8 @@ export function layoutVisibleNodes(
     }),
     width:
       WORLD_PADDING * 2 +
-      (maximumTreeDepth + 1) * NODE_WIDTH +
-      maximumTreeDepth * COLUMN_GAP,
+      (maximumVisibleDepth + 1) * NODE_WIDTH +
+      maximumVisibleDepth * COLUMN_GAP,
     height: Math.max(
       NODE_HEIGHT + WORLD_PADDING * 2,
       lastRowY + NODE_HEIGHT + WORLD_PADDING,

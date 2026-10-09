@@ -1,5 +1,6 @@
 "use client";
 
+import { Cross1Icon } from "@radix-ui/react-icons";
 import * as React from "react";
 
 import { type DocumentNode, nodeById } from "@/content/filesystem";
@@ -68,6 +69,8 @@ function DocumentWindow({
   onDragEnd,
 }: DocumentWindowProps) {
   const titleId = React.useId();
+  const fullPath = getDocumentPath(document);
+  const parentPath = fullPath.slice(0, -document.name.length);
 
   return (
     <article
@@ -88,24 +91,24 @@ function DocumentWindow({
       onPointerDown={onSelect}
     >
       <header
-        className="flex touch-none select-none items-start justify-between gap-6 border-b border-[#aaa9a4] p-5 md:cursor-move dark:border-[#484946]"
+        className="flex touch-none select-none items-center justify-between gap-4 border-b border-[#aaa9a4] p-3 md:cursor-move dark:border-[#484946]"
         onPointerDown={onDragStart}
         onPointerMove={onDrag}
         onPointerUp={onDragEnd}
         onPointerCancel={onDragEnd}
       >
-        <div className="min-w-0">
-          <p className="truncate opacity-50">{getDocumentPath(document)}</p>
-          <h2 id={titleId} className="mt-3">
-            {document.name}
-          </h2>
-        </div>
+        <h2 id={titleId} className="min-w-0 truncate">
+          <span className="opacity-50">{parentPath}</span>
+          <span className="text-[#171717] dark:text-white">{document.name}</span>
+        </h2>
         <button
           type="button"
-          className="shrink-0 cursor-pointer hover:underline focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846]"
+          className="grid size-7 shrink-0 cursor-pointer place-items-center border border-[#aaa9a4] hover:bg-black/5 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846] dark:border-[#484946] dark:hover:bg-white/5"
+          aria-label={`Close ${document.name}`}
+          title="Close"
           onClick={onClose}
         >
-          Close
+          <Cross1Icon className="size-4" />
         </button>
       </header>
 
@@ -114,12 +117,6 @@ function DocumentWindow({
         <p className="mt-8 leading-[1.6]">{document.content}</p>
       </div>
 
-      <footer className="grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 border-t border-[#aaa9a4] p-5 dark:border-[#484946]">
-        <span className="opacity-50">TYPE</span>
-        <span>document</span>
-        <span className="opacity-50">PARENT</span>
-        <span>{document.parentId}/</span>
-      </footer>
     </article>
   );
 }

@@ -21,6 +21,7 @@ const MIN_SCALE = 0.6;
 const MAX_SCALE = 1.6;
 
 const ROW_TRAVEL_DURATION = 36;
+const VIEWPORT_ANIMATION_DURATION = 250;
 
 export function EndlessCanvas() {
   const viewportRef = React.useRef<HTMLDivElement>(null);
@@ -37,12 +38,17 @@ export function EndlessCanvas() {
     worldY: number;
   } | null>(null);
   const hasInitialFitRef = React.useRef(false);
+  const viewportAnimationTimerRef = React.useRef<
+    ReturnType<typeof setTimeout> | undefined
+  >(undefined);
   const animationStartedAtRef = React.useRef(0);
   const animationTimersRef = React.useRef(
     new Set<ReturnType<typeof setTimeout>>()
   );
   const [scale, setScale] = React.useState(0.8);
   const [offset, setOffset] = React.useState({ x: 0, y: 0 });
+  const [isCanvasReady, setIsCanvasReady] = React.useState(false);
+  const [isViewportAnimating, setIsViewportAnimating] = React.useState(false);
   const [selectedNodeId, setSelectedNodeId] = React.useState("fedor");
   const [openDocumentIds, setOpenDocumentIds] = React.useState<string[]>([]);
   const [expandedFolders, setExpandedFolders] = React.useState(
@@ -69,9 +75,20 @@ export function EndlessCanvas() {
     return node?.kind === "document" ? [node] : [];
   });
 
-  const fitCanvas = React.useCallback(() => {
+  const fitCanvas = React.useCallback((animate = true) => {
     const viewport = viewportRef.current;
     if (!viewport) return;
+
+    if (viewportAnimationTimerRef.current) {
+      clearTimeout(viewportAnimationTimerRef.current);
+    }
+    setIsViewportAnimating(animate);
+    if (animate) {
+      viewportAnimationTimerRef.current = setTimeout(
+        () => setIsViewportAnimating(false),
+        VIEWPORT_ANIMATION_DURATION
+      );
+    }
 
     const availableWidth = viewport.clientWidth;
     const availableHeight = viewport.clientHeight;
@@ -80,7 +97,7 @@ export function EndlessCanvas() {
       (availableWidth - 80) / layout.width,
       (availableHeight - 80) / layout.height
     );
-    const nextScale = Math.max(0.45, fitScale);
+    const nextScale = Math.max(MIN_SCALE, fitScale);
 
     setScale(nextScale);
     setOffset({
@@ -92,12 +109,16 @@ export function EndlessCanvas() {
   React.useLayoutEffect(() => {
     if (hasInitialFitRef.current) return;
     hasInitialFitRef.current = true;
-    fitCanvas();
+    fitCanvas(false);
+    setIsCanvasReady(true);
   }, [fitCanvas]);
 
   React.useEffect(
     () => () => {
       for (const timer of animationTimersRef.current) clearTimeout(timer);
+      if (viewportAnimationTimerRef.current) {
+        clearTimeout(viewportAnimationTimerRef.current);
+      }
     },
     []
   );
@@ -133,6 +154,15 @@ export function EndlessCanvas() {
     const node = visibleNodeById.get(selectedNodeId);
     if (!viewport || !node) return;
 
+    if (viewportAnimationTimerRef.current) {
+      clearTimeout(viewportAnimationTimerRef.current);
+    }
+    setIsViewportAnimating(true);
+    viewportAnimationTimerRef.current = setTimeout(
+      () => setIsViewportAnimating(false),
+      VIEWPORT_ANIMATION_DURATION
+    );
+
     setOffset({
       x: viewport.clientWidth / 2 - (node.x + node.width / 2) * scale,
       y: viewport.clientHeight / 2 - (node.y + NODE_HEIGHT / 2) * scale,
@@ -143,6 +173,7 @@ export function EndlessCanvas() {
     const viewport = viewportRef.current;
     if (!viewport) return;
 
+    setIsViewportAnimating(false);
     const clampedScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, nextScale));
     const centerX = viewport.clientWidth / 2;
     const centerY = viewport.clientHeight / 2;
@@ -271,6 +302,7 @@ export function EndlessCanvas() {
   }
 
   function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
+    setIsViewportAnimating(false);
     const target = event.target as HTMLElement;
     const nodeTarget = target.closest("[data-node]");
     const isControl = target.closest("button") && !nodeTarget;
@@ -371,6 +403,7 @@ export function EndlessCanvas() {
   }
 
   function handleWheel(event: React.WheelEvent<HTMLDivElement>) {
+    setIsViewportAnimating(false);
     if (!event.ctrlKey && !event.metaKey) {
       setOffset((current) => ({
         x: current.x - event.deltaX,
@@ -398,13 +431,17 @@ export function EndlessCanvas() {
           style={{
             backgroundPosition: `${offset.x}px ${offset.y}px`,
             backgroundSize: `${20 * scale}px ${20 * scale}px`,
-            opacity: Math.min(1, Math.max(0.15, scale)),
+            opacity: isCanvasReady
+              ? Math.min(1, Math.max(0.15, scale))
+              : 0,
           }}
           aria-hidden="true"
         />
 
         <div
-          className="absolute left-0 top-0 origin-top-left"
+          className="absolute left-0 top-0 origin-top-left opacity-0 data-[ready=true]:opacity-100 data-[animate=true]:transition-transform data-[animate=true]:duration-[250ms] data-[animate=true]:ease-out motion-reduce:transition-none"
+          data-ready={isCanvasReady ? "true" : undefined}
+          data-animate={isViewportAnimating ? "true" : undefined}
           style={{
             width: layout.width,
             height: layout.height,
@@ -554,7 +591,7 @@ export function EndlessCanvas() {
           <button
             type="button"
             className="grid size-7 place-items-center border-r border-[#aaa9a4] hover:bg-black/5 dark:border-[#484946] dark:hover:bg-white/5"
-            onClick={fitCanvas}
+            onClick={() => fitCanvas(true)}
             aria-label="Fit canvas"
             title="Fit canvas"
           >
