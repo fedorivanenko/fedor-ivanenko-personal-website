@@ -3,58 +3,10 @@
 import { useTheme } from "next-themes";
 import * as React from "react";
 
-import { LaptopIcon, MoonIcon, SunIcon } from "@/components/icons";
-
-import styles from "./theme-toggle.module.css";
-
-interface ThemeOption {
-  label: string;
-  value: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-}
-
-const MiniButton = ({
-  label,
-  value,
-  icon: Icon,
-  theme,
-  setTheme,
-}: ThemeOption & {
-  theme: string | undefined;
-  setTheme: (v: string) => void;
-}) => {
-  const checked = theme === value;
-
-  return (
-    <span>
-      <input
-        aria-label={label}
-        id={`theme-switch-${value}`}
-        type="radio"
-        value={value}
-        checked={checked}
-        onChange={() => setTheme(value)}
-        className={styles.srOnly}
-      />
-      <label
-        htmlFor={`theme-switch-${value}`}
-        className={[styles.option, checked ? styles.optionActive : ""].join(" ")}
-      >
-        <span className={styles.srOnly}>{label}</span>
-        <Icon className={styles.icon} />
-      </label>
-    </span>
-  );
-};
-
-const options = [
-  { value: "system", label: "System", icon: LaptopIcon },
-  { value: "light", label: "Light", icon: SunIcon },
-  { value: "dark", label: "Dark", icon: MoonIcon },
-] satisfies ThemeOption[];
+import { MoonIcon, SunIcon } from "@/components/icons";
 
 export default function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
@@ -62,16 +14,25 @@ export default function ThemeToggle() {
   }, []);
 
   if (!mounted) {
-    return null;
+    return <span className="block size-4" aria-hidden="true" />;
   }
 
-  return (
-    <fieldset className={styles.fieldset}>
-      <legend className={styles.srOnly}>Select a display theme:</legend>
+  const nextTheme = resolvedTheme === "dark" ? "light" : "dark";
+  const label = `Switch to ${nextTheme} theme`;
 
-      {options.map((opt) => (
-        <MiniButton key={opt.value} {...opt} theme={theme} setTheme={setTheme} />
-      ))}
-    </fieldset>
+  return (
+    <button
+      type="button"
+      className="flex cursor-pointer items-center justify-center focus-visible:outline-1 focus-visible:outline-offset-2"
+      onClick={() => setTheme(nextTheme)}
+      aria-label={label}
+      title={label}
+    >
+      {nextTheme === "dark" ? (
+        <MoonIcon className="size-4" />
+      ) : (
+        <SunIcon className="size-4" />
+      )}
+    </button>
   );
 }

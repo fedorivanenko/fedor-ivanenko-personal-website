@@ -1,6 +1,5 @@
 "use client";
 
-import { Cross1Icon } from "@radix-ui/react-icons";
 import * as React from "react";
 import { toast } from "sonner";
 
@@ -146,8 +145,12 @@ export function ContactDialog() {
 
   return (
     <>
-      <button className={styles.trigger} type="button" onClick={openDialog}>
-        <span className={styles.triggerText}>Discuss a project</span>
+      <button
+        className="cursor-pointer bg-black px-2 text-white hover:underline focus-visible:outline-1 focus-visible:outline-offset-2 dark:bg-[#e8e8e3] dark:text-black"
+        type="button"
+        onClick={openDialog}
+      >
+        DISCUSS A PROJECT
       </button>
 
       <dialog
@@ -173,7 +176,7 @@ export function ContactDialog() {
               onClick={closeDialog}
               disabled={isSending}
             >
-              <Cross1Icon aria-hidden="true" />
+              CLOSE
             </button>
           </header>
 
