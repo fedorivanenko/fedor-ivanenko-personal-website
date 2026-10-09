@@ -152,7 +152,10 @@ for (const node of nodes) {
   childrenByParentId.set(node.parentId, children);
 }
 
-export function layoutVisibleNodes(expandedFolders: Set<string>): {
+export function layoutVisibleNodes(
+  expandedFolders: Set<string>,
+  hiddenNodeIds: Set<string> = new Set(),
+): {
   nodes: PositionedNode[];
   width: number;
   height: number;
@@ -170,7 +173,9 @@ export function layoutVisibleNodes(expandedFolders: Set<string>): {
 
     const children =
       node.kind === "folder" && expandedFolders.has(node.id)
-        ? (childrenByParentId.get(node.id) ?? [])
+        ? (childrenByParentId.get(node.id) ?? []).filter(
+            (child) => !hiddenNodeIds.has(child.id),
+          )
         : [];
     children.forEach((child, index) => {
       if (index > 0) lastRowY += NODE_HEIGHT + ROW_GAP;
@@ -178,7 +183,9 @@ export function layoutVisibleNodes(expandedFolders: Set<string>): {
     });
   }
 
-  const roots = nodes.filter((node) => !node.parentId);
+  const roots = nodes.filter(
+    (node) => !node.parentId && !hiddenNodeIds.has(node.id),
+  );
   roots.forEach((root, index) => {
     if (index > 0) lastRowY += NODE_HEIGHT + ROW_GAP;
     placeNode(root, 0, lastRowY);

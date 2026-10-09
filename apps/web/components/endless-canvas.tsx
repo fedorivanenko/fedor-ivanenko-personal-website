@@ -14,10 +14,10 @@ import {
 
 const MIN_SCALE = 0.35;
 const MAX_SCALE = 1.6;
-const REFLOW_DURATION = 150;
-const CASCADE_OVERLAP = REFLOW_DURATION * 0.5;
-const REVEAL_DELAY = REFLOW_DURATION - CASCADE_OVERLAP;
-const CASCADE_STEP = 20;
+
+const DEFAULT_ANIMATION_SETTINGS = {
+  rowDuration: 500,
+};
 
 export function EndlessCanvas() {
   const viewportRef = React.useRef<HTMLDivElement>(null);
@@ -34,6 +34,7 @@ export function EndlessCanvas() {
     worldY: number;
   } | null>(null);
   const hasInitialFitRef = React.useRef(false);
+  const animationStartedAtRef = React.useRef(0);
   const animationTimersRef = React.useRef(
     new Set<ReturnType<typeof setTimeout>>(),
   );
@@ -44,13 +45,25 @@ export function EndlessCanvas() {
   const [expandedFolders, setExpandedFolders] = React.useState(
     () => new Set(["fedor", "work", "capabilities", "experiments"]),
   );
-  const [enteringNodeIds, setEnteringNodeIds] = React.useState(
+  const [animationSettings, setAnimationSettings] = React.useState(
+    DEFAULT_ANIMATION_SETTINGS,
+  );
+  const [animationDebug, setAnimationDebug] = React.useState({
+    direction: "open" as "open" | "close",
+    nodeCount: 3,
+    step: 0,
+    complete: true,
+  });
+  const [hiddenNodeIds, setHiddenNodeIds] = React.useState(
+    () => new Set<string>(),
+  );
+  const [concealedNodeIds, setConcealedNodeIds] = React.useState(
     () => new Set<string>(),
   );
 
   const layout = React.useMemo(
-    () => layoutVisibleNodes(expandedFolders),
-    [expandedFolders],
+    () => layoutVisibleNodes(expandedFolders, hiddenNodeIds),
+    [expandedFolders, hiddenNodeIds],
   );
   const visibleNodes = layout.nodes;
   const visibleNodeById = React.useMemo(
@@ -149,6 +162,16 @@ export function EndlessCanvas() {
     });
   }
 
+  function logAnimationEvent(message: string) {
+    const elapsed = Math.round(performance.now() - animationStartedAtRef.current);
+    console.info(`[tree-animation +${elapsed}ms] ${message}`);
+  }
+
+  function startAnimationLog(message: string) {
+    animationStartedAtRef.current = performance.now();
+    console.info(`[tree-animation +0ms] ${message}`);
+  }
+
   function scheduleAnimation(delay: number, callback: () => void) {
     const timer = setTimeout(() => {
       callback();
@@ -184,31 +207,58 @@ export function EndlessCanvas() {
     const nextNodeIds = new Set(
       nextVisibleNodes.map((visibleNode) => visibleNode.id),
     );
+    const rowDuration = animationSettings.rowDuration;
 
     if (isExpanding) {
       const addedNodeIds = nextVisibleNodes
         .filter((visibleNode) => !currentNodeIds.has(visibleNode.id))
         .map((visibleNode) => visibleNode.id);
+      const initiallyHiddenNodeIds = addedNodeIds.slice(2);
+      const firstReservedNodeId = addedNodeIds[1];
 
-      setEnteringNodeIds((current) => new Set([...current, ...addedNodeIds]));
-      addedNodeIds.forEach((addedNodeId, index) => {
-        scheduleAnimation(REVEAL_DELAY + index * CASCADE_STEP, () => {
-          setEnteringNodeIds((current) => {
-            const next = new Set(current);
-            next.delete(addedNodeId);
-            return next;
-          });
-        });
+      setAnimationDebug({
+        direction: "open",
+        nodeCount: addedNodeIds.length,
+        step: 0,
+        complete: addedNodeIds.length <= 1,
       });
-      if (addedNodeIds.length > 0) {
-        scheduleAnimation(
-          REVEAL_DELAY +
-            (addedNodeIds.length - 1) * CASCADE_STEP +
-            REFLOW_DURATION,
-          () => undefined,
+      startAnimationLog(
+        `open ${nodeId}: show ${addedNodeIds[0] ?? "none"}; start sibling movement`,
+      );
+      setHiddenNodeIds(
+        (current) => new Set([...current, ...initiallyHiddenNodeIds]),
+      );
+      if (firstReservedNodeId) {
+        setConcealedNodeIds((current) =>
+          new Set([...current, firstReservedNodeId]),
         );
       }
       setExpandedFolders(nextExpandedFolders);
+
+      addedNodeIds.slice(1).forEach((addedNodeId, index) => {
+        scheduleAnimation((index + 1) * rowDuration, () => {
+          const nextReservedNodeId = addedNodeIds[index + 2];
+          setHiddenNodeIds((current) => {
+            const next = new Set(current);
+            if (nextReservedNodeId) next.delete(nextReservedNodeId);
+            return next;
+          });
+          setConcealedNodeIds((current) => {
+            const next = new Set(current);
+            next.delete(addedNodeId);
+            if (nextReservedNodeId) next.add(nextReservedNodeId);
+            return next;
+          });
+          setAnimationDebug((current) => ({
+            ...current,
+            step: index + 1,
+            complete: index + 2 === addedNodeIds.length,
+          }));
+          logAnimationEvent(
+            `show ${addedNodeId}${nextReservedNodeId ? "; move siblings one row" : ""}`,
+          );
+        });
+      });
       return;
     }
 
@@ -217,24 +267,30 @@ export function EndlessCanvas() {
       .map((visibleNode) => visibleNode.id)
       .reverse();
 
+    setAnimationDebug({
+      direction: "close",
+      nodeCount: removedNodeIds.length,
+      step: 0,
+      complete: false,
+    });
+    startAnimationLog(`close ${nodeId}: hide nodes one row at a time`);
     removedNodeIds.forEach((removedNodeId, index) => {
-      scheduleAnimation(index * CASCADE_STEP, () => {
-        setEnteringNodeIds((current) => new Set([...current, removedNodeId]));
+      scheduleAnimation(index * rowDuration, () => {
+        setHiddenNodeIds((current) => new Set([...current, removedNodeId]));
+        setAnimationDebug((current) => ({ ...current, step: index }));
+        logAnimationEvent(`hide ${removedNodeId}; move siblings one row`);
       });
     });
-    const collapseDelay =
-      Math.max(0, removedNodeIds.length - 1) * CASCADE_STEP +
-      REFLOW_DURATION -
-      CASCADE_OVERLAP;
-    scheduleAnimation(collapseDelay, () => {
+    scheduleAnimation(removedNodeIds.length * rowDuration, () => {
       setExpandedFolders(nextExpandedFolders);
-      setEnteringNodeIds((current) => {
+      setHiddenNodeIds((current) => {
         const next = new Set(current);
         for (const removedNodeId of removedNodeIds) next.delete(removedNodeId);
         return next;
       });
+      setAnimationDebug((current) => ({ ...current, complete: true }));
+      logAnimationEvent(`close ${nodeId} complete`);
     });
-    scheduleAnimation(collapseDelay + REFLOW_DURATION, () => undefined);
   }
 
   function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
@@ -382,43 +438,44 @@ export function EndlessCanvas() {
                 (child) => child.y + NODE_HEIGHT / 2,
               );
               const middleX = parentX + (childX - parentX) / 2;
-              const verticalTop = Math.min(parentY, ...childYs);
-              const verticalBottom = Math.max(parentY, ...childYs);
-              const isBranchEntering = children.every((child) =>
-                enteringNodeIds.has(child.id),
-              );
+              const revealedChildYs = children
+                .filter((child) => !concealedNodeIds.has(child.id))
+                .map((child) => child.y + NODE_HEIGHT / 2);
+              const verticalTop = Math.min(parentY, ...revealedChildYs);
+              const verticalBottom = Math.max(parentY, ...revealedChildYs);
 
               return (
                 <React.Fragment key={parent.id}>
                   <span
-                    className="absolute border-t border-dashed border-[#a9aaa5] transition-[top,left,width,opacity] duration-150 ease-out data-[entering=true]:opacity-0 motion-reduce:transition-none dark:border-[#50514d]"
-                    data-entering={isBranchEntering ? "true" : undefined}
+                    className="absolute border-t border-dashed border-[#a9aaa5] transition-[top,left,width] ease-linear motion-reduce:transition-none dark:border-[#50514d]"
                     style={{
                       left: parentX,
                       top: parentY,
                       width: middleX - parentX,
+                      transitionDuration: `${animationSettings.rowDuration}ms`,
                     }}
                   />
                   <span
-                    className="absolute border-l border-dashed border-[#a9aaa5] transition-[top,left,height,opacity] duration-150 ease-out data-[entering=true]:opacity-0 motion-reduce:transition-none dark:border-[#50514d]"
-                    data-entering={isBranchEntering ? "true" : undefined}
+                    className="absolute border-l border-dashed border-[#a9aaa5] transition-[top,left,height] ease-linear motion-reduce:transition-none dark:border-[#50514d]"
                     style={{
                       left: middleX,
                       top: verticalTop,
                       height: verticalBottom - verticalTop,
+                      transitionDuration: `${animationSettings.rowDuration}ms`,
                     }}
                   />
                   {children.map((child, index) => (
                     <span
                       key={child.id}
-                      className="absolute border-t border-dashed border-[#a9aaa5] transition-[top,left,width,opacity] duration-150 ease-out data-[entering=true]:opacity-0 motion-reduce:transition-none dark:border-[#50514d]"
-                      data-entering={
-                        enteringNodeIds.has(child.id) ? "true" : undefined
+                      className="absolute border-t border-dashed border-[#a9aaa5] transition-[top,left,width] ease-linear data-[concealed=true]:opacity-0 motion-reduce:transition-none dark:border-[#50514d]"
+                      data-concealed={
+                        concealedNodeIds.has(child.id) ? "true" : undefined
                       }
                       style={{
                         left: middleX,
                         top: childYs[index],
                         width: childX - middleX,
+                        transitionDuration: `${animationSettings.rowDuration}ms`,
                       }}
                     />
                   ))}
@@ -438,15 +495,32 @@ export function EndlessCanvas() {
                 data-node="true"
                 data-kind={node.kind}
                 data-selected={selectedNodeId === node.id ? "true" : undefined}
-                data-entering={
-                  enteringNodeIds.has(node.id) ? "true" : undefined
+                data-concealed={
+                  concealedNodeIds.has(node.id) ? "true" : undefined
                 }
-                className="absolute top-0 left-0 min-h-28 cursor-pointer border transition-[transform,opacity] duration-150 ease-out will-change-transform data-[entering=true]:pointer-events-none data-[entering=true]:opacity-0 motion-reduce:transition-none border-[#aaa9a4] bg-[#f1f1ee] p-4 text-left shadow-[0_12px_32px_rgba(0,0,0,0.08)] hover:border-[#777773] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846] data-[selected=true]:border-[#ff6846] data-[selected=true]:shadow-[0_0_28px_rgba(255,104,70,0.16)] dark:border-[#484946] dark:bg-[#1b1c1a] dark:shadow-[0_12px_32px_rgba(0,0,0,0.32)] dark:hover:border-[#72736e]"
+                className="absolute top-0 left-0 min-h-28 cursor-pointer border transition-transform ease-linear will-change-transform data-[concealed=true]:pointer-events-none data-[concealed=true]:opacity-0 motion-reduce:transition-none border-[#aaa9a4] bg-[#f1f1ee] p-4 text-left shadow-[0_12px_32px_rgba(0,0,0,0.08)] hover:border-[#777773] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846] data-[selected=true]:border-[#ff6846] data-[selected=true]:shadow-[0_0_28px_rgba(255,104,70,0.16)] dark:border-[#484946] dark:bg-[#1b1c1a] dark:shadow-[0_12px_32px_rgba(0,0,0,0.32)] dark:hover:border-[#72736e]"
                 style={{
                   width: node.width,
                   transform: `translate3d(${node.x}px, ${node.y}px, 0)`,
+                  transitionDuration: `${animationSettings.rowDuration}ms`,
                 }}
                 onClick={() => selectNode(node.id)}
+                onTransitionRun={(event) => {
+                  if (
+                    event.propertyName === "transform" &&
+                    animationTimersRef.current.size > 0
+                  ) {
+                    logAnimationEvent(`reflow start ${node.id}`);
+                  }
+                }}
+                onTransitionEnd={(event) => {
+                  if (
+                    event.propertyName === "transform" &&
+                    animationTimersRef.current.size > 0
+                  ) {
+                    logAnimationEvent(`reflow end ${node.id}`);
+                  }
+                }}
               >
                 <span className="flex justify-between gap-4 opacity-50">
                   <span>{node.parentId ?? "~"}</span>
@@ -506,6 +580,97 @@ export function EndlessCanvas() {
             <ThemeToggle />
           </span>
         </div>
+
+        <details
+          className="absolute top-4 right-4 w-fit max-w-[calc(100%-2rem)] open:w-72 border border-[#aaa9a4] bg-[#f1f1ee] dark:border-[#484946] dark:bg-[#1b1c1a]"
+          onPointerDown={(event) => event.stopPropagation()}
+          onWheel={(event) => event.stopPropagation()}
+        >
+          <summary className="cursor-pointer list-none px-3 py-2 hover:bg-black/5 [&::-webkit-details-marker]:hidden dark:hover:bg-white/5">
+            Animation debug
+          </summary>
+          <div className="space-y-3 border-t border-[#aaa9a4] p-3 dark:border-[#484946]">
+            <label className="grid grid-cols-[1fr_6rem] items-center gap-3">
+              <span>Row travel ms</span>
+              <input
+                className="min-w-0 border border-[#aaa9a4] bg-transparent px-2 py-1 dark:border-[#484946]"
+                type="number"
+                min={0}
+                max={8000}
+                step={50}
+                value={animationSettings.rowDuration}
+                onChange={(event) =>
+                  setAnimationSettings({
+                    rowDuration: Math.max(0, Number(event.target.value)),
+                  })
+                }
+              />
+            </label>
+            <p className="opacity-50">
+              Card 1 and sibling movement start together. Each next card waits
+              for one row of travel.
+            </p>
+            <div className="border border-[#aaa9a4] dark:border-[#484946]">
+              <div className="flex items-center justify-between border-b border-[#aaa9a4] px-2 py-1 dark:border-[#484946]">
+                <span>{animationDebug.direction.toUpperCase()}</span>
+                <span className="opacity-50">
+                  {animationDebug.nodeCount} nodes
+                </span>
+              </div>
+              <div
+                className="grid h-8"
+                style={{
+                  gridTemplateColumns: `repeat(${Math.max(1, animationDebug.nodeCount)}, minmax(0, 1fr))`,
+                }}
+              >
+                {Array.from(
+                  { length: Math.max(1, animationDebug.nodeCount) },
+                  (_, index) => `${animationDebug.direction}-${index + 1}`,
+                ).map((eventId, index) => (
+                    <span
+                      key={eventId}
+                      className="grid place-items-center border-r border-[#aaa9a4] last:border-r-0 data-[current=true]:bg-[#ff6846] data-[current=true]:text-black data-[passed=true]:bg-[#ff6846]/15 dark:border-[#484946]"
+                      data-current={
+                        !animationDebug.complete &&
+                        animationDebug.step === index
+                          ? "true"
+                          : undefined
+                      }
+                      data-passed={
+                        animationDebug.complete || animationDebug.step > index
+                          ? "true"
+                          : undefined
+                      }
+                    >
+                      {animationDebug.direction === "open" ? "+" : "-"}
+                      {index + 1}
+                    </span>
+                  ))}
+              </div>
+              <div className="flex justify-between border-t border-[#aaa9a4] px-2 py-1 opacity-50 dark:border-[#484946]">
+                <span>0ms</span>
+                <span>
+                  {(animationDebug.direction === "open"
+                    ? Math.max(0, animationDebug.nodeCount - 1)
+                    : animationDebug.nodeCount) * animationSettings.rowDuration}
+                  ms
+                </span>
+              </div>
+            </div>
+            <p className="opacity-50">Timing events log to the browser console.</p>
+            <div className="flex items-center justify-end border-t border-[#aaa9a4] pt-3 dark:border-[#484946]">
+              <button
+                type="button"
+                className="hover:underline"
+                onClick={() =>
+                  setAnimationSettings(DEFAULT_ANIMATION_SETTINGS)
+                }
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </details>
       </div>
 
       <DocumentModals
