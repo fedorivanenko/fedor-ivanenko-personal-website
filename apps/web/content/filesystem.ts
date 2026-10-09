@@ -1,13 +1,13 @@
-export const WORLD_WIDTH = 1540;
-export const WORLD_HEIGHT = 1200;
+export const NODE_WIDTH = 280;
 export const NODE_HEIGHT = 112;
+
+const COLUMN_GAP = 150;
+const ROW_GAP = 40;
+const WORLD_PADDING = 64;
 
 interface BaseNode {
   id: string;
   parentId?: string;
-  x: number;
-  y: number;
-  width: number;
   name: string;
   summary: string;
 }
@@ -24,13 +24,16 @@ export interface DocumentNode extends BaseNode {
 
 export type FileSystemNode = FolderNode | DocumentNode;
 
+export type PositionedNode = FileSystemNode & {
+  x: number;
+  y: number;
+  width: number;
+};
+
 export const nodes: FileSystemNode[] = [
   {
     kind: "folder",
     id: "fedor",
-    x: 180,
-    y: 470,
-    width: 280,
     name: "fedor/",
     summary: "5 items",
   },
@@ -38,9 +41,6 @@ export const nodes: FileSystemNode[] = [
     kind: "document",
     id: "about",
     parentId: "fedor",
-    x: 610,
-    y: 80,
-    width: 280,
     name: "about.md",
     summary: "profile and approach",
     content: "I work across the entire product, from figuring out how it should behave and designing the interface to implementing the underlying systems and getting everything into production.",
@@ -49,9 +49,6 @@ export const nodes: FileSystemNode[] = [
     kind: "folder",
     id: "work",
     parentId: "fedor",
-    x: 610,
-    y: 280,
-    width: 280,
     name: "work/",
     summary: "3 documents",
   },
@@ -59,9 +56,6 @@ export const nodes: FileSystemNode[] = [
     kind: "folder",
     id: "capabilities",
     parentId: "fedor",
-    x: 610,
-    y: 480,
-    width: 280,
     name: "capabilities/",
     summary: "3 documents",
   },
@@ -69,9 +63,6 @@ export const nodes: FileSystemNode[] = [
     kind: "folder",
     id: "experiments",
     parentId: "fedor",
-    x: 610,
-    y: 680,
-    width: 280,
     name: "experiments/",
     summary: "1 document",
   },
@@ -79,9 +70,6 @@ export const nodes: FileSystemNode[] = [
     kind: "document",
     id: "contact",
     parentId: "fedor",
-    x: 610,
-    y: 880,
-    width: 280,
     name: "contact.md",
     summary: "start a conversation",
     content: "Available for selected product design and engineering engagements.",
@@ -90,9 +78,6 @@ export const nodes: FileSystemNode[] = [
     kind: "document",
     id: "alkamind",
     parentId: "work",
-    x: 1040,
-    y: 180,
-    width: 280,
     name: "alkamind.md",
     summary: "Shopify theme rebuild",
     content: "Custom native Shopify theme architecture, frontend implementation, reusable sections, and storefront migration.",
@@ -101,9 +86,6 @@ export const nodes: FileSystemNode[] = [
     kind: "document",
     id: "exeter",
     parentId: "work",
-    x: 1040,
-    y: 320,
-    width: 280,
     name: "exeter.md",
     summary: "Next.js and Sanity",
     content: "Editorial platform implementation with a Next.js frontend and structured Sanity content system.",
@@ -112,9 +94,6 @@ export const nodes: FileSystemNode[] = [
     kind: "document",
     id: "jadey",
     parentId: "work",
-    x: 1040,
-    y: 460,
-    width: 280,
     name: "jadey.md",
     summary: "community platform",
     content: "Authentication experience, selected product surfaces, and interface motion built with Next.js, Sanity, and Supabase.",
@@ -123,9 +102,6 @@ export const nodes: FileSystemNode[] = [
     kind: "document",
     id: "product-design",
     parentId: "capabilities",
-    x: 1040,
-    y: 610,
-    width: 280,
     name: "product-design.md",
     summary: "UX and interface design",
     content: "Product behavior, interaction systems, information architecture, interface design, and prototyping.",
@@ -134,9 +110,6 @@ export const nodes: FileSystemNode[] = [
     kind: "document",
     id: "engineering",
     parentId: "capabilities",
-    x: 1040,
-    y: 750,
-    width: 280,
     name: "engineering.md",
     summary: "frontend and backend",
     content: "TypeScript, React, Next.js, APIs, data models, integrations, and production infrastructure.",
@@ -145,9 +118,6 @@ export const nodes: FileSystemNode[] = [
     kind: "document",
     id: "ai-systems",
     parentId: "capabilities",
-    x: 1040,
-    y: 890,
-    width: 280,
     name: "ai-systems.md",
     summary: "LLMs and agents",
     content: "LLM integrations, agent orchestration, evaluation flows, workflow automation, and developer tooling.",
@@ -156,9 +126,6 @@ export const nodes: FileSystemNode[] = [
     kind: "document",
     id: "nazare",
     parentId: "experiments",
-    x: 1040,
-    y: 1030,
-    width: 280,
     name: "nazare.md",
     summary: "open-source Shopify tooling",
     content: "Liquid-first infrastructure for Shopify themes that stay easier to build, maintain, and evolve.",
@@ -167,12 +134,68 @@ export const nodes: FileSystemNode[] = [
 
 export const nodeById = new Map(nodes.map((node) => [node.id, node]));
 
-export function isNodeVisible(
-  node: FileSystemNode,
-  expandedFolders: Set<string>,
-): boolean {
-  if (!node.parentId) return true;
-  const parent = nodeById.get(node.parentId);
-  if (!parent || !expandedFolders.has(parent.id)) return false;
-  return isNodeVisible(parent, expandedFolders);
+const maximumTreeDepth = nodes.reduce((maximumDepth, node) => {
+  let depth = 0;
+  let parentId = node.parentId;
+  while (parentId) {
+    depth += 1;
+    parentId = nodeById.get(parentId)?.parentId;
+  }
+  return Math.max(maximumDepth, depth);
+}, 0);
+
+const childrenByParentId = new Map<string, FileSystemNode[]>();
+for (const node of nodes) {
+  if (!node.parentId) continue;
+  const children = childrenByParentId.get(node.parentId) ?? [];
+  children.push(node);
+  childrenByParentId.set(node.parentId, children);
+}
+
+export function layoutVisibleNodes(expandedFolders: Set<string>): {
+  nodes: PositionedNode[];
+  width: number;
+  height: number;
+} {
+  const positions = new Map<string, PositionedNode>();
+  let lastRowY = WORLD_PADDING;
+
+  function placeNode(node: FileSystemNode, depth: number, y: number) {
+    positions.set(node.id, {
+      ...node,
+      x: WORLD_PADDING + depth * (NODE_WIDTH + COLUMN_GAP),
+      y,
+      width: NODE_WIDTH,
+    });
+
+    const children =
+      node.kind === "folder" && expandedFolders.has(node.id)
+        ? (childrenByParentId.get(node.id) ?? [])
+        : [];
+    children.forEach((child, index) => {
+      if (index > 0) lastRowY += NODE_HEIGHT + ROW_GAP;
+      placeNode(child, depth + 1, index === 0 ? y : lastRowY);
+    });
+  }
+
+  const roots = nodes.filter((node) => !node.parentId);
+  roots.forEach((root, index) => {
+    if (index > 0) lastRowY += NODE_HEIGHT + ROW_GAP;
+    placeNode(root, 0, lastRowY);
+  });
+
+  return {
+    nodes: nodes.flatMap((node) => {
+      const positionedNode = positions.get(node.id);
+      return positionedNode ? [positionedNode] : [];
+    }),
+    width:
+      WORLD_PADDING * 2 +
+      (maximumTreeDepth + 1) * NODE_WIDTH +
+      maximumTreeDepth * COLUMN_GAP,
+    height: Math.max(
+      NODE_HEIGHT + WORLD_PADDING * 2,
+      lastRowY + NODE_HEIGHT + WORLD_PADDING,
+    ),
+  };
 }

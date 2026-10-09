@@ -7,16 +7,17 @@ import { DocumentModals } from "@/components/document-modal";
 import ThemeToggle from "@/components/theme-toggle";
 
 import {
-  isNodeVisible,
+  layoutVisibleNodes,
   NODE_HEIGHT,
   nodeById,
-  nodes,
-  WORLD_HEIGHT,
-  WORLD_WIDTH,
 } from "@/content/filesystem";
 
 const MIN_SCALE = 0.35;
 const MAX_SCALE = 1.6;
+const REFLOW_DURATION = 150;
+const CASCADE_OVERLAP = REFLOW_DURATION * 0.5;
+const REVEAL_DELAY = REFLOW_DURATION - CASCADE_OVERLAP;
+const CASCADE_STEP = 20;
 
 export function EndlessCanvas() {
   const viewportRef = React.useRef<HTMLDivElement>(null);
@@ -32,6 +33,10 @@ export function EndlessCanvas() {
     worldX: number;
     worldY: number;
   } | null>(null);
+  const hasInitialFitRef = React.useRef(false);
+  const animationTimersRef = React.useRef(
+    new Set<ReturnType<typeof setTimeout>>(),
+  );
   const [scale, setScale] = React.useState(0.8);
   const [offset, setOffset] = React.useState({ x: 0, y: 0 });
   const [selectedNodeId, setSelectedNodeId] = React.useState("fedor");
@@ -39,9 +44,18 @@ export function EndlessCanvas() {
   const [expandedFolders, setExpandedFolders] = React.useState(
     () => new Set(["fedor", "work", "capabilities", "experiments"]),
   );
+  const [enteringNodeIds, setEnteringNodeIds] = React.useState(
+    () => new Set<string>(),
+  );
 
-  const visibleNodes = nodes.filter((node) =>
-    isNodeVisible(node, expandedFolders),
+  const layout = React.useMemo(
+    () => layoutVisibleNodes(expandedFolders),
+    [expandedFolders],
+  );
+  const visibleNodes = layout.nodes;
+  const visibleNodeById = React.useMemo(
+    () => new Map(visibleNodes.map((node) => [node.id, node])),
+    [visibleNodes],
   );
   const openDocuments = openDocumentIds.flatMap((documentId) => {
     const node = nodeById.get(documentId);
@@ -56,21 +70,30 @@ export function EndlessCanvas() {
     const availableHeight = viewport.clientHeight;
     const fitScale = Math.min(
       0.9,
-      (availableWidth - 80) / WORLD_WIDTH,
-      (availableHeight - 80) / WORLD_HEIGHT,
+      (availableWidth - 80) / layout.width,
+      (availableHeight - 80) / layout.height,
     );
     const nextScale = Math.max(0.45, fitScale);
 
     setScale(nextScale);
     setOffset({
-      x: (availableWidth - WORLD_WIDTH * nextScale) / 2,
-      y: (availableHeight - WORLD_HEIGHT * nextScale) / 2,
+      x: (availableWidth - layout.width * nextScale) / 2,
+      y: (availableHeight - layout.height * nextScale) / 2,
     });
-  }, []);
+  }, [layout.height, layout.width]);
 
   React.useLayoutEffect(() => {
+    if (hasInitialFitRef.current) return;
+    hasInitialFitRef.current = true;
     fitCanvas();
   }, [fitCanvas]);
+
+  React.useEffect(
+    () => () => {
+      for (const timer of animationTimersRef.current) clearTimeout(timer);
+    },
+    [],
+  );
 
   React.useEffect(() => {
     const viewport = viewportRef.current;
@@ -100,7 +123,7 @@ export function EndlessCanvas() {
 
   function goToCurrent() {
     const viewport = viewportRef.current;
-    const node = nodeById.get(selectedNodeId);
+    const node = visibleNodeById.get(selectedNodeId);
     if (!viewport || !node) return;
 
     setOffset({
@@ -126,6 +149,14 @@ export function EndlessCanvas() {
     });
   }
 
+  function scheduleAnimation(delay: number, callback: () => void) {
+    const timer = setTimeout(() => {
+      callback();
+      animationTimersRef.current.delete(timer);
+    }, delay);
+    animationTimersRef.current.add(timer);
+  }
+
   function selectNode(nodeId: string) {
     const node = nodeById.get(nodeId);
     if (!node) return;
@@ -139,12 +170,71 @@ export function EndlessCanvas() {
       return;
     }
 
-    setExpandedFolders((current) => {
-      const next = new Set(current);
-      if (next.has(nodeId)) next.delete(nodeId);
-      else next.add(nodeId);
-      return next;
+    if (animationTimersRef.current.size > 0) return;
+
+    const nextExpandedFolders = new Set(expandedFolders);
+    const isExpanding = !nextExpandedFolders.has(nodeId);
+    if (isExpanding) nextExpandedFolders.add(nodeId);
+    else nextExpandedFolders.delete(nodeId);
+
+    const nextVisibleNodes = layoutVisibleNodes(nextExpandedFolders).nodes;
+    const currentNodeIds = new Set(
+      visibleNodes.map((visibleNode) => visibleNode.id),
+    );
+    const nextNodeIds = new Set(
+      nextVisibleNodes.map((visibleNode) => visibleNode.id),
+    );
+
+    if (isExpanding) {
+      const addedNodeIds = nextVisibleNodes
+        .filter((visibleNode) => !currentNodeIds.has(visibleNode.id))
+        .map((visibleNode) => visibleNode.id);
+
+      setEnteringNodeIds((current) => new Set([...current, ...addedNodeIds]));
+      addedNodeIds.forEach((addedNodeId, index) => {
+        scheduleAnimation(REVEAL_DELAY + index * CASCADE_STEP, () => {
+          setEnteringNodeIds((current) => {
+            const next = new Set(current);
+            next.delete(addedNodeId);
+            return next;
+          });
+        });
+      });
+      if (addedNodeIds.length > 0) {
+        scheduleAnimation(
+          REVEAL_DELAY +
+            (addedNodeIds.length - 1) * CASCADE_STEP +
+            REFLOW_DURATION,
+          () => undefined,
+        );
+      }
+      setExpandedFolders(nextExpandedFolders);
+      return;
+    }
+
+    const removedNodeIds = visibleNodes
+      .filter((visibleNode) => !nextNodeIds.has(visibleNode.id))
+      .map((visibleNode) => visibleNode.id)
+      .reverse();
+
+    removedNodeIds.forEach((removedNodeId, index) => {
+      scheduleAnimation(index * CASCADE_STEP, () => {
+        setEnteringNodeIds((current) => new Set([...current, removedNodeId]));
+      });
     });
+    const collapseDelay =
+      Math.max(0, removedNodeIds.length - 1) * CASCADE_STEP +
+      REFLOW_DURATION -
+      CASCADE_OVERLAP;
+    scheduleAnimation(collapseDelay, () => {
+      setExpandedFolders(nextExpandedFolders);
+      setEnteringNodeIds((current) => {
+        const next = new Set(current);
+        for (const removedNodeId of removedNodeIds) next.delete(removedNodeId);
+        return next;
+      });
+    });
+    scheduleAnimation(collapseDelay + REFLOW_DURATION, () => undefined);
   }
 
   function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
@@ -273,39 +363,69 @@ export function EndlessCanvas() {
         <div
           className="absolute top-0 left-0 origin-top-left"
           style={{
-            width: WORLD_WIDTH,
-            height: WORLD_HEIGHT,
+            width: layout.width,
+            height: layout.height,
             transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
           }}
         >
-          <svg
-            className="absolute inset-0 size-full overflow-visible"
-            viewBox={`0 0 ${WORLD_WIDTH} ${WORLD_HEIGHT}`}
-            aria-hidden="true"
-          >
-            {visibleNodes.map((node) => {
-              if (!node.parentId) return null;
-              const parent = nodeById.get(node.parentId);
-              if (!parent || !visibleNodes.some((item) => item.id === parent.id)) {
-                return null;
-              }
+          <div className="absolute inset-0" aria-hidden="true">
+            {visibleNodes.map((parent) => {
+              const children = visibleNodes.filter(
+                (node) => node.parentId === parent.id,
+              );
+              if (children.length === 0) return null;
 
               const parentX = parent.x + parent.width;
+              const childX = children[0].x;
               const parentY = parent.y + NODE_HEIGHT / 2;
-              const childY = node.y + NODE_HEIGHT / 2;
-              const middleX = parentX + (node.x - parentX) / 2;
+              const childYs = children.map(
+                (child) => child.y + NODE_HEIGHT / 2,
+              );
+              const middleX = parentX + (childX - parentX) / 2;
+              const verticalTop = Math.min(parentY, ...childYs);
+              const verticalBottom = Math.max(parentY, ...childYs);
+              const isBranchEntering = children.every((child) =>
+                enteringNodeIds.has(child.id),
+              );
 
               return (
-                <path
-                  key={`${parent.id}-${node.id}`}
-                  d={`M ${parentX} ${parentY} H ${middleX} V ${childY} H ${node.x}`}
-                  fill="none"
-                  className="stroke-[#a9aaa5] stroke-[1.5] dark:stroke-[#50514d]"
-                  strokeDasharray="5 5"
-                />
+                <React.Fragment key={parent.id}>
+                  <span
+                    className="absolute border-t border-dashed border-[#a9aaa5] transition-[top,left,width,opacity] duration-150 ease-out data-[entering=true]:opacity-0 motion-reduce:transition-none dark:border-[#50514d]"
+                    data-entering={isBranchEntering ? "true" : undefined}
+                    style={{
+                      left: parentX,
+                      top: parentY,
+                      width: middleX - parentX,
+                    }}
+                  />
+                  <span
+                    className="absolute border-l border-dashed border-[#a9aaa5] transition-[top,left,height,opacity] duration-150 ease-out data-[entering=true]:opacity-0 motion-reduce:transition-none dark:border-[#50514d]"
+                    data-entering={isBranchEntering ? "true" : undefined}
+                    style={{
+                      left: middleX,
+                      top: verticalTop,
+                      height: verticalBottom - verticalTop,
+                    }}
+                  />
+                  {children.map((child, index) => (
+                    <span
+                      key={child.id}
+                      className="absolute border-t border-dashed border-[#a9aaa5] transition-[top,left,width,opacity] duration-150 ease-out data-[entering=true]:opacity-0 motion-reduce:transition-none dark:border-[#50514d]"
+                      data-entering={
+                        enteringNodeIds.has(child.id) ? "true" : undefined
+                      }
+                      style={{
+                        left: middleX,
+                        top: childYs[index],
+                        width: childX - middleX,
+                      }}
+                    />
+                  ))}
+                </React.Fragment>
               );
             })}
-          </svg>
+          </div>
 
           {visibleNodes.map((node) => {
             const isFolder = node.kind === "folder";
@@ -318,8 +438,14 @@ export function EndlessCanvas() {
                 data-node="true"
                 data-kind={node.kind}
                 data-selected={selectedNodeId === node.id ? "true" : undefined}
-                className="absolute min-h-28 cursor-pointer border border-[#aaa9a4] bg-[#f1f1ee] p-4 text-left shadow-[0_12px_32px_rgba(0,0,0,0.08)] hover:border-[#777773] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846] data-[selected=true]:border-[#ff6846] data-[selected=true]:shadow-[0_0_28px_rgba(255,104,70,0.16)] dark:border-[#484946] dark:bg-[#1b1c1a] dark:shadow-[0_12px_32px_rgba(0,0,0,0.32)] dark:hover:border-[#72736e]"
-                style={{ left: node.x, top: node.y, width: node.width }}
+                data-entering={
+                  enteringNodeIds.has(node.id) ? "true" : undefined
+                }
+                className="absolute top-0 left-0 min-h-28 cursor-pointer border transition-[transform,opacity] duration-150 ease-out will-change-transform data-[entering=true]:pointer-events-none data-[entering=true]:opacity-0 motion-reduce:transition-none border-[#aaa9a4] bg-[#f1f1ee] p-4 text-left shadow-[0_12px_32px_rgba(0,0,0,0.08)] hover:border-[#777773] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846] data-[selected=true]:border-[#ff6846] data-[selected=true]:shadow-[0_0_28px_rgba(255,104,70,0.16)] dark:border-[#484946] dark:bg-[#1b1c1a] dark:shadow-[0_12px_32px_rgba(0,0,0,0.32)] dark:hover:border-[#72736e]"
+                style={{
+                  width: node.width,
+                  transform: `translate3d(${node.x}px, ${node.y}px, 0)`,
+                }}
                 onClick={() => selectNode(node.id)}
               >
                 <span className="flex justify-between gap-4 opacity-50">
