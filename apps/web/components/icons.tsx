@@ -68,6 +68,25 @@ function LaptopIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+function FolderIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+      {...props}
+    >
+      <path d="M3 6.5A2.5 2.5 0 0 1 5.5 4H9l2 2h7.5A2.5 2.5 0 0 1 21 8.5v8A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5z" />
+    </svg>
+  );
+}
+
 function BackIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -88,4 +107,4 @@ function BackIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export { BackIcon, LaptopIcon, MoonIcon, SunIcon };
+export { BackIcon, FolderIcon, LaptopIcon, MoonIcon, SunIcon };

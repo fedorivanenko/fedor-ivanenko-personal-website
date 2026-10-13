@@ -59,7 +59,6 @@
 
 .title {
   color: var(--foreground);
-  font-size: var(--text-base);
   font-weight: 600;
   line-height: 1.5;
   transform: translateY(0.12em);
@@ -82,17 +81,15 @@
 }
 
 .close {
+  width: auto;
+  border-radius: 0;
+  padding-inline: 0.5rem;
   color: var(--muted-foreground);
 }
 
 .close:hover {
   background: color-mix(in oklab, var(--foreground) 20%, transparent);
   color: var(--foreground);
-}
-
-.close svg {
-  width: 1rem;
-  height: 1rem;
 }
 
 .form {
@@ -149,8 +146,7 @@
 .fieldError {
   padding: 0.375rem 0.875rem 0;
   color: var(--destructive);
-  font-size: var(--text-xs);
-  line-height: 1.3333;
+  line-height: inherit;
 }
 
 .composer {
@@ -183,8 +179,7 @@
   min-width: 0;
   padding-bottom: 0.375rem;
   color: var(--muted-foreground);
-  font-size: var(--text-xs);
-  line-height: 1.3333;
+  line-height: inherit;
 }
 
 .error {

@@ -1,3 +1,8 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
 :root {
   --background: oklch(0.97 0 0);
   --foreground: oklch(0.28 0 0);
@@ -106,7 +111,7 @@ body {
   flex-direction: column;
   background: var(--background);
   color: var(--secondary-foreground);
-  font-family: var(--font-thie);
+  font-family: var(--font-commit);
   font-size: var(--text-base);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -290,4 +295,5 @@ pre code [data-line] {
     animation-duration: 0.01ms;
     animation-delay: 0.01ms;
   }
+}
 }
