@@ -20,6 +20,7 @@ export interface DocumentNode extends BaseNode {
   kind: "document";
   parentId: string;
   content: string;
+  links?: { href: string; label: string }[];
 }
 
 export type FileSystemNode = FolderNode | DocumentNode;
@@ -35,7 +36,7 @@ export const nodes: FileSystemNode[] = [
     kind: "folder",
     id: "fedor",
     name: "fedor/",
-    summary: "5 items",
+    summary: "4 items",
   },
   {
     kind: "document",
@@ -43,14 +44,13 @@ export const nodes: FileSystemNode[] = [
     parentId: "fedor",
     name: "about.md",
     summary: "profile and approach",
-    content: "I work across the entire product, from figuring out how it should behave and designing the interface to implementing the underlying systems and getting everything into production.",
-  },
-  {
-    kind: "folder",
-    id: "work",
-    parentId: "fedor",
-    name: "work/",
-    summary: "3 documents",
+    content: `I'm Fedor Ivanenko, an independent AI engineer. I design and build complex interfaces, tools, and AI-native systems from early concepts to production.
+
+I believe we're at the dawn of AI-native software. A lot is going to change about how we build and use software, but my standards for it are simple: fast, intuitive, and nice-looking.
+
+I'm currently building Nazare, a self-improving system for autonomous software evolution. The idea is that software can learn from its own changes, making each subsequent modification cheaper and more reliable. The long-term goal is lights-off software engineering.
+
+I like working directly with engineers, making decisions quickly, and keeping boundaries clear. I use this site to share what I'm building, researching, and experimenting with.`,
   },
   {
     kind: "folder",
@@ -61,10 +61,10 @@ export const nodes: FileSystemNode[] = [
   },
   {
     kind: "folder",
-    id: "experiments",
+    id: "work",
     parentId: "fedor",
-    name: "experiments/",
-    summary: "1 document",
+    name: "work/",
+    summary: "2 documents",
   },
   {
     kind: "document",
@@ -73,46 +73,53 @@ export const nodes: FileSystemNode[] = [
     name: "contact.md",
     summary: "start a conversation",
     content: "Available for selected product design and engineering engagements.",
+    links: [
+      { href: "mailto:f@fedor.studio", label: "f@fedor.studio" },
+      {
+        href: "https://x.com/fedorivanenko_",
+        label: "https://x.com/fedorivanenko_",
+      },
+      {
+        href: "https://www.linkedin.com/in/fedorivanenko",
+        label: "https://www.linkedin.com/in/fedorivanenko",
+      },
+    ],
   },
   {
     kind: "document",
-    id: "alkamind",
+    id: "geo-ops",
     parentId: "work",
-    name: "alkamind.md",
-    summary: "Shopify theme rebuild",
-    content: "Custom native Shopify theme architecture, frontend implementation, reusable sections, and storefront migration.",
+    name: "geo-ops.md",
+    summary: "AI Product Engineer",
+    content: `GEO Ops
+AI Product Engineer
+
+GEO Ops is an AI-powered operations platform built for Hyuman, a generative engine optimization agency
+
+It turns the agency's manual research, analysis, and reporting processes into automated workflows with human review at critical steps
+
+The system researches potential clients, evaluates their visibility across AI search engines, analyzes competitors, and generates evidence-checked sales presentations.
+
+I'm designing and engineering the platform end-to-end, including its interface, workflow engine, AI pipelines, and infrastructure.`,
   },
   {
     kind: "document",
-    id: "exeter",
+    id: "nazare",
     parentId: "work",
-    name: "exeter.md",
-    summary: "Next.js and Sanity",
-    content: "Editorial platform implementation with a Next.js frontend and structured Sanity content system.",
-  },
-  {
-    kind: "document",
-    id: "jadey",
-    parentId: "work",
-    name: "jadey.md",
-    summary: "community platform",
-    content: "Authentication experience, selected product surfaces, and interface motion built with Next.js, Sanity, and Supabase.",
-  },
-  {
-    kind: "document",
-    id: "product-design",
-    parentId: "capabilities",
-    name: "product-design.md",
-    summary: "UX and interface design",
-    content: "Product behavior, interaction systems, information architecture, interface design, and prototyping.",
-  },
-  {
-    kind: "document",
-    id: "engineering",
-    parentId: "capabilities",
-    name: "engineering.md",
-    summary: "frontend and backend",
-    content: "TypeScript, React, Next.js, APIs, data models, integrations, and production infrastructure.",
+    name: "nazare.md",
+    summary: "Founder & Engineer",
+    content: `Nazare
+Founder & Engineer
+
+I'm building Nazare, a self-improving AI system for autonomous software development.
+
+The idea is that software can learn from how it changes and become easier to modify over time. Nazare explores this by learning the behavior of individual codebases, testing possible changes, and improving both the software and the process used to change it.`,
+    links: [
+      {
+        href: "https://nazare.engineering",
+        label: "https://nazare.engineering",
+      },
+    ],
   },
   {
     kind: "document",
@@ -120,15 +127,29 @@ export const nodes: FileSystemNode[] = [
     parentId: "capabilities",
     name: "ai-systems.md",
     summary: "LLMs and agents",
-    content: "LLM integrations, agent orchestration, evaluation flows, workflow automation, and developer tooling.",
+    content: `AI Systems Engineering
+
+I build agentic systems that combine LLMs, tools, and APIs to automate complex workflows. From orchestration and integrations to human-in-the-loop review and intervention`,
   },
   {
     kind: "document",
-    id: "nazare",
-    parentId: "experiments",
-    name: "nazare.md",
-    summary: "open-source Shopify tooling",
-    content: "Liquid-first infrastructure for Shopify themes that stay easier to build, maintain, and evolve.",
+    id: "product-design",
+    parentId: "capabilities",
+    name: "product-design.md",
+    summary: "UX and interface design",
+    content: `Design Engineering
+
+I design and build complex, interactive interfaces for AI products and operational software. Dashboards, visual tools, data-heavy applications, and interfaces that make sophisticated systems intuitive to use`,
+  },
+  {
+    kind: "document",
+    id: "engineering",
+    parentId: "capabilities",
+    name: "engineering.md",
+    summary: "frontend and backend",
+    content: `Full-Stack Engineering
+
+I take products from early prototypes to production, working across frontend, backend, APIs, and third-party integrations.`,
   },
 ];
 

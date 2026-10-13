@@ -114,8 +114,23 @@ function DocumentWindow({
       </header>
 
       <div className="flex-1 overflow-y-auto p-5">
-        <p className="opacity-50">{document.summary}</p>
-        <p className="mt-8 leading-[1.6]">{document.content}</p>
+        <p className="whitespace-pre-line leading-[1.6]">{document.content}</p>
+        {document.links ? (
+          <ul className="mt-6 space-y-2">
+            {document.links.map((link) => (
+              <li key={link.href}>
+                <a
+                  className="underline decoration-current/40 underline-offset-4 hover:decoration-current focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846]"
+                  href={link.href}
+                  target={link.href.startsWith("http") ? "_blank" : undefined}
+                  rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </div>
 
     </article>
