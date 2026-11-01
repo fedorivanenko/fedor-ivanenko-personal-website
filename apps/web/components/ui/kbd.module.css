@@ -11,7 +11,7 @@
   background: var(--muted);
   color: var(--muted-foreground);
   padding: 0 0.25rem;
-  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-server-mono);
   font-size: var(--text-xxs);
   font-weight: 500;
   pointer-events: none;

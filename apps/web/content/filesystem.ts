@@ -44,13 +44,9 @@ export const nodes: FileSystemNode[] = [
     parentId: "fedor",
     name: "about.md",
     summary: "profile and approach",
-    content: `I'm Fedor Ivanenko, an independent AI engineer. I design and build complex interfaces, tools, and AI-native systems from early concepts to production.
+    content: `I'm Fedor Ivanenko, an independent AI engineer. I design and build AI-native tools with complex UI/UX from early concepts to production.
 
-I believe we're at the dawn of AI-native software. A lot is going to change about how we build and use software, but my standards for it are simple: fast, intuitive, and nice-looking.
-
-I'm currently building Nazare, a self-improving system for autonomous software evolution. The idea is that software can learn from its own changes, making each subsequent modification cheaper and more reliable. The long-term goal is lights-off software engineering.
-
-I like working directly with engineers, making decisions quickly, and keeping boundaries clear. I use this site to share what I'm building, researching, and experimenting with.`,
+I also like to build websites and any cool UI you might need.`,
   },
   {
     kind: "folder",
@@ -94,13 +90,7 @@ I like working directly with engineers, making decisions quickly, and keeping bo
     content: `GEO Ops
 AI Product Engineer
 
-GEO Ops is an AI-powered operations platform built for Hyuman, a generative engine optimization agency
-
-It turns the agency's manual research, analysis, and reporting processes into automated workflows with human review at critical steps
-
-The system researches potential clients, evaluates their visibility across AI search engines, analyzes competitors, and generates evidence-checked sales presentations.
-
-I'm designing and engineering the platform end-to-end, including its interface, workflow engine, AI pipelines, and infrastructure.`,
+I'm working as a founding engineer at a generative engine optimization agency, building an AI agent that works across the entire company workflow.`,
   },
   {
     kind: "document",
@@ -111,9 +101,9 @@ I'm designing and engineering the platform end-to-end, including its interface, 
     content: `Nazare
 Founder & Engineer
 
-I'm building Nazare, a self-improving AI system for autonomous software development.
+Nazare is an AI agent harness that makes decisions you can trust.
 
-The idea is that software can learn from how it changes and become easier to modify over time. Nazare explores this by learning the behavior of individual codebases, testing possible changes, and improving both the software and the process used to change it.`,
+Nazare prevents LLMs from committing to decisions that are under-researched or based entirely on assumptions by actively challenging them and searching for evidence from reality.`,
     links: [
       {
         href: "https://nazare.engineering",
@@ -127,19 +117,19 @@ The idea is that software can learn from how it changes and become easier to mod
     parentId: "capabilities",
     name: "ai-systems.md",
     summary: "LLMs and agents",
-    content: `AI Systems Engineering
+    content: `AI Engineering
 
-I build agentic systems that combine LLMs, tools, and APIs to automate complex workflows. From orchestration and integrations to human-in-the-loop review and intervention`,
+I'm building AI agents and AI-native products.`,
   },
   {
     kind: "document",
     id: "product-design",
     parentId: "capabilities",
     name: "product-design.md",
-    summary: "UX and interface design",
+    summary: "UI/UX design",
     content: `Design Engineering
 
-I design and build complex, interactive interfaces for AI products and operational software. Dashboards, visual tools, data-heavy applications, and interfaces that make sophisticated systems intuitive to use`,
+I design and build complex UI/UX and websites.`,
   },
   {
     kind: "document",
@@ -149,7 +139,7 @@ I design and build complex, interactive interfaces for AI products and operation
     summary: "frontend and backend",
     content: `Full-Stack Engineering
 
-I take products from early prototypes to production, working across frontend, backend, APIs, and third-party integrations.`,
+I build web applications and websites. My preferred stack is Next.js, TanStack, and TypeScript.`,
   },
 ];
 
