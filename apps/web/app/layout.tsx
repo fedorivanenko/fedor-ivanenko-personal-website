@@ -3,7 +3,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { commit } from "@/lib/fonts";
+import { serverMono } from "@/lib/fonts";
 import { generateMetadata } from "@/lib/metadata";
 
 import "./globals.css";
@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={commit.variable}
+      className={serverMono.variable}
       suppressHydrationWarning
     >
       <body>

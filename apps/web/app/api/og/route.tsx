@@ -2,11 +2,8 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-const commitMono = fetch(
-  new URL(
-    "../../../public/fonts/CommitMono-400-Regular.woff",
-    import.meta.url,
-  ),
+const serverMono = fetch(
+  new URL("../../../public/fonts/ServerMono-Regular.woff", import.meta.url),
 ).then((response) => response.arrayBuffer());
 
 export async function GET() {
@@ -22,7 +19,7 @@ export async function GET() {
         overflow: "hidden",
         backgroundColor: "#151515",
         color: "#e8e8e3",
-        fontFamily: "Commit Mono",
+        fontFamily: "Server Mono",
         fontSize: 18,
       }}
     >
@@ -86,8 +83,8 @@ export async function GET() {
       height: 630,
       fonts: [
         {
-          name: "Commit Mono",
-          data: await commitMono,
+          name: "Server Mono",
+          data: await serverMono,
           style: "normal",
           weight: 400,
         },
