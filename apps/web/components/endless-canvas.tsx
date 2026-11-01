@@ -445,7 +445,7 @@ export function EndlessCanvas() {
   }
 
   return (
-    <div className="flex h-svh flex-col overflow-hidden bg-[#f1f1ee] text-[#141414] dark:bg-[#131313] dark:text-[#ebebe7]">
+    <div className="flex h-svh flex-col overflow-hidden bg-white text-black dark:bg-black dark:text-white">
       <div
         ref={viewportRef}
         className="relative flex-1 cursor-grab touch-none overflow-hidden overscroll-none active:cursor-grabbing"
@@ -456,7 +456,7 @@ export function EndlessCanvas() {
         onWheel={handleWheel}
       >
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,#c3c4bf_1px,transparent_1px)] transition-opacity dark:bg-[radial-gradient(circle,#353632_1px,transparent_1px)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,#d4d4d4_1px,transparent_1px)] transition-opacity dark:bg-[radial-gradient(circle,#262626_1px,transparent_1px)]"
           style={{
             backgroundPosition: `${offset.x}px ${offset.y}px`,
             backgroundSize: `${20 * scale}px ${20 * scale}px`,
@@ -495,7 +495,7 @@ export function EndlessCanvas() {
               return (
                 <React.Fragment key={parent.id}>
                   <span
-                    className="absolute border-t border-dashed border-[#a1a29d] transition-[top,left,width] ease-linear motion-reduce:transition-none dark:border-[#565753]"
+                    className="absolute border-t border-dashed border-neutral-400 transition-[top,left,width] ease-linear motion-reduce:transition-none dark:border-neutral-600"
                     style={{
                       left: parentX,
                       top: parentY,
@@ -512,7 +512,7 @@ export function EndlessCanvas() {
                       <React.Fragment key={child.id}>
                         {index > 0 ? (
                           <span
-                            className="absolute border-l border-dashed border-[#a1a29d] data-[concealed=true]:opacity-0 dark:border-[#565753]"
+                            className="absolute border-l border-dashed border-neutral-400 data-[concealed=true]:opacity-0 dark:border-neutral-600"
                             data-concealed={isConcealed ? "true" : undefined}
                             style={{
                               left: middleX,
@@ -522,7 +522,7 @@ export function EndlessCanvas() {
                           />
                         ) : null}
                         <span
-                          className="absolute border-t border-dashed border-[#a1a29d] transition-[top,left,width] ease-linear data-[concealed=true]:opacity-0 motion-reduce:transition-none dark:border-[#565753]"
+                          className="absolute border-t border-dashed border-neutral-400 transition-[top,left,width] ease-linear data-[concealed=true]:opacity-0 motion-reduce:transition-none dark:border-neutral-600"
                           data-concealed={isConcealed ? "true" : undefined}
                           style={{
                             left: middleX,
@@ -553,7 +553,7 @@ export function EndlessCanvas() {
                 data-concealed={
                   concealedNodeIds.has(node.id) ? "true" : undefined
                 }
-                className="group absolute left-0 top-0 min-h-28 cursor-pointer border border-[#a2a19c] bg-[#f4f4f1] p-4 text-left shadow-[0_12px_32px_rgba(0,0,0,0.09)] transition-transform ease-linear will-change-transform hover:border-[#6f6f6b] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846] data-[concealed=true]:pointer-events-none data-[selected=true]:border-[#ff6846] data-[selected=true]:hover:border-[#ff6846] data-[concealed=true]:opacity-0 data-[selected=true]:shadow-[0_0_28px_rgba(255,104,70,0.18)] motion-reduce:transition-none dark:border-[#4f504c] dark:bg-[#1e1f1d] dark:shadow-[0_12px_32px_rgba(0,0,0,0.36)] dark:hover:border-[#7b7c77]"
+                className="group absolute left-0 top-0 min-h-28 cursor-pointer border border-neutral-400 bg-white p-4 text-left shadow-[0_12px_32px_rgba(0,0,0,0.09)] transition-transform ease-linear will-change-transform hover:border-neutral-600 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846] data-[concealed=true]:pointer-events-none data-[selected=true]:border-[#ff6846] data-[selected=true]:hover:border-[#ff6846] data-[concealed=true]:opacity-0 data-[selected=true]:shadow-[0_0_28px_rgba(255,104,70,0.18)] motion-reduce:transition-none dark:border-neutral-600 dark:bg-black dark:shadow-[0_12px_32px_rgba(255,255,255,0.08)] dark:hover:border-neutral-400"
                 style={{
                   width: node.width,
                   transform: `translate3d(${node.x}px, ${node.y}px, 0)`,
@@ -597,21 +597,21 @@ export function EndlessCanvas() {
           })}
         </div>
 
-        <div className="absolute bottom-4 left-4 flex border border-[#a2a19c] bg-[#f4f4f1] dark:border-[#4f504c] dark:bg-[#1e1f1d]">
+        <div className="absolute bottom-4 left-4 flex border border-neutral-400 bg-white dark:border-neutral-600 dark:bg-black">
           <button
             type="button"
-            className="size-7 border-r border-[#a2a19c] hover:bg-black/[0.075] dark:border-[#4f504c] dark:hover:bg-white/[0.075]"
+            className="size-7 border-r border-neutral-400 hover:bg-black/[0.075] dark:border-neutral-600 dark:hover:bg-white/[0.075]"
             onClick={() => changeScale(scale - 0.1)}
             aria-label="Zoom out"
           >
             -
           </button>
-          <span className="flex h-7 items-center border-r border-[#a2a19c] px-2 dark:border-[#4f504c]">
+          <span className="flex h-7 items-center border-r border-neutral-400 px-2 dark:border-neutral-600">
             {Math.round(scale * 100)}%
           </span>
           <button
             type="button"
-            className="size-7 border-r border-[#a2a19c] hover:bg-black/[0.075] dark:border-[#4f504c] dark:hover:bg-white/[0.075]"
+            className="size-7 border-r border-neutral-400 hover:bg-black/[0.075] dark:border-neutral-600 dark:hover:bg-white/[0.075]"
             onClick={() => changeScale(scale + 0.1)}
             aria-label="Zoom in"
           >
@@ -619,7 +619,7 @@ export function EndlessCanvas() {
           </button>
           <button
             type="button"
-            className="grid size-7 place-items-center border-r border-[#a2a19c] hover:bg-black/[0.075] dark:border-[#4f504c] dark:hover:bg-white/[0.075]"
+            className="grid size-7 place-items-center border-r border-neutral-400 hover:bg-black/[0.075] dark:border-neutral-600 dark:hover:bg-white/[0.075]"
             onClick={() => fitCanvas(true)}
             aria-label="Fit canvas"
             title="Fit canvas"
@@ -628,7 +628,7 @@ export function EndlessCanvas() {
           </button>
           <button
             type="button"
-            className="grid size-7 place-items-center border-r border-[#a2a19c] hover:bg-black/[0.075] dark:border-[#4f504c] dark:hover:bg-white/[0.075]"
+            className="grid size-7 place-items-center border-r border-neutral-400 hover:bg-black/[0.075] dark:border-neutral-600 dark:hover:bg-white/[0.075]"
             onClick={goToCurrent}
             aria-label="Go to current folder"
             title="Go to current folder"

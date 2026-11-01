@@ -77,8 +77,8 @@ function DocumentWindow({
     <article
       className={
         mobile
-          ? "flex h-full w-full flex-col border border-[#a2a19c] bg-[#f4f4f1] text-[#141414] dark:border-[#4f504c] dark:bg-[#1e1f1d] dark:text-[#ebebe7]"
-          : "pointer-events-auto absolute flex max-h-[min(42rem,calc(100svh-2rem))] min-h-72 w-[30rem] max-w-[calc(100vw-2rem)] flex-col overflow-hidden border border-[#a2a19c] bg-[#f4f4f1] text-[#141414] shadow-[0_20px_60px_rgba(0,0,0,0.34)] data-[selected=true]:border-[#ff6846] dark:border-[#4f504c] dark:bg-[#1e1f1d] dark:text-[#ebebe7]"
+          ? "flex h-full w-full flex-col border border-neutral-400 bg-white text-black dark:border-neutral-600 dark:bg-black dark:text-white"
+          : "pointer-events-auto absolute flex max-h-[min(42rem,calc(100svh-2rem))] min-h-72 w-[30rem] max-w-[calc(100vw-2rem)] flex-col overflow-hidden border border-neutral-400 bg-white text-black shadow-[0_20px_60px_rgba(0,0,0,0.34)] data-[selected=true]:border-[#ff6846] dark:border-neutral-600 dark:bg-black dark:text-white"
       }
       style={
         position
@@ -92,7 +92,7 @@ function DocumentWindow({
       onPointerDown={onSelect}
     >
       <header
-        className="flex touch-none select-none items-center justify-between gap-4 border-b border-[#a2a19c] p-3 md:cursor-move dark:border-[#4f504c]"
+        className="flex touch-none select-none items-center justify-between gap-4 border-b border-neutral-400 p-3 md:cursor-move dark:border-neutral-600"
         onPointerDown={onDragStart}
         onPointerMove={onDrag}
         onPointerUp={onDragEnd}
@@ -100,11 +100,11 @@ function DocumentWindow({
       >
         <h2 id={titleId} className="min-w-0 truncate">
           <span className="opacity-[0.55]">{parentPath}</span>
-          <span className="text-[#141414] dark:text-white">{document.name}</span>
+          <span className="text-black dark:text-white">{document.name}</span>
         </h2>
         <button
           type="button"
-          className="grid size-7 shrink-0 cursor-pointer place-items-center border border-[#a2a19c] hover:bg-black/[0.075] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846] dark:border-[#4f504c] dark:hover:bg-white/[0.075]"
+          className="grid size-7 shrink-0 cursor-pointer place-items-center border border-neutral-400 hover:bg-black/[0.075] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846] dark:border-neutral-600 dark:hover:bg-white/[0.075]"
           aria-label={`Close ${document.name}`}
           title="Close"
           onClick={onClose}

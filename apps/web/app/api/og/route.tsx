@@ -17,8 +17,8 @@ export async function GET() {
         alignItems: "center",
         justifyContent: "center",
         overflow: "hidden",
-        backgroundColor: "#151515",
-        color: "#e8e8e3",
+        backgroundColor: "#000000",
+        color: "#ffffff",
         fontFamily: "Server Mono",
         fontSize: 18,
       }}
@@ -37,7 +37,7 @@ export async function GET() {
             height="20"
             patternUnits="userSpaceOnUse"
           >
-            <circle cx="1" cy="1" r="1" fill="#30312e" />
+            <circle cx="1" cy="1" r="1" fill="#262626" />
           </pattern>
         </defs>
         <rect width="1200" height="630" fill="url(#dot-grid)" />
@@ -52,14 +52,14 @@ export async function GET() {
           justifyContent: "space-between",
           padding: 16,
           border: "1px solid #ff6846",
-          background: "#1b1c1a",
+          background: "#000000",
         }}
       >
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
-            color: "#8f908b",
+            color: "#a3a3a3",
           }}
         >
           <span>~</span>
@@ -70,7 +70,7 @@ export async function GET() {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            color: "#8f908b",
+            color: "#a3a3a3",
           }}
         >
           <span>5 items</span>
