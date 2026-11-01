@@ -446,7 +446,7 @@ export function EndlessCanvas() {
   }
 
   return (
-    <div className="flex h-svh flex-col overflow-hidden bg-neutral-100 text-black dark:bg-[#131313] dark:text-[#ebebe7]">
+    <div className="flex h-svh flex-col overflow-hidden bg-[#f0f0f0] text-black dark:bg-[#131313] dark:text-[#ebebe7]">
       <div
         ref={viewportRef}
         className="relative flex-1 cursor-grab touch-none overflow-hidden overscroll-none active:cursor-grabbing"
@@ -554,7 +554,7 @@ export function EndlessCanvas() {
                 data-concealed={
                   concealedNodeIds.has(node.id) ? "true" : undefined
                 }
-                className="group absolute left-0 top-0 grid h-30 cursor-pointer grid-rows-3 border border-transparent bg-white px-4 text-left text-[16px] shadow-[0_12px_32px_rgba(0,0,0,0.09)] transition-transform ease-linear will-change-transform focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846] data-[concealed=true]:pointer-events-none data-[selected=true]:border-[#ff6846] data-[selected=true]:hover:border-[#ff6846] data-[concealed=true]:opacity-0 data-[selected=true]:shadow-[inset_0_0_10px_rgba(255,104,70,0.12),0_0_28px_rgba(255,104,70,0.18)] motion-reduce:transition-none dark:border-neutral-600 dark:bg-[#1e1f1d] dark:shadow-[0_12px_32px_rgba(0,0,0,0.36)] dark:hover:border-neutral-400 dark:data-[selected=true]:shadow-[0_0_28px_rgba(255,104,70,0.18)]"
+                className="group absolute left-0 top-0 flex h-30 cursor-pointer flex-col justify-between border border-transparent bg-white p-4 text-left text-[16px] shadow-[0_12px_32px_rgba(0,0,0,0.09)] transition-transform ease-linear will-change-transform focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846] data-[concealed=true]:pointer-events-none data-[selected=true]:border-[#ff6846] data-[selected=true]:hover:border-[#ff6846] data-[concealed=true]:opacity-0 data-[selected=true]:shadow-[inset_0_0_10px_rgba(255,104,70,0.12),0_0_28px_rgba(255,104,70,0.18)] motion-reduce:transition-none dark:border-neutral-600 dark:bg-[#1e1f1d] dark:shadow-[0_12px_32px_rgba(0,0,0,0.36)] dark:hover:border-neutral-400 dark:data-[selected=true]:shadow-[0_0_28px_rgba(255,104,70,0.18)]"
                 style={{
                   width: node.width,
                   transform: `translate3d(${node.x}px, ${node.y}px, 0)`,
@@ -579,15 +579,15 @@ export function EndlessCanvas() {
                 }}
               >
                 {isFolder ? (
-                  <FolderIcon className="pointer-events-none absolute right-4 top-3 size-4 opacity-50" />
+                  <FolderIcon className="pointer-events-none absolute right-4 top-5 size-4 opacity-50" />
                 ) : (
-                  <FileTextIcon className="pointer-events-none absolute right-4 top-3 size-4 opacity-50" />
+                  <FileTextIcon className="pointer-events-none absolute right-4 top-5 size-4 opacity-50" />
                 )}
-                <span className="flex items-center justify-between gap-4 opacity-[0.55]">
+                <span className="flex justify-between gap-4 opacity-[0.55]">
                   <span>{node.parentId ?? "~"}</span>
                 </span>
-                <strong className="flex items-end font-normal">{node.name}</strong>
-                <span className="flex items-center justify-between gap-4 opacity-[0.65]">
+                <strong className="block font-normal">{node.name}</strong>
+                <span className="flex justify-between gap-4 opacity-[0.65]">
                   <span>{node.summary}</span>
                   {isFolder ? (
                     <span>{isExpanded ? "OPEN" : "CLOSED"}</span>
