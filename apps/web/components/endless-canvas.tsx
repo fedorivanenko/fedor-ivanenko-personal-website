@@ -12,6 +12,7 @@ import { FolderIcon } from "@/components/icons";
 import ThemeToggle from "@/components/theme-toggle";
 
 import {
+  GRID_SIZE,
   layoutVisibleNodes,
   NODE_HEIGHT,
   nodeById,
@@ -445,7 +446,7 @@ export function EndlessCanvas() {
   }
 
   return (
-    <div className="flex h-svh flex-col overflow-hidden bg-white text-black dark:bg-black dark:text-white">
+    <div className="flex h-svh flex-col overflow-hidden bg-neutral-100 text-black dark:bg-[#131313] dark:text-[#ebebe7]">
       <div
         ref={viewportRef}
         className="relative flex-1 cursor-grab touch-none overflow-hidden overscroll-none active:cursor-grabbing"
@@ -456,10 +457,10 @@ export function EndlessCanvas() {
         onWheel={handleWheel}
       >
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,#d4d4d4_1px,transparent_1px)] transition-opacity dark:bg-[radial-gradient(circle,#262626_1px,transparent_1px)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,#b8b8b8_1px,transparent_1px)] transition-opacity dark:bg-[radial-gradient(circle,#353632_1px,transparent_1px)]"
           style={{
             backgroundPosition: `${offset.x}px ${offset.y}px`,
-            backgroundSize: `${20 * scale}px ${20 * scale}px`,
+            backgroundSize: `${GRID_SIZE * scale}px ${GRID_SIZE * scale}px`,
             opacity: isCanvasReady
               ? Math.min(1, Math.max(0.05, scale))
               : 0,
@@ -495,7 +496,7 @@ export function EndlessCanvas() {
               return (
                 <React.Fragment key={parent.id}>
                   <span
-                    className="absolute border-t border-dashed border-neutral-400 transition-[top,left,width] ease-linear motion-reduce:transition-none dark:border-neutral-600"
+                    className="absolute h-px bg-[repeating-linear-gradient(to_right,#a3a3a3_0_2px,transparent_2px_5px)] transition-[top,left,width] ease-linear motion-reduce:transition-none dark:bg-[repeating-linear-gradient(to_right,#565753_0_2px,transparent_2px_5px)]"
                     style={{
                       left: parentX,
                       top: parentY,
@@ -512,7 +513,7 @@ export function EndlessCanvas() {
                       <React.Fragment key={child.id}>
                         {index > 0 ? (
                           <span
-                            className="absolute border-l border-dashed border-neutral-400 data-[concealed=true]:opacity-0 dark:border-neutral-600"
+                            className="absolute w-px bg-[repeating-linear-gradient(to_bottom,#a3a3a3_0_2px,transparent_2px_5px)] data-[concealed=true]:opacity-0 dark:bg-[repeating-linear-gradient(to_bottom,#565753_0_2px,transparent_2px_5px)]"
                             data-concealed={isConcealed ? "true" : undefined}
                             style={{
                               left: middleX,
@@ -522,7 +523,7 @@ export function EndlessCanvas() {
                           />
                         ) : null}
                         <span
-                          className="absolute border-t border-dashed border-neutral-400 transition-[top,left,width] ease-linear data-[concealed=true]:opacity-0 motion-reduce:transition-none dark:border-neutral-600"
+                          className="absolute h-px bg-[repeating-linear-gradient(to_right,#a3a3a3_0_2px,transparent_2px_5px)] transition-[top,left,width] ease-linear data-[concealed=true]:opacity-0 motion-reduce:transition-none dark:bg-[repeating-linear-gradient(to_right,#565753_0_2px,transparent_2px_5px)]"
                           data-concealed={isConcealed ? "true" : undefined}
                           style={{
                             left: middleX,
@@ -553,7 +554,7 @@ export function EndlessCanvas() {
                 data-concealed={
                   concealedNodeIds.has(node.id) ? "true" : undefined
                 }
-                className="group absolute left-0 top-0 min-h-28 cursor-pointer border border-neutral-400 bg-white p-4 text-left shadow-[0_12px_32px_rgba(0,0,0,0.09)] transition-transform ease-linear will-change-transform hover:border-neutral-600 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846] data-[concealed=true]:pointer-events-none data-[selected=true]:border-[#ff6846] data-[selected=true]:hover:border-[#ff6846] data-[concealed=true]:opacity-0 data-[selected=true]:shadow-[0_0_28px_rgba(255,104,70,0.18)] motion-reduce:transition-none dark:border-neutral-600 dark:bg-black dark:shadow-[0_12px_32px_rgba(255,255,255,0.08)] dark:hover:border-neutral-400"
+                className="group absolute left-0 top-0 grid h-30 cursor-pointer grid-rows-3 border border-transparent bg-white px-4 text-left text-[16px] shadow-[0_12px_32px_rgba(0,0,0,0.09)] transition-transform ease-linear will-change-transform focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#ff6846] data-[concealed=true]:pointer-events-none data-[selected=true]:border-[#ff6846] data-[selected=true]:hover:border-[#ff6846] data-[concealed=true]:opacity-0 data-[selected=true]:shadow-[inset_0_0_10px_rgba(255,104,70,0.12),0_0_28px_rgba(255,104,70,0.18)] motion-reduce:transition-none dark:border-neutral-600 dark:bg-[#1e1f1d] dark:shadow-[0_12px_32px_rgba(0,0,0,0.36)] dark:hover:border-neutral-400 dark:data-[selected=true]:shadow-[0_0_28px_rgba(255,104,70,0.18)]"
                 style={{
                   width: node.width,
                   transform: `translate3d(${node.x}px, ${node.y}px, 0)`,
@@ -578,15 +579,15 @@ export function EndlessCanvas() {
                 }}
               >
                 {isFolder ? (
-                  <FolderIcon className="pointer-events-none absolute right-3 top-3 size-4 opacity-50" />
+                  <FolderIcon className="pointer-events-none absolute right-4 top-3 size-4 opacity-50" />
                 ) : (
-                  <FileTextIcon className="pointer-events-none absolute right-3 top-3 size-4 opacity-50" />
+                  <FileTextIcon className="pointer-events-none absolute right-4 top-3 size-4 opacity-50" />
                 )}
-                <span className="flex justify-between gap-4 opacity-[0.55]">
+                <span className="flex items-center justify-between gap-4 opacity-[0.55]">
                   <span>{node.parentId ?? "~"}</span>
                 </span>
-                <strong className="mt-4 block font-normal">{node.name}</strong>
-                <span className="mt-2 flex justify-between gap-4 opacity-[0.65]">
+                <strong className="flex items-end font-normal">{node.name}</strong>
+                <span className="flex items-center justify-between gap-4 opacity-[0.65]">
                   <span>{node.summary}</span>
                   {isFolder ? (
                     <span>{isExpanded ? "OPEN" : "CLOSED"}</span>
@@ -597,21 +598,21 @@ export function EndlessCanvas() {
           })}
         </div>
 
-        <div className="absolute bottom-4 left-4 flex border border-neutral-400 bg-white dark:border-neutral-600 dark:bg-black">
+        <div className="absolute bottom-4 left-4 flex border border-neutral-300 bg-white dark:border-neutral-600 dark:bg-[#1e1f1d]">
           <button
             type="button"
-            className="size-7 border-r border-neutral-400 hover:bg-black/[0.075] dark:border-neutral-600 dark:hover:bg-white/[0.075]"
+            className="size-7 border-r border-neutral-300 hover:bg-black/[0.075] dark:border-neutral-600 dark:hover:bg-white/[0.075]"
             onClick={() => changeScale(scale - 0.1)}
             aria-label="Zoom out"
           >
             -
           </button>
-          <span className="flex h-7 items-center border-r border-neutral-400 px-2 dark:border-neutral-600">
+          <span className="flex h-7 items-center border-r border-neutral-300 px-2 dark:border-neutral-600">
             {Math.round(scale * 100)}%
           </span>
           <button
             type="button"
-            className="size-7 border-r border-neutral-400 hover:bg-black/[0.075] dark:border-neutral-600 dark:hover:bg-white/[0.075]"
+            className="size-7 border-r border-neutral-300 hover:bg-black/[0.075] dark:border-neutral-600 dark:hover:bg-white/[0.075]"
             onClick={() => changeScale(scale + 0.1)}
             aria-label="Zoom in"
           >
@@ -619,7 +620,7 @@ export function EndlessCanvas() {
           </button>
           <button
             type="button"
-            className="grid size-7 place-items-center border-r border-neutral-400 hover:bg-black/[0.075] dark:border-neutral-600 dark:hover:bg-white/[0.075]"
+            className="grid size-7 place-items-center border-r border-neutral-300 hover:bg-black/[0.075] dark:border-neutral-600 dark:hover:bg-white/[0.075]"
             onClick={() => fitCanvas(true)}
             aria-label="Fit canvas"
             title="Fit canvas"
@@ -628,7 +629,7 @@ export function EndlessCanvas() {
           </button>
           <button
             type="button"
-            className="grid size-7 place-items-center border-r border-neutral-400 hover:bg-black/[0.075] dark:border-neutral-600 dark:hover:bg-white/[0.075]"
+            className="grid size-7 place-items-center border-r border-neutral-300 hover:bg-black/[0.075] dark:border-neutral-600 dark:hover:bg-white/[0.075]"
             onClick={goToCurrent}
             aria-label="Go to current folder"
             title="Go to current folder"

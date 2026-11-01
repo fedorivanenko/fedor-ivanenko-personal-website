@@ -1,9 +1,10 @@
-export const NODE_WIDTH = 280;
-export const NODE_HEIGHT = 112;
+export const GRID_SIZE = 20;
+export const NODE_WIDTH = GRID_SIZE * 14;
+export const NODE_HEIGHT = GRID_SIZE * 6;
 
-const COLUMN_GAP = 150;
-const ROW_GAP = 40;
-const WORLD_PADDING = 64;
+const COLUMN_GAP = GRID_SIZE * 6;
+const ROW_GAP = GRID_SIZE;
+const WORLD_PADDING = GRID_SIZE * 3;
 
 interface BaseNode {
   id: string;

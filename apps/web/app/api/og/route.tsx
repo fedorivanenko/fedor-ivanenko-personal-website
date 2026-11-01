@@ -2,8 +2,11 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-const serverMono = fetch(
-  new URL("../../../public/fonts/ServerMono-Regular.woff", import.meta.url),
+const commitMono = fetch(
+  new URL(
+    "../../../public/fonts/CommitMono-400-Regular.woff",
+    import.meta.url,
+  ),
 ).then((response) => response.arrayBuffer());
 
 export async function GET() {
@@ -17,9 +20,9 @@ export async function GET() {
         alignItems: "center",
         justifyContent: "center",
         overflow: "hidden",
-        backgroundColor: "#000000",
-        color: "#ffffff",
-        fontFamily: "Server Mono",
+        backgroundColor: "#131313",
+        color: "#ebebe7",
+        fontFamily: "Commit Mono",
         fontSize: 18,
       }}
     >
@@ -37,7 +40,7 @@ export async function GET() {
             height="20"
             patternUnits="userSpaceOnUse"
           >
-            <circle cx="1" cy="1" r="1" fill="#262626" />
+            <circle cx="1" cy="1" r="1" fill="#353632" />
           </pattern>
         </defs>
         <rect width="1200" height="630" fill="url(#dot-grid)" />
@@ -52,7 +55,7 @@ export async function GET() {
           justifyContent: "space-between",
           padding: 16,
           border: "1px solid #ff6846",
-          background: "#000000",
+          background: "#1e1f1d",
         }}
       >
         <div
@@ -83,8 +86,8 @@ export async function GET() {
       height: 630,
       fonts: [
         {
-          name: "Server Mono",
-          data: await serverMono,
+          name: "Commit Mono",
+          data: await commitMono,
           style: "normal",
           weight: 400,
         },

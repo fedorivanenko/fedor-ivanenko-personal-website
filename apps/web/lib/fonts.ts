@@ -1,18 +1,13 @@
 import localFont from "next/font/local";
 
-export const serverMono = localFont({
+export const commit = localFont({
   src: [
     {
-      path: "../public/fonts/ServerMono-Regular.woff",
+      path: "../public/fonts/CommitMono-400-Regular.woff",
       weight: "400",
       style: "normal",
     },
-    {
-      path: "../public/fonts/ServerMono-RegularOblique.woff",
-      weight: "400",
-      style: "oblique",
-    },
   ],
-  variable: "--font-server-mono",
+  variable: "--font-commit",
   display: "block",
 });
